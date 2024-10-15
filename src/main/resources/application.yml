@@ -1,0 +1,12 @@
+server:
+    port: 8080
+spring:
+    application:
+        name: server
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432
+        username: postgres
+        password: password
+springdoc:
+    swagger-ui.path: /api-docs
