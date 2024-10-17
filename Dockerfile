@@ -1,8 +1,7 @@
 FROM maven:3.8.4-openjdk-17-slim
 
 WORKDIR /backend
-COPY ./pom.xml .
-COPY ./src/ .
+COPY . .
 
 RUN mvn test
 RUN mvn verify
