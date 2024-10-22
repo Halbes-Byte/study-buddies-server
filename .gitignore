@@ -2,3 +2,4 @@ server/.idea/
 server/target/
 .idea/
 target/
+start_vpn.sh
