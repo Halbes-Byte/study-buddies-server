@@ -21,7 +21,7 @@ services:
     ports:
       - "6543:5432"
     networks:
-      - keycloak_network
+      - vpn
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
