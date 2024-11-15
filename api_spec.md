@@ -52,4 +52,3 @@ Meeting-Entity:
   Repeatable(enum) repeat,
   String place,
   Optionial<List<UserEntity>> users
-  

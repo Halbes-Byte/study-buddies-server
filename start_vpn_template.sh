@@ -10,5 +10,7 @@ echo "Edit the script and read instructions"
 
 
 # Uncomment following line:
-#echo -n "" | openconnect --protocol=gp --server=vpn.ohmportal.de --passwd-on-stdin --user=mustermenschma66666 --disable-ipv6 --mtu=1400
+#echo -n "" | openconnect --protocol=gp --server=vpn.ohmportal.de --passwd-on-stdin --user=mustermenschma66666 --disable-ipv6 --mtu=1400 
+#ip route del default 
+#ip route add default dev tun0
 
