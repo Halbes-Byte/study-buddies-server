@@ -8,62 +8,9 @@ services:
       POSTGRES_DB: studbud
     ports:
       - "5432:5432"
-
-  postgres-kc:
-    image: postgres:latest
-    container_name: postgres-kc
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: kcdb
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-    ports:
-      - "6543:5432"
-    networks:
-      - vpn
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: keycloak
-    command: start
-    environment:
-      KC_HOSTNAME: localhost
-      KC_HOSTNAME_PORT: 7070
-      KC_HOSTNAME_STRICT_BACKCHANNEL: false
-      KC_HTTP_ENABLED: true
-      KC_HOSTNAME_STRICT_HTTPS: false
-      KC_HEALTH_ENABLED: true
-      KEYCLOAK_ADMIN: root
-      KEYCLOAK_ADMIN_PASSWORD: pass
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres-kc/kcdb
-      KC_DB_USERNAME: user
-      KC_DB_PASSWORD: pass
-    ports:
-      - "7070:8080"
-    restart: always
-    depends_on:
-      - postgres-kc
-    networks:
-      - vpn
-
-  vpn: 
-    image: panderu/vpn:latest
-    container_name: vpn
-    privileged: true
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    volumes:
-      - ./start_vpn.sh:/vpn/start.sh:ro
-    networks:
-      - vpn
-
-volumes:
-  postgres_data:
-
-networks:
-  keycloak_network:
-  vpn:
+  
+  backend:
+    image: panderu/study-buddies-backend:latest
+    container_name: backend
+    ports: 
+      - "8080:8080"
