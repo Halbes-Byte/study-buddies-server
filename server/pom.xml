@@ -55,12 +55,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- PostgreSQL driver for database interaction -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope> <!-- Loaded only during runtime, not compile time -->
-		</dependency>
 
 		<!-- Lombok for reducing boilerplate code (e.g., getters, setters) -->
 		<dependency>
@@ -77,6 +71,14 @@
 			<scope>test</scope> <!-- Only used in testing phase -->
 		</dependency>
 
+
+		<!-- H2 (in memory) DB -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
 		<!-- MapStruct for mapping Java objects (DTOs to entities, etc.) -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -89,6 +91,13 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.5.0</version>
+		</dependency>
+
+		<!-- Bouncycastle for their Argon2 hashing implementation -->
+    <dependency>
+    	<groupId>org.bouncycastle</groupId>
+    	<artifactId>bcpkix-jdk18on</artifactId>
+    	<version>1.78.1</version>
 		</dependency>
 	</dependencies>
 
