@@ -40,6 +40,6 @@ public class MeetingEntity {
   Repeat repeatable;
   String place;
 
-  @ManyToOne
-  private UserEntity creator; // retrieve creator in Mapping function via JWT Token
+  //@ManyToOne
+  //private UserEntity creator; // retrieve creator in Mapping function via JWT Token
 }

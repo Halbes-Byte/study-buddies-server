@@ -2,7 +2,7 @@ package com.studybuddies.server.web.mapper;
 
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
-import com.studybuddies.server.web.mapper.mapper_exceptions.EndDateAfterStartDateException;
+import com.studybuddies.server.web.mapper.exceptions.EndDateAfterStartDateException;
 import java.time.LocalDateTime;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;

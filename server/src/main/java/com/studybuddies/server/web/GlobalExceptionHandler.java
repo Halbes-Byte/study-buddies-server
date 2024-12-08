@@ -1,9 +1,9 @@
 package com.studybuddies.server.web;
 
-import com.studybuddies.server.web.mapper.mapper_exceptions.DateFormatException;
-import com.studybuddies.server.web.mapper.mapper_exceptions.EndDateAfterStartDateException;
-import com.studybuddies.server.web.mapper.mapper_exceptions.InvalidRepeatStringException;
-import com.studybuddies.server.web.mapper.mapper_exceptions.TimeFormatException;
+import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
+import com.studybuddies.server.web.mapper.exceptions.EndDateAfterStartDateException;
+import com.studybuddies.server.web.mapper.exceptions.InvalidRepeatStringException;
+import com.studybuddies.server.web.mapper.exceptions.TimeFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

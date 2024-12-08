@@ -1,7 +1,7 @@
 package com.studybuddies.server.web;
 
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
-import com.studybuddies.server.web.services.MeetingService;
+import com.studybuddies.server.services.MeetingService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

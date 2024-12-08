@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 @Entity
 public class UserEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   // not implemented
 }

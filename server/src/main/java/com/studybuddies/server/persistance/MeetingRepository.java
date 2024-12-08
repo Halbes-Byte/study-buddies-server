@@ -1,10 +1,11 @@
 package com.studybuddies.server.persistance;
 
 import com.studybuddies.server.domain.MeetingEntity;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+@Repository
 public interface MeetingRepository extends CrudRepository<MeetingEntity, Long> {
-    public List<MeetingEntity> findById(long id);
+    Optional<MeetingEntity> findById(Long id);
 }

@@ -1,4 +1,4 @@
-package com.studybuddies.server.web.mapper.mapper_exceptions;
+package com.studybuddies.server.web.mapper.exceptions;
 
 import com.studybuddies.server.services.exceptions.StudyBuddiesException;
 

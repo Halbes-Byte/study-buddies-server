@@ -1,9 +1,9 @@
 package com.studybuddies.server.web.mapper;
 
 import com.studybuddies.server.domain.Repeat;
-import com.studybuddies.server.web.mapper.mapper_exceptions.DateFormatException;
-import com.studybuddies.server.web.mapper.mapper_exceptions.InvalidRepeatStringException;
-import com.studybuddies.server.web.mapper.mapper_exceptions.TimeFormatException;
+import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
+import com.studybuddies.server.web.mapper.exceptions.InvalidRepeatStringException;
+import com.studybuddies.server.web.mapper.exceptions.TimeFormatException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
