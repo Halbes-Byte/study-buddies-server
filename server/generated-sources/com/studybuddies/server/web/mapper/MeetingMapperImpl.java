@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-04T16:26:41+0100",
-    comments = "version: 1.6.1, compiler: javac, environment: Java 17.0.12 (Azul Systems, Inc.)"
+    date = "2024-12-04T17:39:13+0100",
+    comments = "version: 1.6.1, compiler: javac, environment: Java 17.0.13 (Arch Linux)"
 )
 @Component
 public class MeetingMapperImpl implements MeetingMapper {
