@@ -1,6 +1,7 @@
 package com.studybuddies.server.web.mapper;
 
 import com.studybuddies.server.domain.MeetingEntity;
+import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.mapper.exceptions.EndDateAfterStartDateException;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public interface MeetingMapper {
   @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
 
   MeetingEntity MeetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
+  MeetingEntity MeetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest);
 
   @AfterMapping
   default void validate(@MappingTarget MeetingEntity meetingEntity) {
