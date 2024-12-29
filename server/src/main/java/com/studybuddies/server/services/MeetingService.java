@@ -1,6 +1,7 @@
 package com.studybuddies.server.services;
 
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
@@ -8,6 +9,7 @@ import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -32,13 +34,7 @@ public class MeetingService {
     requestResult.ifPresent(meetingEntity -> {
       MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(meetingChangeRequest);
 
-      meetingEntity.setTitle(changedMeeting.getTitle());
-      meetingEntity.setDescription(changedMeeting.getDescription());
-      meetingEntity.setLinks(changedMeeting.getLinks());
-      meetingEntity.setDate_from(changedMeeting.getDate_from());
-      meetingEntity.setDate_until(changedMeeting.getDate_until());
-      meetingEntity.setRepeatable(changedMeeting.getRepeatable());
-      meetingEntity.setPlace(changedMeeting.getPlace());
+      BeanUtils.copyProperties(changedMeeting, meetingEntity, "id");
 
       meetingRepository.save(meetingEntity);
     });
