@@ -3,6 +3,7 @@ package com.studybuddies.server.web.mapper;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
+import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.exceptions.EndDateAfterStartDateException;
 import java.time.LocalDateTime;
 import org.mapstruct.AfterMapping;
@@ -23,6 +24,7 @@ public interface MeetingMapper {
 
   MeetingEntity MeetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
   MeetingEntity MeetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest);
+  MeetingResponse MeetingEntityToMeetingResponse(MeetingEntity meetingEntity);
 
   @AfterMapping
   default void validate(@MappingTarget MeetingEntity meetingEntity) {

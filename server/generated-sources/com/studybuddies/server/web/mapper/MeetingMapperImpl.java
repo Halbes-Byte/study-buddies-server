@@ -1,15 +1,18 @@
 package com.studybuddies.server.web.mapper;
 
 import com.studybuddies.server.domain.MeetingEntity;
+import com.studybuddies.server.domain.Repeat;
+import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
+import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-29T20:52:07+0100",
-    comments = "version: 1.6.1, compiler: javac, environment: Java 17.0.13 (Debian)"
+    date = "2024-12-29T21:19:47+0100",
+    comments = "version: 1.6.1, compiler: javac, environment: Java 17.0.12 (JetBrains s.r.o.)"
 )
 @Component
 public class MeetingMapperImpl implements MeetingMapper {
@@ -32,6 +35,35 @@ public class MeetingMapperImpl implements MeetingMapper {
         meetingEntity.date_from( meetingMapperUtils.stringToLocalDate( meetingCreationRequest.date_from ) );
         meetingEntity.date_until( meetingMapperUtils.stringToLocalDate( meetingCreationRequest.date_until ) );
         meetingEntity.repeatable( meetingMapperUtils.stringToRepeatEnum( meetingCreationRequest.repeatable ) );
+
+        MeetingEntity meetingEntityResult = meetingEntity.build();
+
+        validate( meetingEntityResult );
+
+        return meetingEntityResult;
+    }
+
+    @Override
+    public MeetingEntity MeetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest) {
+        if ( meetingChangeRequest == null ) {
+            return null;
+        }
+
+        MeetingEntity.MeetingEntityBuilder meetingEntity = MeetingEntity.builder();
+
+        meetingEntity.title( meetingChangeRequest.title );
+        meetingEntity.description( meetingChangeRequest.description );
+        meetingEntity.links( meetingChangeRequest.links );
+        if ( meetingChangeRequest.date_from != null ) {
+            meetingEntity.date_from( LocalDateTime.parse( meetingChangeRequest.date_from ) );
+        }
+        if ( meetingChangeRequest.date_until != null ) {
+            meetingEntity.date_until( LocalDateTime.parse( meetingChangeRequest.date_until ) );
+        }
+        if ( meetingChangeRequest.repeatable != null ) {
+            meetingEntity.repeatable( Enum.valueOf( Repeat.class, meetingChangeRequest.repeatable ) );
+        }
+        meetingEntity.place( meetingChangeRequest.place );
 
         MeetingEntity meetingEntityResult = meetingEntity.build();
 

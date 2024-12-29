@@ -6,6 +6,7 @@ import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
+import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class MeetingService {
   private final MeetingRepository meetingRepository;
 
   @Transactional
-  public void saveMeeting(MeetingCreationRequest mcr) {
+  public void saveMeetingToDatabase(MeetingCreationRequest mcr) {
     MeetingEntity meetingEntity = meetingMapper.MeetingCreationRequestToMeetingEntity(mcr);
     meetingRepository.save(meetingEntity);
   }
@@ -33,10 +34,15 @@ public class MeetingService {
 
     requestResult.ifPresent(meetingEntity -> {
       MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(meetingChangeRequest);
-
       BeanUtils.copyProperties(changedMeeting, meetingEntity, "id");
-
       meetingRepository.save(meetingEntity);
     });
+  }
+
+  @Transactional
+  public MeetingResponse retrieveMeetingFromDatabase(long id) {
+    Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
+      return meetingMapper.MeetingEntityToMeetingResponse(requestResult.get());
+
   }
 }
