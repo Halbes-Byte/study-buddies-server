@@ -1,5 +1,6 @@
 package com.studybuddies.server.web;
 
+import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
 import com.studybuddies.server.web.mapper.exceptions.EndDateAfterStartDateException;
 import com.studybuddies.server.web.mapper.exceptions.InvalidRepeatStringException;
@@ -29,5 +30,10 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(EndDateAfterStartDateException.class)
   protected ResponseEntity<?> handleEndDateAfterStartDateException() {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start date must be before end date");
+  }
+
+  @ExceptionHandler(MeetingNotFoundException.class)
+  protected ResponseEntity<?> handleMeetingNotFoundException() {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Meeting could not be found");
   }
 }

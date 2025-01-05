@@ -1,9 +1,8 @@
 package com.studybuddies.server.services;
 
-
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
+import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.dto.MeetingResponse;
@@ -42,6 +41,11 @@ public class MeetingService {
   @Transactional
   public MeetingResponse retrieveMeetingFromDatabase(Long id) {
     Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
+
+    if(requestResult.isEmpty()) {
+      throw new MeetingNotFoundException("");
+    }
+
     return meetingMapper.MeetingEntityToMeetingResponse(requestResult.get());
   }
 
