@@ -31,4 +31,10 @@ public class MeetingController {
   public ResponseEntity<?> getMeeting(@Valid @RequestBody long id) {
     return new ResponseEntity<>(meetingService.retrieveMeetingFromDatabase(id), HttpStatus.FOUND);
   }
+
+  @DeleteMapping
+  public ResponseEntity<?> deleteMeeting(@Valid @RequestBody long id) {
+    meetingService.deleteMeetingFromDatabase(id);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

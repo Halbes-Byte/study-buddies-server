@@ -42,7 +42,11 @@ public class MeetingService {
   @Transactional
   public MeetingResponse retrieveMeetingFromDatabase(long id) {
     Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
-      return meetingMapper.MeetingEntityToMeetingResponse(requestResult.get());
+    return meetingMapper.MeetingEntityToMeetingResponse(requestResult.get());
+  }
 
+  @Transactional
+  public void deleteMeetingFromDatabase(long id) {
+    meetingRepository.deleteById(id);
   }
 }

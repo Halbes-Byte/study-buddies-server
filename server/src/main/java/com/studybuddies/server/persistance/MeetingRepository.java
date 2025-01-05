@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MeetingRepository extends CrudRepository<MeetingEntity, Long> {
     Optional<MeetingEntity> findById(Long id);
+    void deleteById(Long id);
 }

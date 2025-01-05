@@ -4,14 +4,16 @@ import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.domain.Repeat;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
+import com.studybuddies.server.web.dto.MeetingResponse;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-29T21:19:47+0100",
+    date = "2024-12-29T21:54:20+0100",
     comments = "version: 1.6.1, compiler: javac, environment: Java 17.0.12 (JetBrains s.r.o.)"
 )
 @Component
@@ -70,5 +72,30 @@ public class MeetingMapperImpl implements MeetingMapper {
         validate( meetingEntityResult );
 
         return meetingEntityResult;
+    }
+
+    @Override
+    public MeetingResponse MeetingEntityToMeetingResponse(MeetingEntity meetingEntity) {
+        if ( meetingEntity == null ) {
+            return null;
+        }
+
+        MeetingResponse meetingResponse = new MeetingResponse();
+
+        meetingResponse.title = meetingEntity.getTitle();
+        meetingResponse.description = meetingEntity.getDescription();
+        meetingResponse.links = meetingEntity.getLinks();
+        if ( meetingEntity.getDate_from() != null ) {
+            meetingResponse.date_from = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( meetingEntity.getDate_from() );
+        }
+        if ( meetingEntity.getDate_until() != null ) {
+            meetingResponse.date_until = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( meetingEntity.getDate_until() );
+        }
+        if ( meetingEntity.getRepeatable() != null ) {
+            meetingResponse.repeatable = meetingEntity.getRepeatable().name();
+        }
+        meetingResponse.place = meetingEntity.getPlace();
+
+        return meetingResponse;
     }
 }
