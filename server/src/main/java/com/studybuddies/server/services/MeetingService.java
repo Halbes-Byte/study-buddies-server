@@ -23,13 +23,13 @@ public class MeetingService {
   private final MeetingRepository meetingRepository;
 
   @Transactional
-  public long saveMeetingToDatabase(MeetingCreationRequest mcr) {
+  public Long saveMeetingToDatabase(MeetingCreationRequest mcr) {
     MeetingEntity meetingEntity = meetingMapper.MeetingCreationRequestToMeetingEntity(mcr);
     return meetingRepository.save(meetingEntity).getId();
   }
 
   @Transactional
-  public void changeMeetingInDatabase(long id, MeetingChangeRequest meetingChangeRequest) {
+  public void changeMeetingInDatabase(Long id, MeetingChangeRequest meetingChangeRequest) {
     Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
 
     requestResult.ifPresent(meetingEntity -> {
@@ -40,13 +40,13 @@ public class MeetingService {
   }
 
   @Transactional
-  public MeetingResponse retrieveMeetingFromDatabase(long id) {
+  public MeetingResponse retrieveMeetingFromDatabase(Long id) {
     Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
     return meetingMapper.MeetingEntityToMeetingResponse(requestResult.get());
   }
 
   @Transactional
-  public void deleteMeetingFromDatabase(long id) {
+  public void deleteMeetingFromDatabase(Long id) {
     meetingRepository.deleteById(id);
   }
 }

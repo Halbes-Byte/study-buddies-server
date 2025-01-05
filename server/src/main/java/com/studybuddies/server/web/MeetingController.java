@@ -4,7 +4,9 @@ import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.services.MeetingService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +19,25 @@ public class MeetingController {
 
   @PostMapping
   public ResponseEntity<?> createMeeting(@Valid @RequestBody MeetingCreationRequest meetingCreationRequest) {
-    return new ResponseEntity<>(meetingService.saveMeetingToDatabase(meetingCreationRequest), HttpStatus.OK);
+    Long meetingId = meetingService.saveMeetingToDatabase(meetingCreationRequest);
+    HttpHeaders returnHeader = new HttpHeaders();
+    returnHeader.setLocation(URI.create("/meeting?" + meetingId));
+    return new ResponseEntity<>(returnHeader, HttpStatus.OK);
   }
 
   @PutMapping
-  public ResponseEntity<?> changeMeeting(long id, @Valid @RequestBody MeetingChangeRequest meetingChangeRequest) {
+  public ResponseEntity<?> changeMeeting(@RequestParam Long id, @Valid @RequestBody MeetingChangeRequest meetingChangeRequest) {
     meetingService.changeMeetingInDatabase(id, meetingChangeRequest);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public ResponseEntity<?> getMeeting(long id) {
+  public ResponseEntity<?> getMeeting(@RequestParam Long id) {
     return new ResponseEntity<>(meetingService.retrieveMeetingFromDatabase(id), HttpStatus.FOUND);
   }
 
   @DeleteMapping
-  public ResponseEntity<?> deleteMeeting(long id) {
+  public ResponseEntity<?> deleteMeeting(@RequestParam Long id) {
     meetingService.deleteMeetingFromDatabase(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
