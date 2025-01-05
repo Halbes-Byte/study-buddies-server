@@ -32,8 +32,9 @@ public class MeetingController {
   }
 
   @GetMapping
-  public ResponseEntity<?> getMeeting(@RequestParam Long id) {
-    return new ResponseEntity<>(meetingService.retrieveMeetingFromDatabase(id), HttpStatus.FOUND);
+  public ResponseEntity<?> getMeeting(@RequestParam(required = false) Long id) {
+    String response = meetingService.retrieveMeetingFromDatabase(id);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @DeleteMapping

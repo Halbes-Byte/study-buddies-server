@@ -1,5 +1,7 @@
 package com.studybuddies.server.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
@@ -8,9 +10,9 @@ import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -32,11 +34,12 @@ public class MeetingService {
   public void changeMeetingInDatabase(Long id, MeetingChangeRequest meetingChangeRequest) {
     Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
 
-    if(requestResult.isEmpty()) {
+    if (requestResult.isEmpty()) {
       throw new MeetingNotFoundException("");
     }
     MeetingEntity meetingEntity = requestResult.get();
-    MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(meetingChangeRequest);
+    MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(
+        meetingChangeRequest);
 
     setIfNotNull(changedMeeting.getTitle(), meetingEntity::setTitle);
     setIfNotNull(changedMeeting.getLinks(), meetingEntity::setLinks);
@@ -50,14 +53,19 @@ public class MeetingService {
   }
 
   @Transactional
-  public MeetingResponse retrieveMeetingFromDatabase(Long id) {
-    Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
-
-    if(requestResult.isEmpty()) {
-      throw new MeetingNotFoundException("");
+  public String retrieveMeetingFromDatabase(Long id) {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      if (id == null) {
+        ArrayList<MeetingResponse> meetings = findAllMeetingEntities();
+        return mapper.writeValueAsString(meetings);
+      }
+      MeetingEntity meeting = meetingRepository.findById(id)
+          .orElseThrow(() -> new MeetingNotFoundException(""));
+      return mapper.writeValueAsString(meetingMapper.MeetingEntityToMeetingResponse(meeting));
+    } catch (JsonProcessingException e) {
+      return "Error processing data";
     }
-
-    return meetingMapper.MeetingEntityToMeetingResponse(requestResult.get());
   }
 
   @Transactional
@@ -65,9 +73,20 @@ public class MeetingService {
     meetingRepository.deleteById(id);
   }
 
+  @Transactional
+  public ArrayList<MeetingResponse> findAllMeetingEntities() {
+    ArrayList<MeetingResponse> meetings = new ArrayList<>();
+    Iterable<MeetingEntity> meetingIterator = meetingRepository.findAll();
+
+    for (MeetingEntity e : meetingIterator) {
+      meetings.add(meetingMapper.MeetingEntityToMeetingResponse(e));
+    }
+    return meetings;
+  }
+
   private <T> void setIfNotNull(T value, Consumer<T> setFunc) {
-    if(value != null) {
-       setFunc.accept(value);
+    if (value != null) {
+      setFunc.accept(value);
     }
   }
 }

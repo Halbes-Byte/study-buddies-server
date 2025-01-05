@@ -1,7 +1,9 @@
 package com.studybuddies.server.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Setter;
 
+@Setter
 public class MeetingCreationRequest {
   @NotBlank
   public String title;
