@@ -3,5 +3,5 @@ server/target/
 .idea/
 target/
 start_vpn.sh
-generated-sources/
+server/generated-sources/
 data/
