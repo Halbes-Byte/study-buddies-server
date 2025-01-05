@@ -22,18 +22,18 @@ public class MeetingController {
   }
 
   @PutMapping
-  public ResponseEntity<?> changeMeeting(@Valid @RequestBody long id, MeetingChangeRequest meetingChangeRequest) {
+  public ResponseEntity<?> changeMeeting(long id, @Valid @RequestBody MeetingChangeRequest meetingChangeRequest) {
     meetingService.changeMeetingInDatabase(id, meetingChangeRequest);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public ResponseEntity<?> getMeeting(@Valid @RequestBody long id) {
+  public ResponseEntity<?> getMeeting(long id) {
     return new ResponseEntity<>(meetingService.retrieveMeetingFromDatabase(id), HttpStatus.FOUND);
   }
 
   @DeleteMapping
-  public ResponseEntity<?> deleteMeeting(@Valid @RequestBody long id) {
+  public ResponseEntity<?> deleteMeeting(long id) {
     meetingService.deleteMeetingFromDatabase(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
