@@ -8,6 +8,7 @@ import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import jakarta.transaction.Transactional;
+import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,21 @@ public class MeetingService {
   public void changeMeetingInDatabase(Long id, MeetingChangeRequest meetingChangeRequest) {
     Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
 
-    requestResult.ifPresent(meetingEntity -> {
-      MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(meetingChangeRequest);
-      BeanUtils.copyProperties(changedMeeting, meetingEntity, "id");
-      meetingRepository.save(meetingEntity);
-    });
+    if(requestResult.isEmpty()) {
+      throw new MeetingNotFoundException("");
+    }
+    MeetingEntity meetingEntity = requestResult.get();
+    MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(meetingChangeRequest);
+
+    setIfNotNull(changedMeeting.getTitle(), meetingEntity::setTitle);
+    setIfNotNull(changedMeeting.getLinks(), meetingEntity::setLinks);
+    setIfNotNull(changedMeeting.getDescription(), meetingEntity::setDescription);
+    setIfNotNull(changedMeeting.getDate_from(), meetingEntity::setDate_from);
+    setIfNotNull(changedMeeting.getDate_until(), meetingEntity::setDate_until);
+    setIfNotNull(changedMeeting.getPlace(), meetingEntity::setPlace);
+    setIfNotNull(changedMeeting.getRepeatable(), meetingEntity::setRepeatable);
+    meetingMapper.validate(meetingEntity);
+    meetingRepository.save(meetingEntity);
   }
 
   @Transactional
@@ -52,5 +63,11 @@ public class MeetingService {
   @Transactional
   public void deleteMeetingFromDatabase(Long id) {
     meetingRepository.deleteById(id);
+  }
+
+  private <T> void setIfNotNull(T value, Consumer<T> setFunc) {
+    if(value != null) {
+       setFunc.accept(value);
+    }
   }
 }
