@@ -17,8 +17,7 @@ public class MeetingController {
 
   @PostMapping
   public ResponseEntity<?> createMeeting(@Valid @RequestBody MeetingCreationRequest meetingCreationRequest) {
-    meetingService.saveMeetingToDatabase(meetingCreationRequest);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return new ResponseEntity<>(meetingService.saveMeetingToDatabase(meetingCreationRequest), HttpStatus.OK);
   }
 
   @PutMapping

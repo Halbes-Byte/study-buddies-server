@@ -23,9 +23,9 @@ public class MeetingService {
   private final MeetingRepository meetingRepository;
 
   @Transactional
-  public void saveMeetingToDatabase(MeetingCreationRequest mcr) {
+  public long saveMeetingToDatabase(MeetingCreationRequest mcr) {
     MeetingEntity meetingEntity = meetingMapper.MeetingCreationRequestToMeetingEntity(mcr);
-    meetingRepository.save(meetingEntity);
+    return meetingRepository.save(meetingEntity).getId();
   }
 
   @Transactional
