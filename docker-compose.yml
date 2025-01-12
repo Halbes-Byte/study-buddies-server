@@ -1,16 +1,9 @@
-services:
-  postgres-db:
-    image: postgres:latest
-    container_name: postgres-db
-    environment:
-      POSTGRES_USER: spring
-      POSTGRES_PASSWORD: SuperSecretPassword
-      POSTGRES_DB: studbud
-    ports:
-      - "5432:5432"
-  
+services: 
   backend:
-    image: panderu/study-buddies-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: panderu/study-buddies-backend:latest 
     container_name: backend
     ports: 
       - "8080:8080"
