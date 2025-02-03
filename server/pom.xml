@@ -172,6 +172,11 @@
             </goals>
           </execution>
         </executions>
+				 <configuration>
+					 <excludes>
+						 <exclude>**/com/studybuddies/server/services/**</exclude>
+					 </excludes>
+				 </configuration>
       </plugin>
 		</plugins>
 	</build>
