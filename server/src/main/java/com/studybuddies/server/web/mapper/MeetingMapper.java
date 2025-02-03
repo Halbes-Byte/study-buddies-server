@@ -40,10 +40,6 @@ public interface MeetingMapper {
     LocalDateTime start = meetingEntity.getDate_from();
     LocalDateTime end = meetingEntity.getDate_until();
 
-    if(start == null || end == null) {
-      return;
-    }
-
     if(start.isAfter(end)) {
       throw new EndDateAfterStartDateException("");
     }
