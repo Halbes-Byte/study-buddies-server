@@ -175,6 +175,7 @@
 				 <configuration>
 					 <excludes>
 						 <exclude>**/com/studybuddies/server/services/**</exclude>
+						 <exclude>**/com/studybuddies/server/web/mapper/MeetingMapperImpl.class</exclude>
 					 </excludes>
 				 </configuration>
       </plugin>
