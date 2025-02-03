@@ -51,7 +51,7 @@ public class MeetingMapperUtils {
   }
 
   private LocalDateTime stringToLocalDateTime(String dateString) {
-    // only accept values in following format: dd-MM-yyyy:hh:mm while mm is divisible by 15
+    // only accept values in following format: dd-MM-yyyy:hh:mm
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy:HH:mm");
     LocalDateTime dueDate;
 
