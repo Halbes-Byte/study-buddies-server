@@ -3,7 +3,6 @@ package com.studybuddies.server.web.mapper;
 import com.studybuddies.server.domain.Repeat;
 import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
 import com.studybuddies.server.web.mapper.exceptions.InvalidRepeatStringException;
-import com.studybuddies.server.web.mapper.exceptions.TimeFormatException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -58,9 +57,6 @@ public class MeetingMapperUtils {
 
     try {
       dueDate = LocalDateTime.parse(dateString, format);
-      if(dueDate.getMinute() % 15 != 0) {
-        throw new TimeFormatException("");
-      }
     } catch(DateTimeParseException e) {
       throw new DateFormatException("");
     }
