@@ -31,7 +31,6 @@ public class MeetingEntity {
   String title;
 
   String description;
-  String links;
 
   @Column(nullable = false)
   LocalDateTime date_from;

@@ -40,7 +40,6 @@ public class MeetingServiceTest {
     MeetingCreationRequest mockMeeting = new MeetingCreationRequest();
     mockMeeting.setTitle("Invalid Repeatable Meeting");
     mockMeeting.setDescription("Meeting with invalid repeatable value.");
-    mockMeeting.setLinks("");
     mockMeeting.setPlace("");
     mockMeeting.setRepeatable("invalid_value");
     mockMeeting.setDate_from("23-11-2020:15:30");
@@ -64,7 +63,6 @@ public class MeetingServiceTest {
     MeetingCreationRequest mockMeeting = new MeetingCreationRequest();
     mockMeeting.setTitle("Valid Meeting");
     mockMeeting.setDescription("");
-    mockMeeting.setLinks("");
     mockMeeting.setPlace("");
     mockMeeting.setRepeatable("NEVER");
     mockMeeting.setDate_from("23-11-2020:15:30");
@@ -133,19 +131,16 @@ public class MeetingServiceTest {
     MeetingEntity existingMeeting = new MeetingEntity();
     existingMeeting.setTitle("Old Title");
     existingMeeting.setDescription("Old Description");
-    existingMeeting.setLinks("old_link.com");
     existingMeeting.setPlace("Old Place");
 
     MeetingChangeRequest mockChangeRequest = new MeetingChangeRequest();
     mockChangeRequest.setTitle("New Title"); // Should be updated
     mockChangeRequest.setDescription(null);  // Should NOT be updated
-    mockChangeRequest.setLinks("new_link.com"); // Should be updated
     mockChangeRequest.setPlace(null);  // Should NOT be updated
 
     MeetingEntity changedMeeting = new MeetingEntity();
     changedMeeting.setTitle("New Title");
     changedMeeting.setDescription(null);
-    changedMeeting.setLinks("new_link.com");
     changedMeeting.setPlace(null);
 
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(existingMeeting));
@@ -157,7 +152,6 @@ public class MeetingServiceTest {
     // then
     assertEquals("New Title", existingMeeting.getTitle()); // Updated
     assertEquals("Old Description", existingMeeting.getDescription()); // Not updated
-    assertEquals("new_link.com", existingMeeting.getLinks()); // Updated
     assertEquals("Old Place", existingMeeting.getPlace()); // Not updated
 
     verify(meetingRepository, times(1)).save(existingMeeting);

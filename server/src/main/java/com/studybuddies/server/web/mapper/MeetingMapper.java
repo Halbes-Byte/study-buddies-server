@@ -16,7 +16,6 @@ public interface MeetingMapper {
   // Mappings for MeetingCreationRequestToMeetingEntity
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
-  @Mapping(source = "links", target = "links")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "date_from", target = "date_from", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "date_until", target = "date_until", qualifiedByName = "stringToLocalDate")
@@ -25,9 +24,9 @@ public interface MeetingMapper {
   MeetingEntity MeetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
 
   // Mappings for MeetingChangeRequestToMeetingEntity
+  @Mapping(source = "id", target = "id")
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
-  @Mapping(source = "links", target = "links")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "date_from", target = "date_from", qualifiedByName = "changeStringToLocalDate")
   @Mapping(source = "date_until", target = "date_until", qualifiedByName = "changeStringToLocalDate")
