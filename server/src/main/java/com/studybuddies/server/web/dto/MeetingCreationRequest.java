@@ -8,7 +8,6 @@ public class MeetingCreationRequest {
   @NotBlank
   public String title;
   public String description;
-  public String links;
   @NotBlank
   public String date_from;
   @NotBlank

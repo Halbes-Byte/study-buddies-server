@@ -4,9 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public class MeetingResponse {
     @NotBlank
+    public Long id;
+    @NotBlank
     public String title;
     public String description;
-    public String links;
     @NotBlank
     public String date_from;
     @NotBlank
