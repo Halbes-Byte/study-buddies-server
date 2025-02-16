@@ -42,7 +42,6 @@ public class MeetingService {
         meetingChangeRequest);
 
     setIfNotNull(changedMeeting.getTitle(), meetingEntity::setTitle);
-    setIfNotNull(changedMeeting.getLinks(), meetingEntity::setLinks);
     setIfNotNull(changedMeeting.getDescription(), meetingEntity::setDescription);
     setIfNotNull(changedMeeting.getDate_from(), meetingEntity::setDate_from);
     setIfNotNull(changedMeeting.getDate_until(), meetingEntity::setDate_until);
