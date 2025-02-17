@@ -5,7 +5,7 @@ spring:
         name: server
     datasource:
         url: jdbc:h2:file:./data/demo
-        username: sa
+        username: sa #TODO: Extract this into a dev config application-dev.yml
         password: password
         driverClassName: org.h2.Driver
     jpa:
@@ -15,6 +15,10 @@ spring:
             ddl-auto: update
     h2:
         console.enabled: true
-
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: "http://localhost:7070/realms/study-buddies"
 springdoc:
     swagger-ui.path: /api-docs
