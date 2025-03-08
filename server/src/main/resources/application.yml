@@ -17,8 +17,11 @@ spring:
         console.enabled: true
     security:
         oauth2:
-            resourceserver:
-                jwt:
-                    issuer-uri: "http://localhost:7070/realms/study-buddies"
+            client:
+                registration.keycloak:
+                    client-id: sb-backend
+                    scope: openid
+                provider.keycloak.issuer-uri: http://localhost:7070/realms/study-buddies
+            resourceserver.jwt.issuer-uri: http://localhost:7070/realms/study-buddies
 springdoc:
     swagger-ui.path: /api-docs
