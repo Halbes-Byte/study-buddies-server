@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
@@ -32,6 +33,7 @@ public class MeetingController {
   }
 
   @GetMapping
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> getMeeting(@RequestParam(required = false) Long id) {
     String response = meetingService.retrieveMeetingFromDatabase(id);
     return ResponseEntity.status(HttpStatus.OK).body(response);

@@ -33,20 +33,27 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
   private Collection<? extends GrantedAuthority> extractRoles(Jwt jwt) {
     Set<String> roles = new HashSet<>();
 
+    // Extract roles from realm_access (if available)
     Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
-    if(realmAccess != null && realmAccess.containsKey("roles")) {
+    if (realmAccess != null && realmAccess.containsKey("roles")) {
       roles.addAll((Collection<? extends String>) realmAccess.get("roles"));
     }
 
-    Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
-    if(resourceAccess != null && resourceAccess.containsKey("demo")) {
-      Map<String, Object> demoAccess = (Map<String, Object>) resourceAccess.get("roles");
-      if(demoAccess != null && demoAccess.containsKey("roles")) {
-        roles.addAll((Collection<? extends String>) demoAccess.get("roles"));
+    // Extract roles from resource_access dynamically
+    Map<String, Object> resourceAccess = jwt.getClaimAsMap("resource_access");
+    if (resourceAccess != null) {
+      for (Map.Entry<String, Object> entry : resourceAccess.entrySet()) {
+        Map<String, Object> resource = (Map<String, Object>) entry.getValue();
+        if (resource.containsKey("roles")) {
+          roles.addAll((Collection<? extends String>) resource.get("roles"));
+        }
       }
-
     }
-    System.out.println(roles);
-    return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())).collect(Collectors.toSet());
+
+    // Convert to Spring Security GrantedAuthorities with "ROLE_" prefix
+    return roles.stream()
+            .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
+            .collect(Collectors.toSet());
   }
+
 }
