@@ -23,5 +23,5 @@
 
 # How to use a restricted endpoint using Postman
 1. Create Request
-2. Authorization &rarrr; Auth Type: Bearer Token &rarr; paste full content of `access_token` from JWT request above into `Token` field.
+2. Authorization &rarr; Auth Type: Bearer Token &rarr; paste full content of `access_token` from JWT request above into `Token` field.
 
