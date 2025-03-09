@@ -14,7 +14,6 @@
 |Key|Value|
 |:-:|:-:|
 |client_id|sb-backend|
-|client_secret|Keycloak &rarr; Clients &rarr; sb-backend &rarr; Credentials|
 |grant_type|password|
 |username|User created above|
 |password|Password of user created above|
