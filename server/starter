@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "No profile provided. Please enter the profile to use:"
+  read profile
+else
+  profile=$1
+fi
+
+mvn spring-boot:run -Dspring-boot.run.profiles=$profile

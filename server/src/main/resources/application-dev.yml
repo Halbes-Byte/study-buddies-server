@@ -1,0 +1,19 @@
+server:
+    port: 8080
+spring:
+    application:
+        name: server
+    datasource:
+        url: jdbc:h2:file:./data/demo
+        username: sa
+        password: password
+        driverClassName: org.h2.Driver
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+    h2:
+        console.enabled: true
+springdoc:
+    swagger-ui.path: /api-docs

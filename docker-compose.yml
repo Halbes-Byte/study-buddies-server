@@ -1,9 +1,53 @@
-services: 
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: panderu/study-buddies-backend:latest 
-    container_name: backend
-    ports: 
-      - "8080:8080"
+services:
+  keycloak_web1:
+    image: keycloak/keycloak:latest
+    container_name: kc-web1
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloakdb1:5432/keycloak
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+
+      KEYCLOAK_ADMIN: ${KC_DB_USERNAME}
+      KEYCLOAK_ADMIN_PASSWORD: pass
+
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: 'false'
+      KC_HOSTNAME_STRICT_HTTPS: 'false'
+      KC_LOG_LEVEL: debug
+
+      KC_METRICS_ENABLED: 'true'
+      KC_HEALTH_ENABLED: 'true'
+      KC_PROXY: edge
+      KC_PROXY_HEADERS: forwarded
+    command: start-dev
+    depends_on:
+      - keycloakdb1
+    ports:
+      - '7070:8080'
+######################################################
+  keycloakdb1:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: ${KC_DB_USERNAME}
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
+    ports:
+      - '5432:5432'
+ #spring:
+ #  build:
+ #    context: .
+ #    dockerfile: Dockerfile
+ #  # image: panderu/study-buddies-backend:latest
+ #  container_name: spring-backend
+ #  ports:
+ #    - "1516:8080"
+ #  depends_on:
+ #    - keycloak_web
+######################################################
+volumes:
+  postgres_data:
