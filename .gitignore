@@ -6,3 +6,4 @@ start_vpn.sh
 server/generated-sources/
 data/
 .env
+.javaversion.sh

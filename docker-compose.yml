@@ -37,17 +37,6 @@ services:
       POSTGRES_USER: ${KC_DB_USERNAME}
       POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
     ports:
-      - '5432:5432'
- #spring:
- #  build:
- #    context: .
- #    dockerfile: Dockerfile
- #  # image: panderu/study-buddies-backend:latest
- #  container_name: spring-backend
- #  ports:
- #    - "1516:8080"
- #  depends_on:
- #    - keycloak_web
 ######################################################
 volumes:
   postgres_data:
