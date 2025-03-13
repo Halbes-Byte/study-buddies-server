@@ -37,6 +37,7 @@ services:
       POSTGRES_USER: ${KC_DB_USERNAME}
       POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
     ports:
+      - '5432:5432'
 ######################################################
 volumes:
   postgres_data:
