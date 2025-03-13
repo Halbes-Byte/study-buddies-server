@@ -7,3 +7,4 @@ server/generated-sources/
 data/
 .env
 .javaversion.sh
+./server/data/
