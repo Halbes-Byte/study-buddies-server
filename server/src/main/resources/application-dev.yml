@@ -4,16 +4,20 @@ spring:
     application:
         name: server
     datasource:
-        url: jdbc:h2:file:./data/demo
-        username: sa
-        password: password
+        url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        username: ${H2_USERNAME:user}
+        password: ${H2_PASSWORD:password}
         driverClassName: org.h2.Driver
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         show-sql: true
         hibernate:
-            ddl-auto: update
+            ddl-auto: create-drop
     h2:
         console.enabled: true
 springdoc:
     swagger-ui.path: /api-docs
+logging:
+    level:
+        org.springframework.jdbc.core: DEBUG
+        com.zaxxer.hikari: DEBUG

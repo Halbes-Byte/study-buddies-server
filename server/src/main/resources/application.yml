@@ -4,15 +4,15 @@ spring:
     application:
         name: server
     datasource:
-        url: jdbc:h2:file:./data/demo
-        username: sa #TODO: Extract this into a dev config application-dev.yml
-        password: password
+        url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        username: ${H2_USERNAME:user}
+        password: ${H2_PASSWORD:password}
         driverClassName: org.h2.Driver
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         show-sql: true
         hibernate:
-            ddl-auto: update
+            ddl-auto: create
     h2:
         console.enabled: true
     security:
