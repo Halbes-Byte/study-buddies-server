@@ -26,7 +26,6 @@ public class MeetingService {
   private final MeetingMapper meetingMapper;
   private final MeetingRepository meetingRepository;
   private final UserService userService;
-  private final UUIDService uuidService;
 
   @Transactional
   public Long saveMeetingToDatabase(MeetingCreationRequest mcr, String uuid) {
