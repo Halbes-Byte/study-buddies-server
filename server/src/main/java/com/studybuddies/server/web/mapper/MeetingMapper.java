@@ -20,7 +20,6 @@ public interface MeetingMapper {
   @Mapping(source = "date_from", target = "date_from", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "date_until", target = "date_until", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
-
   MeetingEntity MeetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
 
   @Mapping(source = "id", target = "id")

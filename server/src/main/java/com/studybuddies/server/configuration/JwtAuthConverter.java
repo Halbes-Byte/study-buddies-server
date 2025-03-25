@@ -29,7 +29,6 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
                     extractRoles(source).stream())
             .collect(Collectors.toSet());
 
-
     return new JwtAuthenticationToken(source, auths);
   }
 
@@ -58,5 +57,4 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
             .collect(Collectors.toSet());
   }
-
 }

@@ -1,5 +1,7 @@
 package com.studybuddies.server.services;
 
+import com.studybuddies.server.domain.UserEntity;
+import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,6 +32,8 @@ public class MeetingServiceTest {
   private MeetingMapper meetingMapper;
   @Mock
   private MeetingRepository meetingRepository;
+  @Mock
+  private UserService userService;
 
   @InjectMocks
   private MeetingService meetingService;
@@ -45,13 +49,16 @@ public class MeetingServiceTest {
     mockMeeting.setDate_from("23-11-2020:15:30");
     mockMeeting.setDate_until("26-11-2020:15:30");
 
+    UUID uuid = UUID.randomUUID();
+
     // when
     when(meetingMapper.MeetingCreationRequestToMeetingEntity(mockMeeting))
         .thenThrow(new InvalidRepeatStringException("Invalid repeatable value"));
+    when(userService.findByUUID(uuid)).thenReturn(any(UserEntity.class));
 
     // then
     assertThrows(InvalidRepeatStringException.class, () -> {
-      meetingService.saveMeetingToDatabase(mockMeeting);
+      meetingService.saveMeetingToDatabase(mockMeeting, uuid.toString());
     });
 
     // Verify that save was never called
@@ -70,13 +77,15 @@ public class MeetingServiceTest {
 
     MeetingEntity mockMeetingEntity = new MeetingEntity();
     mockMeetingEntity.setId(1L);
+    UUID uuid = UUID.randomUUID();
 
     when(meetingMapper.MeetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(mockMeetingEntity);
 
     when(meetingRepository.save(any(MeetingEntity.class))).thenReturn(mockMeetingEntity);
+    when(userService.findByUUID(uuid)).thenReturn(any(UserEntity.class));
 
     // when
-    Long meetingId = meetingService.saveMeetingToDatabase(mockMeeting);
+    Long meetingId = meetingService.saveMeetingToDatabase(mockMeeting, uuid.toString());
 
     // then
     assertNotNull(meetingId);

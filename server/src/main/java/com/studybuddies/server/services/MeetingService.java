@@ -3,12 +3,14 @@ package com.studybuddies.server.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studybuddies.server.domain.MeetingEntity;
+import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -23,10 +25,14 @@ public class MeetingService {
 
   private final MeetingMapper meetingMapper;
   private final MeetingRepository meetingRepository;
+  private final UserService userService;
+  private final UUIDService uuidService;
 
   @Transactional
-  public Long saveMeetingToDatabase(MeetingCreationRequest mcr) {
+  public Long saveMeetingToDatabase(MeetingCreationRequest mcr, String uuid) {
     MeetingEntity meetingEntity = meetingMapper.MeetingCreationRequestToMeetingEntity(mcr);
+    UserEntity creator = userService.findByUUID(UUIDService.parseUUID(uuid));
+    meetingEntity.setCreator(creator);
     return meetingRepository.save(meetingEntity).getId();
   }
 

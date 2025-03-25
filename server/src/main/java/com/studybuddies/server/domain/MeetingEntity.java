@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Builder // debatable, makes testing easier
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class MeetingEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  Long id;
 
   @Column(nullable = false)
   String title;
@@ -37,6 +38,6 @@ public class MeetingEntity {
   Repeat repeatable;
   String place;
 
-  //@ManyToOne
-  //private UserEntity creator; // retrieve creator in Mapping function via JWT Token
+  @ManyToOne
+  private UserEntity creator;
 }

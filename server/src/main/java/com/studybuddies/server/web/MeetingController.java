@@ -3,6 +3,7 @@ package com.studybuddies.server.web;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.services.MeetingService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,13 @@ public class MeetingController {
   private final MeetingService meetingService;
 
   @PostMapping
-  public ResponseEntity<?> createMeeting(@Valid @RequestBody MeetingCreationRequest meetingCreationRequest) {
-    Long meetingId = meetingService.saveMeetingToDatabase(meetingCreationRequest);
+  public ResponseEntity<?> createMeeting(
+      @Valid @RequestBody MeetingCreationRequest meetingCreationRequest,
+      HttpServletRequest request
+  ) {
+    Long meetingId = meetingService.saveMeetingToDatabase(meetingCreationRequest,
+        request.getUserPrincipal().getName());
+
     HttpHeaders returnHeader = new HttpHeaders();
     returnHeader.setLocation(URI.create("/meeting?" + meetingId));
     return new ResponseEntity<>(returnHeader, HttpStatus.OK);
