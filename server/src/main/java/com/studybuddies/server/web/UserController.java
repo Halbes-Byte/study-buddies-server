@@ -27,16 +27,16 @@ public class UserController {
   public ResponseEntity<?> create(HttpServletRequest request,
      @RequestBody UserAccountSetupRequest userAccountSetupRequest
  ) {
-     UUID uuid = UUIDService.parseUUID(request.getUserPrincipal().getName());
-     userService.createUser(uuid, userAccountSetupRequest);
-     return new ResponseEntity<>(uuid.toString(), HttpStatus.CREATED);
+     String uuidString = request.getUserPrincipal().getName();
+     userService.createUser(uuidString, userAccountSetupRequest);
+     return new ResponseEntity<>(uuidString, HttpStatus.CREATED);
  }
 
  @DeleteMapping
     public ResponseEntity<?> delete(HttpServletRequest request,
                                     @RequestParam String targetUuid,
                                     @RequestBody UserAccountSetupRequest userAccountSetupRequest) {
-     userService.deleteUser(UUIDService.parseUUID(targetUuid), UUIDService.parseUUID(request.getUserPrincipal().getName()));
+     userService.deleteUser(targetUuid, request.getUserPrincipal().getName());
      return new ResponseEntity<>(targetUuid, HttpStatus.OK);
  }
 }

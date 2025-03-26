@@ -26,7 +26,9 @@ public class UserService {
   }
 
   @Transactional
-  public void createUser(UUID uuid, UserAccountSetupRequest userAccountSetupRequest) {
+  public void createUser(String uuidString, UserAccountSetupRequest userAccountSetupRequest) {
+    UUID uuid = UUIDService.parseUUID(uuidString);
+
     if(userRepository.existsById(uuid)) {
       throw new AccountSetupAlreadyFinished("");
     }
@@ -38,9 +40,9 @@ public class UserService {
 
   // todo
   @Transactional
-  public void deleteUser(UUID targetUuid, UUID sender) {
-    if (targetUuid == sender /* || isAdmin(sender)*/) {
-      userRepository.deleteById(targetUuid);
+  public void deleteUser(String targetUuid, String sender) {
+    if (targetUuid.equals(sender) /* || isAdmin(sender)*/) {
+      userRepository.deleteById(UUIDService.parseUUID(targetUuid));
     }
   }
 }

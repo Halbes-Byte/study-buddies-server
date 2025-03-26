@@ -1,5 +1,6 @@
 package com.studybuddies.server.web;
 
+import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.services.MeetingService;

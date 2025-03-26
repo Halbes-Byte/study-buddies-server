@@ -13,6 +13,7 @@ import com.studybuddies.server.web.mapper.MeetingMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class MeetingService {
     }
     MeetingEntity meetingEntity = requestResult.get();
 
-    if (meetingEntity.getCreator().getUuid() != UUIDService.parseUUID(uuid)) {
+    if (!meetingEntity.getCreator().getUuid().equals(UUIDService.parseUUID(uuid))) {
       throw new MeetingNotFoundException("");
     }
 
@@ -78,13 +79,14 @@ public class MeetingService {
   }
 
   @Transactional
-  public void deleteMeetingFromDatabase(Long id, String uuid) {
+  public void deleteMeetingFromDatabase(Long id, String clientUuid) {
     MeetingEntity meeting = meetingRepository.findById(id)
             .orElseThrow(() -> new MeetingNotFoundException(""));
 
-    if (meeting.getCreator().getUuid() == UUIDService.parseUUID(uuid)) {
+    if (meeting.getCreator().getUuid().equals(UUIDService.parseUUID(clientUuid))) {
       meetingRepository.deleteById(id);
     }
+    else {throw new MeetingNotFoundException("");}
   }
 
   @Transactional
