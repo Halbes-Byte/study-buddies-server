@@ -6,10 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
@@ -98,13 +95,15 @@ public class MeetingServiceTest {
   @Test
   public void changeMeetingInDatabaseTest_meetingNotFound_throwsException() {
     // given
+    UserEntity mockUser = new UserEntity();
+
     Long meetingId = 1L;
     MeetingChangeRequest mockChangeRequest = new MeetingChangeRequest();
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.empty());
 
     // then
     assertThrows(MeetingNotFoundException.class, () -> {
-      meetingService.changeMeetingInDatabase(meetingId, mockChangeRequest);
+      meetingService.changeMeetingInDatabase(meetingId, mockChangeRequest, mockUser.getUuid().toString());
     });
 
     verify(meetingRepository, never()).save(any(MeetingEntity.class));
@@ -125,10 +124,11 @@ public class MeetingServiceTest {
   @Test
   public void deleteMeetingFromDatabaseTest_validId_deletesMeeting() {
     // given
+    UserEntity mockUser = new UserEntity();
     Long meetingId = 1L;
 
     // when
-    meetingService.deleteMeetingFromDatabase(meetingId);
+    meetingService.deleteMeetingFromDatabase(meetingId, mockUser.getUuid().toString());
 
     // then
     verify(meetingRepository, times(1)).deleteById(meetingId);
@@ -136,6 +136,7 @@ public class MeetingServiceTest {
   @Test
   public void changeMeetingInDatabaseTest_updatesOnlyNonNullFields() {
     // given
+    UserEntity mockUser = new UserEntity();
     Long meetingId = 1L;
     MeetingEntity existingMeeting = new MeetingEntity();
     existingMeeting.setTitle("Old Title");
@@ -156,7 +157,7 @@ public class MeetingServiceTest {
     when(meetingMapper.MeetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(changedMeeting);
 
     // when
-    meetingService.changeMeetingInDatabase(meetingId, mockChangeRequest);
+    meetingService.changeMeetingInDatabase(meetingId, mockChangeRequest, mockUser.getUuid().toString());
 
     // then
     assertEquals("New Title", existingMeeting.getTitle()); // Updated
