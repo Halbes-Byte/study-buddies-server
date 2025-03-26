@@ -37,7 +37,10 @@ public class UserService {
   }
 
   // todo
+  @Transactional
   public void deleteUser(UUID targetUuid, UUID sender) {
-
+    if (targetUuid == sender /* || isAdmin(sender)*/) {
+      userRepository.deleteById(targetUuid);
+    }
   }
 }

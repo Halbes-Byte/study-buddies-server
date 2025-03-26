@@ -9,11 +9,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
@@ -34,5 +30,13 @@ public class UserController {
      UUID uuid = UUIDService.parseUUID(request.getUserPrincipal().getName());
      userService.createUser(uuid, userAccountSetupRequest);
      return new ResponseEntity<>(uuid.toString(), HttpStatus.CREATED);
+ }
+
+ @DeleteMapping
+    public ResponseEntity<?> delete(HttpServletRequest request,
+                                    @RequestParam UUID uuid,
+                                    @RequestBody UserAccountSetupRequest userAccountSetupRequest) {
+     userService.deleteUser(uuid, UUIDService.parseUUID(request.getUserPrincipal().getName()));
+     return new ResponseEntity<>(uuid, HttpStatus.OK);
  }
 }
