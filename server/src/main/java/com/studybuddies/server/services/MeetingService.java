@@ -36,13 +36,18 @@ public class MeetingService {
   }
 
   @Transactional
-  public void changeMeetingInDatabase(Long id, MeetingChangeRequest meetingChangeRequest) {
+  public void changeMeetingInDatabase(Long id, MeetingChangeRequest meetingChangeRequest, String uuid) {
     Optional<MeetingEntity> requestResult = meetingRepository.findById(id);
 
     if (requestResult.isEmpty()) {
       throw new MeetingNotFoundException("");
     }
     MeetingEntity meetingEntity = requestResult.get();
+
+    if (meetingEntity.getCreator().getUuid() != UUIDService.parseUUID(uuid)) {
+      throw new MeetingNotFoundException("");
+    }
+
     MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(
         meetingChangeRequest);
 
@@ -73,8 +78,13 @@ public class MeetingService {
   }
 
   @Transactional
-  public void deleteMeetingFromDatabase(Long id) {
-    meetingRepository.deleteById(id);
+  public void deleteMeetingFromDatabase(Long id, String uuid) {
+    MeetingEntity meeting = meetingRepository.findById(id)
+            .orElseThrow(() -> new MeetingNotFoundException(""));
+
+    if (meeting.getCreator().getUuid() == UUIDService.parseUUID(uuid)) {
+      meetingRepository.deleteById(id);
+    }
   }
 
   @Transactional

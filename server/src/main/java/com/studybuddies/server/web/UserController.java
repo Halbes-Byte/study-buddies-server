@@ -34,9 +34,9 @@ public class UserController {
 
  @DeleteMapping
     public ResponseEntity<?> delete(HttpServletRequest request,
-                                    @RequestParam UUID uuid,
+                                    @RequestParam String targetUuid,
                                     @RequestBody UserAccountSetupRequest userAccountSetupRequest) {
-     userService.deleteUser(uuid, UUIDService.parseUUID(request.getUserPrincipal().getName()));
-     return new ResponseEntity<>(uuid, HttpStatus.OK);
+     userService.deleteUser(UUIDService.parseUUID(targetUuid), UUIDService.parseUUID(request.getUserPrincipal().getName()));
+     return new ResponseEntity<>(targetUuid, HttpStatus.OK);
  }
 }

@@ -32,8 +32,8 @@ public class MeetingController {
   }
 
   @PutMapping
-  public ResponseEntity<?> changeMeeting(@RequestParam Long id, @Valid @RequestBody MeetingChangeRequest meetingChangeRequest) {
-    meetingService.changeMeetingInDatabase(id, meetingChangeRequest);
+  public ResponseEntity<?> changeMeeting(@RequestParam Long id, @Valid @RequestBody MeetingChangeRequest meetingChangeRequest, HttpServletRequest request) {
+    meetingService.changeMeetingInDatabase(id, meetingChangeRequest, request.getUserPrincipal().getName());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
@@ -44,8 +44,8 @@ public class MeetingController {
   }
 
   @DeleteMapping
-  public ResponseEntity<?> deleteMeeting(@RequestParam Long id) {
-    meetingService.deleteMeetingFromDatabase(id);
+  public ResponseEntity<?> deleteMeeting(@RequestParam Long id, HttpServletRequest request) {
+    meetingService.deleteMeetingFromDatabase(id, request.getUserPrincipal().getName());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }
