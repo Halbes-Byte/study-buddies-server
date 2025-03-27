@@ -29,6 +29,7 @@ public interface MeetingMapper {
   @Mapping(source = "date_from", target = "date_from")
   @Mapping(source = "date_until", target = "date_until")
   @Mapping(source = "repeatable", target = "repeatable")
+  @Mapping(source = "creator", target = "creator", qualifiedByName = "userEntityToUUIDString")
   MeetingResponse meetingEntityToMeetingResponse(MeetingEntity meetingEntity);
 
   // Mappings for meetingChangeRequestToMeetingEntity
@@ -37,11 +38,15 @@ public interface MeetingMapper {
   @Mapping(source = "place", target = "place")
   @Mapping(source = "date_from", target = "date_from", qualifiedByName = "changeStringToLocalDate")
   @Mapping(source = "date_until", target = "date_until", qualifiedByName = "changeStringToLocalDate")
-  @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
+  @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "changeStringToRepeatEnum")
+  @Mapping(source = "creator", target = "creator", qualifiedByName = "stringToUserEntity")
   MeetingEntity meetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest);
 
   @AfterMapping
   default void validate(@MappingTarget MeetingEntity meetingEntity) {
+    if(meetingEntity.getDate_from() == null || meetingEntity.getDate_until() == null) {
+      return;
+    }
     LocalDateTime start = meetingEntity.getDate_from();
     LocalDateTime end = meetingEntity.getDate_until();
 

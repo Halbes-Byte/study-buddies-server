@@ -14,4 +14,5 @@ public class MeetingResponse {
     public String date_until;
     public String repeatable;
     public String place;
+    public String creator;
 }

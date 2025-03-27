@@ -5,14 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
+import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
+import com.studybuddies.server.web.mapper.MeetingMapperUtils;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class MeetingService {
   private final MeetingMapper meetingMapper;
   private final MeetingRepository meetingRepository;
   private final UserService userService;
+  private final MeetingMapperUtils meetingMapperUtils;
 
   @Transactional
   public Long saveMeetingToDatabase(MeetingCreationRequest mcr, String uuid) {
@@ -47,15 +49,15 @@ public class MeetingService {
       throw new MeetingNotFoundException("");
     }
 
-    MeetingEntity changedMeeting = meetingMapper.meetingChangeRequestToMeetingEntity(
-        meetingChangeRequest);
+    if(meetingChangeRequest.getCreator() != null
+        && !userService.existsByUUID(UUIDService.parseUUID(uuid))
+    ) {
+        throw new InvalidUUIDException("");
+      }
 
-    setIfNotNull(changedMeeting.getTitle(), meetingEntity::setTitle);
-    setIfNotNull(changedMeeting.getDescription(), meetingEntity::setDescription);
-    setIfNotNull(changedMeeting.getDate_from(), meetingEntity::setDate_from);
-    setIfNotNull(changedMeeting.getDate_until(), meetingEntity::setDate_until);
-    setIfNotNull(changedMeeting.getPlace(), meetingEntity::setPlace);
-    setIfNotNull(changedMeeting.getRepeatable(), meetingEntity::setRepeatable);
+    MeetingEntity changedMeetingEntity = meetingMapper.meetingChangeRequestToMeetingEntity(meetingChangeRequest);
+    MergingService.mergeObjects(changedMeetingEntity, meetingEntity);
+
     meetingMapper.validate(meetingEntity);
     meetingRepository.save(meetingEntity);
   }
@@ -96,11 +98,5 @@ public class MeetingService {
       meetings.add(meetingMapper.meetingEntityToMeetingResponse(e));
     }
     return meetings;
-  }
-
-  private <T> void setIfNotNull(T value, Consumer<T> setFunc) {
-    if (value != null) {
-      setFunc.accept(value);
-    }
   }
 }

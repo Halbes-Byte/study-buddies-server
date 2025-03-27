@@ -2,6 +2,7 @@ package com.studybuddies.server.web;
 
 import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
+import com.studybuddies.server.services.exceptions.MergeFailedException;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
@@ -49,4 +50,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid UUID provided");
   }
 
+  @ExceptionHandler(MergeFailedException.class)
+  protected ResponseEntity<?> handleMergeFailedException() {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Updating failed. Please create an issue on GitHub");
+  }
 }

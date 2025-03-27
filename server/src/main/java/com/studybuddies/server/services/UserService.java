@@ -45,4 +45,9 @@ public class UserService {
       userRepository.deleteById(UUIDService.parseUUID(targetUuid));
     }
   }
+
+  @Transactional
+  public boolean existsByUUID(UUID uuid) {
+    return userRepository.existsById(uuid);
+  }
 }

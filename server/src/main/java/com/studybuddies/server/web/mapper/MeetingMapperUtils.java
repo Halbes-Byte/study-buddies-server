@@ -1,20 +1,34 @@
 package com.studybuddies.server.web.mapper;
 
 import com.studybuddies.server.domain.Repeat;
+import com.studybuddies.server.domain.UserEntity;
+import com.studybuddies.server.services.UUIDService;
+import com.studybuddies.server.services.UserService;
 import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
 import com.studybuddies.server.web.mapper.exceptions.InvalidRepeatStringException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import lombok.AllArgsConstructor;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class MeetingMapperUtils {
+
+  private final UserService userService;
+
   // MeetingCreationRequest
   @Named("stringToLocalDate")
   public LocalDateTime stringToLocalDate(String dateString) {
     return stringToLocalDateTime(dateString);
+  }
+
+  // MeetingCreationRequest
+  @Named("stringToRepeatEnum")
+  public Repeat stringToRepeatEnum(String repeatString) {
+    return stringToRepeat(repeatString);
   }
 
   // MeetingChangeRequest
@@ -26,12 +40,6 @@ public class MeetingMapperUtils {
     return stringToLocalDateTime(dateString);
   }
 
-  // MeetingCreationRequest
-  @Named("stringToRepeatEnum")
-  public Repeat stringToRepeatEnum(String repeatString) {
-    return stringToRepeat(repeatString);
-  }
-
   // MeetingChangeRequest
   @Named("changeStringToRepeatEnum")
   public Repeat changeStringToRepeatEnum(String repeatString) {
@@ -39,7 +47,22 @@ public class MeetingMapperUtils {
       return null;
     }
     return stringToRepeat(repeatString);
+  }
 
+  @Named("stringToUserEntity")
+  public UserEntity stringToUserEntity(String uuidString) {
+    if(uuidString == null || uuidString.trim().isEmpty()) {
+      return null;
+    }
+    return userService.findByUUID(UUIDService.parseUUID(uuidString));
+  }
+
+  @Named("userEntityToUUIDString")
+  public String userEntityToUUIDString(UserEntity userEntity) {
+    if(userEntity == null) {
+      return null;
+    }
+    return userEntity.getUuid().toString();
   }
 
   private Repeat stringToRepeat(String repeatString) {

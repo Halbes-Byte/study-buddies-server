@@ -50,7 +50,6 @@ public class MeetingServiceTest {
     // when
     when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting))
         .thenThrow(new InvalidRepeatStringException("Invalid repeatable value"));
-    when(userService.findByUUID(uuid)).thenReturn(any(UserEntity.class));
 
     // then
     assertThrows(InvalidRepeatStringException.class, () -> {
@@ -95,6 +94,7 @@ public class MeetingServiceTest {
   public void changeMeetingInDatabaseTest_meetingNotFound_throwsException() {
     // given
     UserEntity mockUser = new UserEntity();
+    mockUser.setUuid(UUID.randomUUID());
 
     Long meetingId = 1L;
     MeetingChangeRequest mockChangeRequest = new MeetingChangeRequest();
@@ -123,8 +123,14 @@ public class MeetingServiceTest {
   @Test
   public void deleteMeetingFromDatabaseTest_validId_deletesMeeting() {
     // given
-    UserEntity mockUser = new UserEntity();
     Long meetingId = 1L;
+    UserEntity mockUser = new UserEntity();
+    mockUser.setUuid(UUID.randomUUID());
+
+    MeetingEntity mockMeetingEntity = new MeetingEntity();
+    mockMeetingEntity.setId(meetingId);
+    mockMeetingEntity.setCreator(mockUser);
+    when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(mockMeetingEntity));
 
     // when
     meetingService.deleteMeetingFromDatabase(meetingId, mockUser.getUuid().toString());
@@ -136,11 +142,14 @@ public class MeetingServiceTest {
   public void changeMeetingInDatabaseTest_updatesOnlyNonNullFields() {
     // given
     UserEntity mockUser = new UserEntity();
+    mockUser.setUuid(UUID.randomUUID());
     Long meetingId = 1L;
     MeetingEntity existingMeeting = new MeetingEntity();
     existingMeeting.setTitle("Old Title");
     existingMeeting.setDescription("Old Description");
     existingMeeting.setPlace("Old Place");
+    existingMeeting.setCreator(mockUser);
+
 
     MeetingChangeRequest mockChangeRequest = new MeetingChangeRequest();
     mockChangeRequest.setTitle("New Title"); // Should be updated
