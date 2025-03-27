@@ -13,14 +13,14 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {MeetingMapperUtils.class})
 public interface MeetingMapper {
-  // Mappings for MeetingCreationRequestToMeetingEntity
+  // Mappings for meetingCreationRequestToMeetingEntity
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "date_from", target = "date_from", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "date_until", target = "date_until", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
-  MeetingEntity MeetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
+  MeetingEntity meetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
 
   @Mapping(source = "id", target = "id")
   @Mapping(source = "title", target = "title")
@@ -29,16 +29,16 @@ public interface MeetingMapper {
   @Mapping(source = "date_from", target = "date_from")
   @Mapping(source = "date_until", target = "date_until")
   @Mapping(source = "repeatable", target = "repeatable")
-  MeetingResponse MeetingEntityToMeetingResponse(MeetingEntity meetingEntity);
+  MeetingResponse meetingEntityToMeetingResponse(MeetingEntity meetingEntity);
 
-  // Mappings for MeetingChangeRequestToMeetingEntity
+  // Mappings for meetingChangeRequestToMeetingEntity
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "date_from", target = "date_from", qualifiedByName = "changeStringToLocalDate")
   @Mapping(source = "date_until", target = "date_until", qualifiedByName = "changeStringToLocalDate")
   @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
-  MeetingEntity MeetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest);
+  MeetingEntity meetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest);
 
   @AfterMapping
   default void validate(@MappingTarget MeetingEntity meetingEntity) {

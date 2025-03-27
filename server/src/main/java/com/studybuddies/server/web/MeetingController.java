@@ -1,6 +1,5 @@
 package com.studybuddies.server.web;
 
-import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.services.MeetingService;
@@ -33,19 +32,28 @@ public class MeetingController {
   }
 
   @PutMapping
-  public ResponseEntity<?> changeMeeting(@RequestParam Long id, @Valid @RequestBody MeetingChangeRequest meetingChangeRequest, HttpServletRequest request) {
+  public ResponseEntity<?> changeMeeting(
+      @RequestParam Long id,
+      @Valid @RequestBody MeetingChangeRequest meetingChangeRequest,
+      HttpServletRequest request
+  ) {
     meetingService.changeMeetingInDatabase(id, meetingChangeRequest, request.getUserPrincipal().getName());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public ResponseEntity<?> getMeeting(@RequestParam(required = false) Long id) {
+  public ResponseEntity<?> getMeeting(
+      @RequestParam(required = false) Long id
+  ) {
     String response = meetingService.retrieveMeetingFromDatabase(id);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   @DeleteMapping
-  public ResponseEntity<?> deleteMeeting(@RequestParam Long id, HttpServletRequest request) {
+  public ResponseEntity<?> deleteMeeting(
+      @RequestParam Long id,
+      HttpServletRequest request
+  ) {
     meetingService.deleteMeetingFromDatabase(id, request.getUserPrincipal().getName());
     return new ResponseEntity<>(HttpStatus.OK);
   }

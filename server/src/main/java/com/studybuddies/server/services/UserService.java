@@ -38,10 +38,10 @@ public class UserService {
     userRepository.save(user);
   }
 
-  // todo
   @Transactional
-  public void deleteUser(String targetUuid, String sender) {
-    if (targetUuid.equals(sender) /* || isAdmin(sender)*/) {
+  public void deleteUser(String targetUuid, String senderUuid) {
+    // Note: in the future it is required that an admin user is able to delete other non admin user accounts
+    if (/*(*/targetUuid.equals(senderUuid) /* || isAdmin(sender) && !isAdmin(targetUuid))*/) {
       userRepository.deleteById(UUIDService.parseUUID(targetUuid));
     }
   }

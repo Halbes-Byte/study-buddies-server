@@ -10,10 +10,8 @@ import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +28,7 @@ public class MeetingService {
 
   @Transactional
   public Long saveMeetingToDatabase(MeetingCreationRequest mcr, String uuid) {
-    MeetingEntity meetingEntity = meetingMapper.MeetingCreationRequestToMeetingEntity(mcr);
+    MeetingEntity meetingEntity = meetingMapper.meetingCreationRequestToMeetingEntity(mcr);
     UserEntity creator = userService.findByUUID(UUIDService.parseUUID(uuid));
     meetingEntity.setCreator(creator);
     return meetingRepository.save(meetingEntity).getId();
@@ -49,7 +47,7 @@ public class MeetingService {
       throw new MeetingNotFoundException("");
     }
 
-    MeetingEntity changedMeeting = meetingMapper.MeetingChangeRequestToMeetingEntity(
+    MeetingEntity changedMeeting = meetingMapper.meetingChangeRequestToMeetingEntity(
         meetingChangeRequest);
 
     setIfNotNull(changedMeeting.getTitle(), meetingEntity::setTitle);
@@ -72,30 +70,30 @@ public class MeetingService {
       }
       MeetingEntity meeting = meetingRepository.findById(id)
           .orElseThrow(() -> new MeetingNotFoundException(""));
-      return mapper.writeValueAsString(meetingMapper.MeetingEntityToMeetingResponse(meeting));
+      return mapper.writeValueAsString(meetingMapper.meetingEntityToMeetingResponse(meeting));
     } catch (JsonProcessingException e) {
       return "Error processing data";
     }
   }
 
   @Transactional
-  public void deleteMeetingFromDatabase(Long id, String clientUuid) {
+  public void deleteMeetingFromDatabase(Long id, String uuid) {
     MeetingEntity meeting = meetingRepository.findById(id)
             .orElseThrow(() -> new MeetingNotFoundException(""));
 
-    if (meeting.getCreator().getUuid().equals(UUIDService.parseUUID(clientUuid))) {
+    if (meeting.getCreator().getUuid().equals(UUIDService.parseUUID(uuid))) {
       meetingRepository.deleteById(id);
+    } else {
+      throw new MeetingNotFoundException("");
     }
-    else {throw new MeetingNotFoundException("");}
   }
 
-  @Transactional
   public ArrayList<MeetingResponse> findAllMeetingEntities() {
     ArrayList<MeetingResponse> meetings = new ArrayList<>();
     Iterable<MeetingEntity> meetingIterator = meetingRepository.findAll();
 
     for (MeetingEntity e : meetingIterator) {
-      meetings.add(meetingMapper.MeetingEntityToMeetingResponse(e));
+      meetings.add(meetingMapper.meetingEntityToMeetingResponse(e));
     }
     return meetings;
   }

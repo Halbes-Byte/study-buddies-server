@@ -1,11 +1,8 @@
 package com.studybuddies.server.web;
 
-import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.services.UserService;
 import com.studybuddies.server.web.dto.UserAccountSetupRequest;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

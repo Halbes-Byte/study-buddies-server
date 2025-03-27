@@ -5,7 +5,6 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.studybuddies.server.domain.MeetingEntity;
@@ -49,7 +48,7 @@ public class MeetingServiceTest {
     UUID uuid = UUID.randomUUID();
 
     // when
-    when(meetingMapper.MeetingCreationRequestToMeetingEntity(mockMeeting))
+    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting))
         .thenThrow(new InvalidRepeatStringException("Invalid repeatable value"));
     when(userService.findByUUID(uuid)).thenReturn(any(UserEntity.class));
 
@@ -76,7 +75,7 @@ public class MeetingServiceTest {
     mockMeetingEntity.setId(1L);
     UUID uuid = UUID.randomUUID();
 
-    when(meetingMapper.MeetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(mockMeetingEntity);
+    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(mockMeetingEntity);
 
     when(meetingRepository.save(any(MeetingEntity.class))).thenReturn(mockMeetingEntity);
     when(userService.findByUUID(uuid)).thenReturn(any(UserEntity.class));
@@ -88,7 +87,7 @@ public class MeetingServiceTest {
     assertNotNull(meetingId);
     assertEquals(1L, meetingId);
 
-    verify(meetingMapper).MeetingCreationRequestToMeetingEntity(mockMeeting);
+    verify(meetingMapper).meetingCreationRequestToMeetingEntity(mockMeeting);
     verify(meetingRepository).save(mockMeetingEntity);
 }
 
@@ -154,7 +153,7 @@ public class MeetingServiceTest {
     changedMeeting.setPlace(null);
 
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(existingMeeting));
-    when(meetingMapper.MeetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(changedMeeting);
+    when(meetingMapper.meetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(changedMeeting);
 
     // when
     meetingService.changeMeetingInDatabase(meetingId, mockChangeRequest, mockUser.getUuid().toString());
