@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MergingService {
+
+  private MergingService() {}
+
   public static void mergeObjects(Object source, Object target) {
         if (source == null || target == null) {
             throw new IllegalArgumentException("Source and target objects must not be null");

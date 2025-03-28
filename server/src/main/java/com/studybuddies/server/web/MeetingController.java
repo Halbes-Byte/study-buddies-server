@@ -1,11 +1,14 @@
 package com.studybuddies.server.web;
 
+import com.studybuddies.server.domain.ChangeType;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.services.MeetingService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +26,7 @@ public class MeetingController {
       @Valid @RequestBody MeetingCreationRequest meetingCreationRequest,
       HttpServletRequest request
   ) {
-    Long meetingId = meetingService.saveMeetingToDatabase(meetingCreationRequest,
+    UUID meetingId = meetingService.createMeetings(meetingCreationRequest,
         request.getUserPrincipal().getName());
 
     HttpHeaders returnHeader = new HttpHeaders();
@@ -33,17 +36,18 @@ public class MeetingController {
 
   @PutMapping
   public ResponseEntity<?> changeMeeting(
-      @RequestParam Long id,
+      @RequestParam UUID id,
+      @RequestParam ChangeType changeType,
       @Valid @RequestBody MeetingChangeRequest meetingChangeRequest,
       HttpServletRequest request
   ) {
-    meetingService.changeMeetingInDatabase(id, meetingChangeRequest, request.getUserPrincipal().getName());
+    meetingService.changeMeetingInDatabase(id, meetingChangeRequest, request.getUserPrincipal().getName(), changeType);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
   public ResponseEntity<?> getMeeting(
-      @RequestParam(required = false) Long id
+      @RequestParam(required = false) UUID id
   ) {
     String response = meetingService.retrieveMeetingFromDatabase(id);
     return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -51,7 +55,7 @@ public class MeetingController {
 
   @DeleteMapping
   public ResponseEntity<?> deleteMeeting(
-      @RequestParam Long id,
+      @RequestParam UUID id,
       HttpServletRequest request
   ) {
     meetingService.deleteMeetingFromDatabase(id, request.getUserPrincipal().getName());

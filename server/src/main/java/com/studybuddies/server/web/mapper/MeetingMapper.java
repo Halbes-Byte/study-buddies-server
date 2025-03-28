@@ -23,6 +23,7 @@ public interface MeetingMapper {
   MeetingEntity meetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
 
   @Mapping(source = "id", target = "id")
+  @Mapping(source = "superId", target = "superId")
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
