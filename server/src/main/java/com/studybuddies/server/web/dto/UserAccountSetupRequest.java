@@ -1,10 +1,11 @@
 package com.studybuddies.server.web.dto;
 
+import com.studybuddies.server.web.dto.interfaces.CreationRequest;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Setter;
 
 @Setter
-public class UserAccountSetupRequest {
+public class UserAccountSetupRequest implements CreationRequest {
   @NotBlank
   public String username;
 

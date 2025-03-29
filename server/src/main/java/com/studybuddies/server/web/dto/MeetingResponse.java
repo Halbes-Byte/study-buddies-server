@@ -10,9 +10,9 @@ public class MeetingResponse {
     public String title;
     public String description;
     @NotBlank
-    public String date_from;
+    public String dateFrom;
     @NotBlank
-    public String date_until;
+    public String dateUntil;
     public String repeatable;
     public String place;
     public String creator;

@@ -1,8 +1,11 @@
-package com.studybuddies.server.services;
+package com.studybuddies.server.services.meeting;
 
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.domain.Repeat;
 import com.studybuddies.server.domain.UserEntity;
+import com.studybuddies.server.persistance.MeetingRepository;
+import com.studybuddies.server.services.UUIDService;
+import com.studybuddies.server.services.user.UserService;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import java.time.LocalDate;
@@ -19,50 +22,55 @@ import org.springframework.stereotype.Service;
 public class MeetingCreationService {
   private final MeetingMapper meetingMapper;
   private final UserService userService;
+  private final MeetingRepository meetingRepository;
 
   private LocalDateTime endTime;
 
-  public List<MeetingEntity> createMeetingInstances(
+  public void createMeetingInstances(
       MeetingCreationRequest meetingCreationRequest,
-      String uuid
+      String creatorUuid,
+      UUID superUUID,
+      boolean isUpdate
   ) {
     List<MeetingEntity> meetingEntities = new ArrayList<>();
     setEndTime();
 
-    UUID superUUID = UUID.randomUUID();
+    if(superUUID == null) {
+      superUUID = UUID.randomUUID();
+    }
 
     MeetingEntity baseMeeting = meetingMapper.meetingCreationRequestToMeetingEntity(meetingCreationRequest);
-    UserEntity creator = userService.findByUUID(UUIDService.parseUUID(uuid));
+    UserEntity creator = userService.findByUUID(UUIDService.parseUUID(creatorUuid));
     baseMeeting.setCreator(creator);
     baseMeeting.setSuperId(superUUID);
     meetingEntities.add(baseMeeting);
 
-    while(shouldCreateMeeting(baseMeeting)) {
+    while(shouldCreateMeeting(baseMeeting) && !isUpdate) {
       MeetingEntity newMeeting = cloneMeetingEntity(baseMeeting);
       updateMeeting(newMeeting);
       meetingEntities.add(newMeeting);
       baseMeeting = newMeeting;
     }
 
-    return meetingEntities;
+    meetingRepository.saveAll(meetingEntities);
   }
 
   private void updateMeeting(MeetingEntity meetingEntity) {
-    LocalDateTime startDate = meetingEntity.getDate_from();
-    LocalDateTime endDate = meetingEntity.getDate_until();
+    LocalDateTime startDate = meetingEntity.getDateFrom();
+    LocalDateTime endDate = meetingEntity.getDateUntil();
 
     switch(meetingEntity.getRepeatable()) {
       case DAILY:
-        meetingEntity.setDate_from(startDate.plusDays(1));
-        meetingEntity.setDate_until(endDate.plusDays(1));
+        meetingEntity.setDateFrom(startDate.plusDays(1));
+        meetingEntity.setDateUntil(endDate.plusDays(1));
         break;
       case WEEKLY:
-        meetingEntity.setDate_from(startDate.plusWeeks(1));
-        meetingEntity.setDate_until(endDate.plusWeeks(1));
+        meetingEntity.setDateFrom(startDate.plusWeeks(1));
+        meetingEntity.setDateUntil(endDate.plusWeeks(1));
         break;
       case MONTHLY:
-        meetingEntity.setDate_from(startDate.plusMonths(1));
-        meetingEntity.setDate_until(endDate.plusMonths(1));
+        meetingEntity.setDateFrom(startDate.plusMonths(1));
+        meetingEntity.setDateUntil(endDate.plusMonths(1));
         break;
       default:
         throw new IllegalArgumentException("Invalid repeatable");
@@ -73,7 +81,7 @@ public class MeetingCreationService {
     if(meetingEntity.getRepeatable() == Repeat.NEVER) {
       return false;
     }
-    return meetingEntity.getDate_from().isBefore(endTime);
+    return meetingEntity.getDateFrom().isBefore(endTime);
 
   }
 
@@ -99,8 +107,8 @@ public class MeetingCreationService {
         .superId(meetingEntity.getSuperId())
         .title(meetingEntity.getTitle())
         .description(meetingEntity.getDescription())
-        .date_from(meetingEntity.getDate_from())
-        .date_until(meetingEntity.getDate_until())
+        .dateFrom(meetingEntity.getDateFrom())
+        .dateUntil(meetingEntity.getDateUntil())
         .repeatable(meetingEntity.getRepeatable())
         .place(meetingEntity.getPlace())
         .creator(meetingEntity.getCreator())

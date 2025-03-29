@@ -27,8 +27,8 @@ class MeetingMapperTest {
   void validate_shouldThrowException_whenStartDateIsAfterEndDate() {
     // given
     MeetingEntity meetingEntity = new MeetingEntity();
-    meetingEntity.setDate_from(LocalDateTime.of(2024, 2, 10, 10, 0));
-    meetingEntity.setDate_until(LocalDateTime.of(2024, 2, 9, 10, 0)); // End date before start date
+    meetingEntity.setDateFrom(LocalDateTime.of(2024, 2, 10, 10, 0));
+    meetingEntity.setDateUntil(LocalDateTime.of(2024, 2, 9, 10, 0)); // End date before start date
 
     // when then
     EndDateAfterStartDateException exception = assertThrows(
@@ -42,8 +42,8 @@ class MeetingMapperTest {
   void validate_shouldNotThrowException_whenStartDateIsBeforeEndDate() {
     // Arrange
     MeetingEntity meetingEntity = new MeetingEntity();
-    meetingEntity.setDate_from(LocalDateTime.of(2024, 2, 9, 10, 0));
-    meetingEntity.setDate_until(LocalDateTime.of(2024, 2, 10, 10, 0));
+    meetingEntity.setDateFrom(LocalDateTime.of(2024, 2, 9, 10, 0));
+    meetingEntity.setDateUntil(LocalDateTime.of(2024, 2, 10, 10, 0));
 
     // Act & Assert
     assertDoesNotThrow(() -> meetingMapper.validate(meetingEntity));

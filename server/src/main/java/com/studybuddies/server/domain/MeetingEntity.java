@@ -36,9 +36,9 @@ public class MeetingEntity {
   String description;
 
   @Column(nullable = false)
-  LocalDateTime date_from;
+  LocalDateTime dateFrom;
   @Column(nullable = false)
-  LocalDateTime date_until;
+  LocalDateTime dateUntil;
   Repeat repeatable;
   String place;
 

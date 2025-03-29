@@ -1,8 +1,9 @@
 package com.studybuddies.server.web;
 
-import com.studybuddies.server.services.UserService;
+import com.studybuddies.server.services.user.UserService;
 import com.studybuddies.server.web.dto.UserAccountSetupRequest;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +25,16 @@ public class UserController {
   public ResponseEntity<?> create(HttpServletRequest request,
      @RequestBody UserAccountSetupRequest userAccountSetupRequest
  ) {
-     String uuidString = request.getUserPrincipal().getName();
-     userService.createUser(uuidString, userAccountSetupRequest);
-     return new ResponseEntity<>(uuidString, HttpStatus.CREATED);
+     String userUUID = request.getUserPrincipal().getName();
+     userService.create(userAccountSetupRequest, userUUID);
+     return new ResponseEntity<>(userUUID, HttpStatus.CREATED);
  }
 
  @DeleteMapping
     public ResponseEntity<?> delete(HttpServletRequest request,
-                                    @RequestParam String targetUuid,
+                                    @RequestParam UUID targetUuid,
                                     @RequestBody UserAccountSetupRequest userAccountSetupRequest) {
-     userService.deleteUser(targetUuid, request.getUserPrincipal().getName());
+     userService.delete(targetUuid, request.getUserPrincipal().getName());
      return new ResponseEntity<>(targetUuid, HttpStatus.OK);
  }
 }

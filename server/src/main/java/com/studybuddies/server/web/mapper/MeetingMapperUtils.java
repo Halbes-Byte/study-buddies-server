@@ -2,8 +2,7 @@ package com.studybuddies.server.web.mapper;
 
 import com.studybuddies.server.domain.Repeat;
 import com.studybuddies.server.domain.UserEntity;
-import com.studybuddies.server.services.UUIDService;
-import com.studybuddies.server.services.UserService;
+import com.studybuddies.server.services.user.UserService;
 import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
 import com.studybuddies.server.web.mapper.exceptions.InvalidRepeatStringException;
 import java.time.LocalDateTime;
@@ -31,6 +30,14 @@ public class MeetingMapperUtils {
     return stringToRepeat(repeatString);
   }
 
+  @Named("localDateTimeToString")
+  public String localDateTimeToString(LocalDateTime localDateTime) {
+    if(localDateTime == null) {
+      return null;
+    }
+    return localDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy:HH:mm"));
+  }
+
   // MeetingChangeRequest
   @Named("changeStringToLocalDate")
   public LocalDateTime changeStringToLocalDate(String dateString) {
@@ -49,14 +56,6 @@ public class MeetingMapperUtils {
     return stringToRepeat(repeatString);
   }
 
-  @Named("stringToUserEntity")
-  public UserEntity stringToUserEntity(String uuidString) {
-    if(uuidString == null || uuidString.trim().isEmpty()) {
-      return null;
-    }
-    return userService.findByUUID(UUIDService.parseUUID(uuidString));
-  }
-
   @Named("userEntityToUUIDString")
   public String userEntityToUUIDString(UserEntity userEntity) {
     if(userEntity == null) {
@@ -73,7 +72,11 @@ public class MeetingMapperUtils {
     }
   }
 
-  private LocalDateTime stringToLocalDateTime(String dateString) {
+   private LocalDateTime stringToLocalDateTime(String dateString) {
+    if(dateString == null || dateString.trim().isEmpty()) {
+      return null;
+    }
+
     // only accept values in following format: dd-MM-yyyy:hh:mm
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy:HH:mm");
     LocalDateTime dueDate;
