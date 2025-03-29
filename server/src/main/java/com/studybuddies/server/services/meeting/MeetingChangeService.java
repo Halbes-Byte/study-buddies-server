@@ -43,6 +43,7 @@ public class MeetingChangeService {
 
     changeMeetings(meetingsToChange, meetingChangeRequest);
   }
+
   private void changeMeetings(List<MeetingEntity> meetingEntities, MeetingChangeRequest meetingChangeRequest) {
     MeetingEntity meetingDiff = meetingMapper.meetingChangeRequestToMeetingEntity(meetingChangeRequest);
     MeetingEntity meetingWithChangesApplied = meetingEntities.get(0);
