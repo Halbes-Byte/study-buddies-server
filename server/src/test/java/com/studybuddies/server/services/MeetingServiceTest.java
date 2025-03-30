@@ -135,7 +135,7 @@ class MeetingServiceTest {
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(mockMeetingEntity));
 
     // when
-    meetingService.deleteMeetingFromDatabase(meetingId, mockUser.getUuid().toString());
+    meetingService.delete(meetingId, mockUser.getUuid().toString());
 
     // then
     verify(meetingRepository, times(1)).deleteById(meetingId);
