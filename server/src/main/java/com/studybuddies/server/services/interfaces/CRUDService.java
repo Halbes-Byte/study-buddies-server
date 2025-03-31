@@ -7,11 +7,19 @@ import java.util.UUID;
 
 public interface CRUDService<T extends CreationRequest, R extends ChangeRequest> {
   @Transactional
-  String get(UUID id);
+  default String get(String id) {
+    throw new UnsupportedOperationException("This operation is not supported");
+  }
   @Transactional
-  void create(T request, String clientUUID);
+  default void create(T request, String clientUUID) {
+    throw new UnsupportedOperationException("This operation is not supported");
+  }
   @Transactional
-  void update(UUID targetUUID, R request, String clientUUID);
+  default void update(String targetUUID, R request, String clientUUID) {
+    throw new UnsupportedOperationException("This operation is not supported");
+  }
   @Transactional
-  void delete(UUID targetUUID, String clientUUID);
+  default void delete(String targetUUID, String clientUUID) {
+    throw new UnsupportedOperationException("This operation is not supported");
+  }
 }
