@@ -1,7 +1,9 @@
 package com.studybuddies.server.web;
 
+import com.nimbusds.oauth2.sdk.Request;
 import com.studybuddies.server.services.StudyGroupService;
 import com.studybuddies.server.web.dto.StudyGroupJoinRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +17,19 @@ public class StudyGroupController {
     private final StudyGroupService studyGroupService;
 
     @GetMapping
-    public ResponseEntity<?> get(@RequestParam String uuid) {
+    public ResponseEntity<?> get(String uuid) {
         return new ResponseEntity<>(studyGroupService.get(uuid), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> add(StudyGroupJoinRequest studyGroupJoinRequest, String clientUUID) {
-        studyGroupService.create(studyGroupJoinRequest, clientUUID);
+    public ResponseEntity<?> add(StudyGroupJoinRequest studyGroupJoinRequest, HttpServletRequest request) {
+        studyGroupService.create(studyGroupJoinRequest, request.getUserPrincipal().getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> delete(String targetUUID, String clientUUID){
-        studyGroupService.delete(targetUUID, clientUUID);
+    public ResponseEntity<?> delete(String targetUUID, HttpServletRequest request){
+        studyGroupService.delete(targetUUID, request.getUserPrincipal().getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
