@@ -3,11 +3,13 @@ package com.studybuddies.server.services.interfaces;
 import com.studybuddies.server.web.dto.interfaces.ChangeRequest;
 import com.studybuddies.server.web.dto.interfaces.CreationRequest;
 import jakarta.transaction.Transactional;
+
+import java.util.List;
 import java.util.UUID;
 
-public interface CRUDService<T extends CreationRequest, R extends ChangeRequest> {
+public interface CRUDService<T extends CreationRequest, R extends ChangeRequest, S> {
   @Transactional
-  default String get(String id) {
+  default List<S> get(String id) {
     throw new UnsupportedOperationException("This operation is not supported");
   }
   @Transactional

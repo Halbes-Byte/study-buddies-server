@@ -1,11 +1,7 @@
 package com.studybuddies.server.web;
 
-import com.studybuddies.server.domain.MeetingEntity;
-import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.services.StudyGroupService;
-import com.studybuddies.server.services.UUIDService;
-import com.studybuddies.server.services.meeting.MeetingService;
-import com.studybuddies.server.services.user.UserService;
+import com.studybuddies.server.web.dto.StudyGroupJoinRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,38 +13,21 @@ import org.springframework.web.bind.annotation.*;
 public class StudyGroupController {
 
     private final StudyGroupService studyGroupService;
-    private final MeetingService meetingService;
-    private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> get(@RequestParam(required = false) String meetingUUID,
-                                 @RequestParam(required = false) String userUUID){
-        if (meetingUUID != null) {
-            return new ResponseEntity<>(studyGroupService.findByMeeting(meetingUUID), HttpStatus.OK);
-        } else if (userUUID != null) {
-            return new ResponseEntity<>(studyGroupService.findByUser(userUUID), HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<?> get(@RequestParam String uuid) {
+        return new ResponseEntity<>(studyGroupService.get(uuid), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> add(String meetingUUID, String userUUID) {
-        UserEntity userEntity = userService.findByUUID(UUIDService.parseUUID(userUUID));
-        MeetingEntity meetingEntity = meetingService.findMeetingByUUID(meetingUUID);
-        studyGroupService.joinUserToMeeting(userEntity, meetingEntity);
+    public ResponseEntity<?> add(StudyGroupJoinRequest studyGroupJoinRequest, String clientUUID) {
+        studyGroupService.create(studyGroupJoinRequest, clientUUID);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> delete(@RequestParam(required = false) String meetingUUID,
-                                 @RequestParam(required = false) String userUUID){
-        if (meetingUUID != null) {
-            studyGroupService.deleteByMeeting(meetingUUID);
-        } else if (userUUID != null) {
-            studyGroupService.deleteByUser(userUUID);
-        }
-
+    public ResponseEntity<?> delete(String targetUUID, String clientUUID){
+        studyGroupService.delete(targetUUID, clientUUID);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
