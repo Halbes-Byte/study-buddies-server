@@ -1,6 +1,5 @@
 package com.studybuddies.server.web.dto;
 
-import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.web.dto.interfaces.CreationRequest;
 import jakarta.validation.constraints.NotBlank;
 

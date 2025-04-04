@@ -84,7 +84,7 @@ public class MeetingService implements CRUDService<MeetingCreationRequest, Meeti
   }
 
   public MeetingEntity findMeetingByUUID(String uuid) {
-    return meetingRepository.findById(UUIDService.parseUUID(uuid)).orElseThrow();
+    return meetingRepository.findById(UUIDService.parseUUID(uuid)).orElse(null);
   }
 }
 

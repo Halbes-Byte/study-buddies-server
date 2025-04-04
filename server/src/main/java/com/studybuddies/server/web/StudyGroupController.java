@@ -22,7 +22,10 @@ public class StudyGroupController {
     }
 
     @PostMapping
-    public ResponseEntity<?> add(StudyGroupJoinRequest studyGroupJoinRequest, HttpServletRequest request) {
+    public ResponseEntity<?> add(
+        @RequestBody StudyGroupJoinRequest studyGroupJoinRequest,
+        HttpServletRequest request
+    ) {
         studyGroupService.create(studyGroupJoinRequest, request.getUserPrincipal().getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }

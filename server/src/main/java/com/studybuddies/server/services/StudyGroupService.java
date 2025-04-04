@@ -38,10 +38,10 @@ public class StudyGroupService implements CRUDService<StudyGroupJoinRequest, Stu
     }
 
     @Override
-    public void create(StudyGroupJoinRequest request, String uuid) {
+    public void create(StudyGroupJoinRequest request, String clientUuid) {
 
         MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
-        UserEntity userEntity = userService.findByUUID(UUIDService.parseUUID(uuid));
+        UserEntity userEntity = userService.findByUUID(UUIDService.parseUUID(clientUuid));
 
         joinMeeting(userEntity, meetingEntity);
     }
@@ -58,7 +58,8 @@ public class StudyGroupService implements CRUDService<StudyGroupJoinRequest, Stu
     }
 
     private void joinMeeting(UserEntity userEntity, MeetingEntity meetingEntity) {
-        studyGroupRepository.save(StudyGroupEntity.builder().user(userEntity).meeting(meetingEntity).build());
+        var entity = StudyGroupEntity.builder().user(userEntity).meeting(meetingEntity).build();
+        studyGroupRepository.save(entity);
     }
 
     private void leaveMeeting(String userUUID, String meetingUUID) {
