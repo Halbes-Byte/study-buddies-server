@@ -1,8 +1,9 @@
 package com.studybuddies.server.web.dto;
 
+import com.studybuddies.server.web.dto.interfaces.Responses;
 import jakarta.validation.constraints.NotBlank;
 
-public class MeetingResponse {
+public class MeetingResponse implements Responses {
     @NotBlank
     public String id;
     public String superId;

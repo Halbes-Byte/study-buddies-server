@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class MeetingService implements CRUDService<MeetingCreationRequest, MeetingChangeRequest> {
+public class MeetingService implements CRUDService<MeetingCreationRequest, MeetingChangeRequest, MeetingResponse> {
 
   private final MeetingMapper meetingMapper;
   private final MeetingRepository meetingRepository;
@@ -32,24 +32,18 @@ public class MeetingService implements CRUDService<MeetingCreationRequest, Meeti
   private final MeetingChangeService meetingChangeService;
 
   @Override
-  public String get(UUID meetingId) {
-    if(true) throw new NotImplementedException("Not implemented correctly");
-    ObjectMapper mapper = new ObjectMapper();
+  public List<MeetingResponse> get(String meetingId) {
     List<MeetingResponse> responses = new ArrayList<>();
-    try {
-      if (meetingId == null) {
-        List<MeetingResponse> meetings = findAllMeetingEntities();
-        return mapper.writeValueAsString(meetings);
-      }
-      List<MeetingEntity> meetings = meetingRepository.findBySuperId(meetingId);
 
-      for(var meetingEntity : meetings) {
-        responses.add(meetingMapper.meetingEntityToMeetingResponse(meetingEntity));
-      }
-      return mapper.writeValueAsString(responses);
-    } catch (JsonProcessingException e) {
-      return "Error processing data";
+    if (meetingId == null) {
+      return findAllMeetingEntities();
     }
+    List<MeetingEntity> meetings = meetingRepository.findBySuperId(UUIDService.parseUUID(meetingId));
+
+    for(var meetingEntity : meetings) {
+      responses.add(meetingMapper.meetingEntityToMeetingResponse(meetingEntity));
+    }
+    return responses;
   }
 
   @Override
@@ -59,21 +53,21 @@ public class MeetingService implements CRUDService<MeetingCreationRequest, Meeti
 
   @Override
   public void update(
-      UUID meetingId,
+      String meetingId,
       MeetingChangeRequest meetingChangeRequest,
       String clientUUID
   ) {
-    meetingChangeService.update(meetingId, meetingChangeRequest, clientUUID);
+    meetingChangeService.update(UUIDService.parseUUID(meetingId), meetingChangeRequest, clientUUID);
   }
 
   @Override
-  public void delete(UUID targetUUID, String clientUUID) {
+  public void delete(String targetUUID, String clientUUID) {
     if(true) throw new NotImplementedException("Not implemented correctly");
-    MeetingEntity meeting = meetingRepository.findById(targetUUID)
+    MeetingEntity meeting = meetingRepository.findById(UUIDService.parseUUID(targetUUID))
             .orElseThrow(() -> new MeetingNotFoundException(""));
 
     if (meeting.getCreator().getUuid().equals(UUIDService.parseUUID(clientUUID))) {
-      meetingRepository.deleteById(targetUUID);
+      meetingRepository.deleteById(UUIDService.parseUUID(targetUUID));
     } else {
       throw new MeetingNotFoundException("");
     }

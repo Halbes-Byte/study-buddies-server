@@ -104,7 +104,7 @@ class MeetingServiceTest {
 
     // then
     assertThrows(MeetingNotFoundException.class, () -> {
-      meetingService.update(meetingId, mockChangeRequest, mockUser.getUuid().toString());
+      meetingService.update(meetingId.toString(), mockChangeRequest, mockUser.getUuid().toString());
     });
 
     verify(meetingRepository, never()).save(any(MeetingEntity.class));
@@ -135,7 +135,7 @@ class MeetingServiceTest {
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(mockMeetingEntity));
 
     // when
-    meetingService.delete(meetingId, mockUser.getUuid().toString());
+    meetingService.delete(meetingId.toString(), mockUser.getUuid().toString());
 
     // then
     verify(meetingRepository, times(1)).deleteById(meetingId);
@@ -167,7 +167,7 @@ class MeetingServiceTest {
     when(meetingMapper.meetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(changedMeeting);
 
     // when
-    meetingService.update(meetingId, mockChangeRequest, mockUser.getUuid().toString());
+    meetingService.update(meetingId.toString(), mockChangeRequest, mockUser.getUuid().toString());
 
     // then
     assertEquals("New Title", existingMeeting.getTitle()); // Updated

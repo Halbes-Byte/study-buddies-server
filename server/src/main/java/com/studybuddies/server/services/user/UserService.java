@@ -9,9 +9,11 @@ import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
 import com.studybuddies.server.services.interfaces.CRUDService;
 import com.studybuddies.server.web.dto.AccountChangeRequest;
 import com.studybuddies.server.web.dto.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.UserResponse;
 import com.studybuddies.server.web.mapper.UserMapper;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -20,23 +22,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UserService implements CRUDService<UserAccountSetupRequest, AccountChangeRequest> {
+public class UserService implements CRUDService<UserAccountSetupRequest, AccountChangeRequest, UserResponse> {
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
 
   @Override
-  public String get(UUID userUUID) {
-    Optional<UserEntity> target = userRepository.findById(userUUID);
+  public List<UserResponse> get(String userUUID) {
+    Optional<UserEntity> target = userRepository.findById(UUIDService.parseUUID(userUUID));
 
     if(target.isEmpty()) throw new UserAccountSetupNotFinished("User not found");
-
-    ObjectMapper mapper = new ObjectMapper();
-    try {
-      return mapper.writeValueAsString(target.get());
-    } catch (JsonProcessingException e) {
-      return "Error processing data";
-    }
+    return List.of(userMapper.toUserResponse(target.get()));
   }
 
   @Override
@@ -53,15 +49,15 @@ public class UserService implements CRUDService<UserAccountSetupRequest, Account
   }
 
   @Override
-  public void update(UUID targetUUID, AccountChangeRequest accountChangeRequest, String clientUUID) {
+  public void update(String targetUUID, AccountChangeRequest accountChangeRequest, String clientUUID) {
     throw new NotImplementedException("Not implemented yet");
   }
 
   @Override
-  public void delete(UUID targetUuid, String senderUuid) {
+  public void delete(String targetUuid, String senderUuid) {
     // Note: in the future it is required that an admin user is able to delete other non admin user accounts
     if (/*(*/targetUuid.equals(senderUuid) /* || isAdmin(sender) && !isAdmin(targetUuid))*/) {
-      userRepository.deleteById(targetUuid);
+      userRepository.deleteById(UUIDService.parseUUID(targetUuid));
     }
   }
 

@@ -3,9 +3,11 @@ package com.studybuddies.server.web;
 import com.studybuddies.server.web.dto.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.MeetingCreationRequest;
 import com.studybuddies.server.services.meeting.MeetingService;
+import com.studybuddies.server.web.dto.MeetingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,9 +23,9 @@ public class MeetingController {
 
   @GetMapping
   public ResponseEntity<?> get(
-      @RequestParam(required = false) UUID id
+      @RequestParam(required = false) String id
   ) {
-    String response = meetingService.get(id);
+    List<MeetingResponse> response = meetingService.get(id);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
@@ -42,7 +44,7 @@ public class MeetingController {
 
   @PutMapping
   public ResponseEntity<?> update(
-      @RequestParam UUID id,
+      @RequestParam String id,
       @Valid @RequestBody MeetingChangeRequest meetingChangeRequest,
       HttpServletRequest request
   ) {
@@ -52,7 +54,7 @@ public class MeetingController {
 
   @DeleteMapping
   public ResponseEntity<?> delete(
-      @RequestParam UUID id,
+      @RequestParam String id,
       HttpServletRequest request
   ) {
     meetingService.delete(id, request.getUserPrincipal().getName());
