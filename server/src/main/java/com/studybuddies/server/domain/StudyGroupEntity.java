@@ -17,12 +17,12 @@ public class StudyGroupEntity {
     private StudyGroupId id;
 
     @MapsId("userId")
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @MapsId("meetingId")
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "meeting_id", nullable = false)
     private MeetingEntity meeting;
 }

@@ -3,6 +3,7 @@ package com.studybuddies.server.services;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.domain.StudyGroupEntity;
 import com.studybuddies.server.domain.UserEntity;
+import com.studybuddies.server.persistance.StudyGroupId;
 import com.studybuddies.server.persistance.StudyGroupRepository;
 import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.interfaces.CRUDService;
@@ -58,8 +59,14 @@ public class StudyGroupService implements CRUDService<StudyGroupJoinRequest, Stu
     }
 
     private void joinMeeting(UserEntity userEntity, MeetingEntity meetingEntity) {
-        var entity = StudyGroupEntity.builder().user(userEntity).meeting(meetingEntity).build();
-        studyGroupRepository.save(entity);
+        var id = new StudyGroupId(userEntity.getUuid(), meetingEntity.getId());
+
+        var studyGroup = new StudyGroupEntity();
+        studyGroup.setId(id);
+        studyGroup.setUser(userEntity);
+        studyGroup.setMeeting(meetingEntity);
+
+        studyGroupRepository.save(studyGroup);
     }
 
     private void leaveMeeting(String userUUID, String meetingUUID) {
