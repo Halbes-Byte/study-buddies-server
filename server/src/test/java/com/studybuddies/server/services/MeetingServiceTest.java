@@ -2,6 +2,8 @@ package com.studybuddies.server.services;
 
 import com.studybuddies.server.domain.ChangeType;
 import com.studybuddies.server.domain.UserEntity;
+import com.studybuddies.server.services.meeting.MeetingChangeService;
+import com.studybuddies.server.services.meeting.MeetingCreationService;
 import com.studybuddies.server.services.meeting.MeetingService;
 import com.studybuddies.server.services.user.UserService;
 import java.util.UUID;
@@ -32,6 +34,10 @@ class MeetingServiceTest {
   private MeetingRepository meetingRepository;
   @Mock
   private UserService userService;
+  @Mock
+  private MeetingCreationService meetingCreationService;
+  @Mock
+  private MeetingChangeService meetingChangeService;
 
   @InjectMocks
   private MeetingService meetingService;
@@ -61,6 +67,7 @@ class MeetingServiceTest {
     // Verify that save was never called
     verify(meetingRepository, never()).save(any(MeetingEntity.class));
   }
+
   @Test
   void createMeetings_success() {
     // given
@@ -72,24 +79,24 @@ class MeetingServiceTest {
     mockMeeting.setDateFrom("23-11-2020:15:30");
     mockMeeting.setDateUntil("26-11-2020:15:30");
 
-
     MeetingEntity mockMeetingEntity = new MeetingEntity();
-   // mockMeetingEntity.setId(1L);
+    // mockMeetingEntity.setId(1L);
     UUID uuid = UUID.randomUUID();
 
-    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(mockMeetingEntity);
+    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(
+        mockMeetingEntity);
 
     when(meetingRepository.save(any(MeetingEntity.class))).thenReturn(mockMeetingEntity);
     when(userService.findByUUID(uuid)).thenReturn(any(UserEntity.class));
 
     // when
-     meetingService.create(mockMeeting, uuid.toString());
+    meetingService.create(mockMeeting, uuid.toString());
 
     // then
 
     verify(meetingMapper).meetingCreationRequestToMeetingEntity(mockMeeting);
     verify(meetingRepository).save(mockMeetingEntity);
-}
+  }
 
   @Test
   void updateMeetingInDatabaseTest_NotFound_throwsException() {
@@ -118,7 +125,7 @@ class MeetingServiceTest {
 
     // then
     assertThrows(MeetingNotFoundException.class, () -> {
-      meetingService.get(meetingId);
+      meetingService.get(meetingId.toString());
     });
   }
 
@@ -140,6 +147,7 @@ class MeetingServiceTest {
     // then
     verify(meetingRepository, times(1)).deleteById(meetingId);
   }
+
   @Test
   void updateTest_updatesOnlyNonNullFields() {
     // given
@@ -164,7 +172,8 @@ class MeetingServiceTest {
     changedMeeting.setPlace(null);
 
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(existingMeeting));
-    when(meetingMapper.meetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(changedMeeting);
+    when(meetingMapper.meetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(
+        changedMeeting);
 
     // when
     meetingService.update(meetingId.toString(), mockChangeRequest, mockUser.getUuid().toString());
