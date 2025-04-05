@@ -1,6 +1,5 @@
 package com.studybuddies.server.web;
 
-import com.nimbusds.oauth2.sdk.Request;
 import com.studybuddies.server.services.StudyGroupService;
 import com.studybuddies.server.web.dto.StudyGroupJoinRequest;
 import jakarta.servlet.http.HttpServletRequest;

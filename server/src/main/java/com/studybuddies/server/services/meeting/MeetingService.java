@@ -1,7 +1,5 @@
 package com.studybuddies.server.services.meeting;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.services.UUIDService;
@@ -14,7 +12,6 @@ import com.studybuddies.server.web.dto.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;

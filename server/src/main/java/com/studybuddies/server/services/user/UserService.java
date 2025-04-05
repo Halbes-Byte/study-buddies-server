@@ -1,7 +1,5 @@
 package com.studybuddies.server.services.user;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.persistance.UserRepository;
 import com.studybuddies.server.services.UUIDService;

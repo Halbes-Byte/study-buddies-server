@@ -13,7 +13,6 @@ import com.studybuddies.server.web.dto.StudyGroupJoinRequest;
 import com.studybuddies.server.web.dto.StudyGroupLeaveRequest;
 import com.studybuddies.server.web.dto.StudyGroupResponse;
 import com.studybuddies.server.web.mapper.StudyGroupMapper;
-import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,12 +49,6 @@ public class StudyGroupService implements CRUDService<StudyGroupJoinRequest, Stu
     @Override
     public void delete(String targetUUID, String clientUUID) {
         leaveMeeting(clientUUID, targetUUID);
-    }
-
-    @Override
-    public void update(String targetUUID, StudyGroupLeaveRequest request, String clientUUID) {
-        // unimplemented
-        CRUDService.super.update(targetUUID, request, clientUUID);
     }
 
     private void joinMeeting(UserEntity userEntity, MeetingEntity meetingEntity) {

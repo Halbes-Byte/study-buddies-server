@@ -1,8 +1,6 @@
 package com.studybuddies.server.web.mapper;
 
-import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.domain.StudyGroupEntity;
-import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.web.dto.StudyGroupResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
