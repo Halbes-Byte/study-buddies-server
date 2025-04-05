@@ -2,7 +2,9 @@ package com.studybuddies.server.web;
 
 import com.studybuddies.server.services.user.UserService;
 import com.studybuddies.server.web.dto.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,9 @@ public class UserController {
   UserService userService;
 
  @GetMapping
- public String hello(HttpServletRequest request) {
-   return request.getUserPrincipal().getName();
+ public List<UserResponse> get(HttpServletRequest request) {
+   var uuid = request.getUserPrincipal().getName();
+   return userService.get(uuid);
  }
 
  @PostMapping
