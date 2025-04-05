@@ -13,40 +13,52 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {MeetingMapperUtils.class})
 public interface MeetingMapper {
-  // Mappings for MeetingCreationRequestToMeetingEntity
+
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
-  @Mapping(source = "date_from", target = "date_from", qualifiedByName = "stringToLocalDate")
-  @Mapping(source = "date_until", target = "date_until", qualifiedByName = "stringToLocalDate")
+  @Mapping(source = "dateFrom", target = "dateFrom", qualifiedByName = "stringToLocalDate")
+  @Mapping(source = "dateUntil", target = "dateUntil", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
-
-  MeetingEntity MeetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
+  MeetingEntity meetingCreationRequestToMeetingEntity(
+      MeetingCreationRequest meetingCreationRequest);
 
   @Mapping(source = "id", target = "id")
+  @Mapping(source = "superId", target = "superId")
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
-  @Mapping(source = "date_from", target = "date_from")
-  @Mapping(source = "date_until", target = "date_until")
+  @Mapping(source = "dateFrom", target = "dateFrom")
+  @Mapping(source = "dateUntil", target = "dateUntil")
   @Mapping(source = "repeatable", target = "repeatable")
-  MeetingResponse MeetingEntityToMeetingResponse(MeetingEntity meetingEntity);
+  @Mapping(source = "creator", target = "creator", qualifiedByName = "userEntityToUUIDString")
+  MeetingResponse meetingEntityToMeetingResponse(MeetingEntity meetingEntity);
 
-  // Mappings for MeetingChangeRequestToMeetingEntity
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
-  @Mapping(source = "date_from", target = "date_from", qualifiedByName = "changeStringToLocalDate")
-  @Mapping(source = "date_until", target = "date_until", qualifiedByName = "changeStringToLocalDate")
-  @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
-  MeetingEntity MeetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest);
+  @Mapping(source = "dateFrom", target = "dateFrom", qualifiedByName = "changeStringToLocalDate")
+  @Mapping(source = "dateUntil", target = "dateUntil", qualifiedByName = "changeStringToLocalDate")
+  @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "changeStringToRepeatEnum")
+  MeetingEntity meetingChangeRequestToMeetingEntity(MeetingChangeRequest meetingChangeRequest);
+
+  @Mapping(source = "title", target = "title")
+  @Mapping(source = "description", target = "description")
+  @Mapping(source = "place", target = "place")
+  @Mapping(source = "dateFrom", target = "dateFrom", qualifiedByName = "localDateTimeToString")
+  @Mapping(source = "dateUntil", target = "dateUntil", qualifiedByName = "localDateTimeToString")
+  @Mapping(source = "repeatable", target = "repeatable")
+  MeetingCreationRequest meetingEntityToMeetingCreationRequest(MeetingEntity meetingEntity);
 
   @AfterMapping
   default void validate(@MappingTarget MeetingEntity meetingEntity) {
-    LocalDateTime start = meetingEntity.getDate_from();
-    LocalDateTime end = meetingEntity.getDate_until();
+    if (meetingEntity.getDateFrom() == null || meetingEntity.getDateUntil() == null) {
+      return;
+    }
+    LocalDateTime start = meetingEntity.getDateFrom();
+    LocalDateTime end = meetingEntity.getDateUntil();
 
-    if(start.isAfter(end)) {
+    if (start.isAfter(end)) {
       throw new EndDateAfterStartDateException("");
     }
   }

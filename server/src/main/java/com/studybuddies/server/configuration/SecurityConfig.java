@@ -1,7 +1,6 @@
 package com.studybuddies.server.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -25,7 +24,8 @@ public class SecurityConfig {
     http.cors(c -> c.configurationSource(corsConfigurationSource));
     http.
         authorizeHttpRequests(auth ->
-            auth.requestMatchers("/swagger-ui/**", "/h2-console/**", "/api-docs/**", "/v3/**").permitAll()
+            auth.requestMatchers("/swagger-ui/**", "/h2-console/**", "/api-docs/**", "/v3/**")
+                .permitAll()
         )
         .oauth2ResourceServer(oauth2 ->
             oauth2.jwt(jwt ->

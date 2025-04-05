@@ -25,10 +25,9 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
   @Override
   public AbstractAuthenticationToken convert(Jwt source) {
     Collection<GrantedAuthority> auths = Stream.concat(
-                    jwtGrantedAuthoritiesConverter.convert(source).stream(),
-                    extractRoles(source).stream())
-            .collect(Collectors.toSet());
-
+            jwtGrantedAuthoritiesConverter.convert(source).stream(),
+            extractRoles(source).stream())
+        .collect(Collectors.toSet());
 
     return new JwtAuthenticationToken(source, auths);
   }
@@ -55,8 +54,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
 
     // Convert to Spring Security GrantedAuthorities with "ROLE_" prefix
     return roles.stream()
-            .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
-            .collect(Collectors.toSet());
+        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
+        .collect(Collectors.toSet());
   }
-
 }

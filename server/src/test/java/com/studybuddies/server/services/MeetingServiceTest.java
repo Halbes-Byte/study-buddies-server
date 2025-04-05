@@ -1,13 +1,15 @@
 package com.studybuddies.server.services;
 
+import com.studybuddies.server.domain.ChangeType;
+import com.studybuddies.server.domain.UserEntity;
+import com.studybuddies.server.services.meeting.MeetingChangeService;
+import com.studybuddies.server.services.meeting.MeetingCreationService;
+import com.studybuddies.server.services.meeting.MeetingService;
+import com.studybuddies.server.services.user.UserService;
+import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
@@ -24,119 +26,145 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class MeetingServiceTest {
+class MeetingServiceTest {
 
   @Mock
   private MeetingMapper meetingMapper;
   @Mock
   private MeetingRepository meetingRepository;
+  @Mock
+  private UserService userService;
+  @Mock
+  private MeetingCreationService meetingCreationService;
+  @Mock
+  private MeetingChangeService meetingChangeService;
 
   @InjectMocks
   private MeetingService meetingService;
 
   @Test
-  public void saveMeetingToDatabaseTest_invalidRepeatable_throwsException() {
+  void createMeetingsTest_invalidRepeatable_throwsException() {
     // given
     MeetingCreationRequest mockMeeting = new MeetingCreationRequest();
     mockMeeting.setTitle("Invalid Repeatable Meeting");
     mockMeeting.setDescription("Meeting with invalid repeatable value.");
     mockMeeting.setPlace("");
     mockMeeting.setRepeatable("invalid_value");
-    mockMeeting.setDate_from("23-11-2020:15:30");
-    mockMeeting.setDate_until("26-11-2020:15:30");
+    mockMeeting.setDateFrom("23-11-2020:15:30");
+    mockMeeting.setDateUntil("26-11-2020:15:30");
+
+    UUID uuid = UUID.randomUUID();
 
     // when
-    when(meetingMapper.MeetingCreationRequestToMeetingEntity(mockMeeting))
+    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting))
         .thenThrow(new InvalidRepeatStringException("Invalid repeatable value"));
 
     // then
     assertThrows(InvalidRepeatStringException.class, () -> {
-      meetingService.saveMeetingToDatabase(mockMeeting);
+      meetingService.create(mockMeeting, uuid.toString());
     });
 
     // Verify that save was never called
     verify(meetingRepository, never()).save(any(MeetingEntity.class));
   }
+
   @Test
-  public void saveMeetingToDatabase_success() {
+  void createMeetings_success() {
     // given
     MeetingCreationRequest mockMeeting = new MeetingCreationRequest();
     mockMeeting.setTitle("Valid Meeting");
     mockMeeting.setDescription("");
     mockMeeting.setPlace("");
     mockMeeting.setRepeatable("NEVER");
-    mockMeeting.setDate_from("23-11-2020:15:30");
-    mockMeeting.setDate_until("26-11-2020:15:30");
+    mockMeeting.setDateFrom("23-11-2020:15:30");
+    mockMeeting.setDateUntil("26-11-2020:15:30");
 
     MeetingEntity mockMeetingEntity = new MeetingEntity();
-    mockMeetingEntity.setId(1L);
+    // mockMeetingEntity.setId(1L);
+    UUID uuid = UUID.randomUUID();
 
-    when(meetingMapper.MeetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(mockMeetingEntity);
+    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(
+        mockMeetingEntity);
 
     when(meetingRepository.save(any(MeetingEntity.class))).thenReturn(mockMeetingEntity);
+    when(userService.findByUUID(uuid)).thenReturn(any(UserEntity.class));
 
     // when
-    Long meetingId = meetingService.saveMeetingToDatabase(mockMeeting);
+    meetingService.create(mockMeeting, uuid.toString());
 
     // then
-    assertNotNull(meetingId);
-    assertEquals(1L, meetingId);
 
-    verify(meetingMapper).MeetingCreationRequestToMeetingEntity(mockMeeting);
+    verify(meetingMapper).meetingCreationRequestToMeetingEntity(mockMeeting);
     verify(meetingRepository).save(mockMeetingEntity);
-}
+  }
 
   @Test
-  public void changeMeetingInDatabaseTest_meetingNotFound_throwsException() {
+  void updateMeetingInDatabaseTest_NotFound_throwsException() {
     // given
-    Long meetingId = 1L;
+    UserEntity mockUser = new UserEntity();
+    mockUser.setUuid(UUID.randomUUID());
+
+    UUID meetingId = UUID.randomUUID();
     MeetingChangeRequest mockChangeRequest = new MeetingChangeRequest();
+    mockChangeRequest.setChangeType(ChangeType.OCCURRENCE);
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.empty());
 
     // then
     assertThrows(MeetingNotFoundException.class, () -> {
-      meetingService.changeMeetingInDatabase(meetingId, mockChangeRequest);
+      meetingService.update(meetingId.toString(), mockChangeRequest, mockUser.getUuid().toString());
     });
 
     verify(meetingRepository, never()).save(any(MeetingEntity.class));
   }
 
   @Test
-  public void retrieveMeetingFromDatabaseTest_meetingNotFound_throwsException() {
+  void retrieveMeetingFromDatabaseTest_meetingNotFound_throwsException() {
     // given
-    Long meetingId = 1L;
+    UUID meetingId = UUID.randomUUID();
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.empty());
 
     // then
     assertThrows(MeetingNotFoundException.class, () -> {
-      meetingService.retrieveMeetingFromDatabase(meetingId);
+      meetingService.get(meetingId.toString());
     });
   }
 
   @Test
-  public void deleteMeetingFromDatabaseTest_validId_deletesMeeting() {
+  void deleteMeetingFromDatabaseTest_validId_deletesMeeting() {
     // given
-    Long meetingId = 1L;
+    UUID meetingId = UUID.randomUUID();
+    UserEntity mockUser = new UserEntity();
+    mockUser.setUuid(UUID.randomUUID());
+
+    MeetingEntity mockMeetingEntity = new MeetingEntity();
+    mockMeetingEntity.setId(meetingId);
+    mockMeetingEntity.setCreator(mockUser);
+    when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(mockMeetingEntity));
 
     // when
-    meetingService.deleteMeetingFromDatabase(meetingId);
+    meetingService.delete(meetingId.toString(), mockUser.getUuid().toString());
 
     // then
     verify(meetingRepository, times(1)).deleteById(meetingId);
   }
+
   @Test
-  public void changeMeetingInDatabaseTest_updatesOnlyNonNullFields() {
+  void updateTest_updatesOnlyNonNullFields() {
     // given
-    Long meetingId = 1L;
+    UserEntity mockUser = new UserEntity();
+    mockUser.setUuid(UUID.randomUUID());
+    UUID meetingId = UUID.randomUUID();
     MeetingEntity existingMeeting = new MeetingEntity();
     existingMeeting.setTitle("Old Title");
     existingMeeting.setDescription("Old Description");
     existingMeeting.setPlace("Old Place");
+    existingMeeting.setCreator(mockUser);
 
     MeetingChangeRequest mockChangeRequest = new MeetingChangeRequest();
     mockChangeRequest.setTitle("New Title"); // Should be updated
     mockChangeRequest.setDescription(null);  // Should NOT be updated
     mockChangeRequest.setPlace(null);  // Should NOT be updated
+    mockChangeRequest.setChangeType(ChangeType.OCCURRENCE);
 
     MeetingEntity changedMeeting = new MeetingEntity();
     changedMeeting.setTitle("New Title");
@@ -144,10 +172,11 @@ public class MeetingServiceTest {
     changedMeeting.setPlace(null);
 
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(existingMeeting));
-    when(meetingMapper.MeetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(changedMeeting);
+    when(meetingMapper.meetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(
+        changedMeeting);
 
     // when
-    meetingService.changeMeetingInDatabase(meetingId, mockChangeRequest);
+    meetingService.update(meetingId.toString(), mockChangeRequest, mockUser.getUuid().toString());
 
     // then
     assertEquals("New Title", existingMeeting.getTitle()); // Updated
