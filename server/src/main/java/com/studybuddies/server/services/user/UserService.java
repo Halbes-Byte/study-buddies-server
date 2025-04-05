@@ -21,7 +21,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UserService implements CRUDService<UserAccountSetupRequest, AccountChangeRequest, UserResponse> {
+public class UserService implements
+    CRUDService<UserAccountSetupRequest, AccountChangeRequest, UserResponse> {
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
@@ -30,7 +31,9 @@ public class UserService implements CRUDService<UserAccountSetupRequest, Account
   public List<UserResponse> get(String userUUID) {
     Optional<UserEntity> target = userRepository.findById(UUIDService.parseUUID(userUUID));
 
-    if(target.isEmpty()) throw new UserAccountSetupNotFinished("User not found");
+    if (target.isEmpty()) {
+      throw new UserAccountSetupNotFinished("User not found");
+    }
     return List.of(userMapper.toUserResponse(target.get()));
   }
 
@@ -38,11 +41,11 @@ public class UserService implements CRUDService<UserAccountSetupRequest, Account
   public void create(UserAccountSetupRequest userAccountSetupRequest, String userUUID) {
     UUID uuid = UUIDService.parseUUID(userUUID);
 
-    if(userRepository.existsById(uuid)) {
+    if (userRepository.existsById(uuid)) {
       throw new AccountSetupAlreadyFinished("");
     }
 
-    if(userRepository.existsByUsername(userAccountSetupRequest.username)) {
+    if (userRepository.existsByUsername(userAccountSetupRequest.username)) {
       throw new UsernameAlreadyTakenException("");
     }
 
@@ -52,7 +55,8 @@ public class UserService implements CRUDService<UserAccountSetupRequest, Account
   }
 
   @Override
-  public void update(String targetUUID, AccountChangeRequest accountChangeRequest, String clientUUID) {
+  public void update(String targetUUID, AccountChangeRequest accountChangeRequest,
+      String clientUUID) {
     throw new NotImplementedException("Not implemented yet");
   }
 

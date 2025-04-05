@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MeetingSpecificationService {
+
   final MeetingRepository meetingRepository;
 
   public static Specification<MeetingEntity> isThisWeek() {
@@ -17,7 +18,7 @@ public class MeetingSpecificationService {
       LocalDate today = LocalDate.now();
       LocalDate endDate = today.plusDays(7);
 
-      return  builder.and(
+      return builder.and(
           builder.lessThan(root.get("dateFrom"), endDate),
           builder.greaterThan(root.get("dateFrom"), today)
       );

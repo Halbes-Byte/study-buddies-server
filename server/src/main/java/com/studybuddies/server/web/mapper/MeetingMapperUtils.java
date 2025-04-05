@@ -32,7 +32,7 @@ public class MeetingMapperUtils {
 
   @Named("localDateTimeToString")
   public String localDateTimeToString(LocalDateTime localDateTime) {
-    if(localDateTime == null) {
+    if (localDateTime == null) {
       return null;
     }
     return localDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy:HH:mm"));
@@ -58,7 +58,7 @@ public class MeetingMapperUtils {
 
   @Named("userEntityToUUIDString")
   public String userEntityToUUIDString(UserEntity userEntity) {
-    if(userEntity == null) {
+    if (userEntity == null) {
       return null;
     }
     return userEntity.getUuid().toString();
@@ -67,13 +67,13 @@ public class MeetingMapperUtils {
   private Repeat stringToRepeat(String repeatString) {
     try {
       return Repeat.valueOf(repeatString.toUpperCase());
-    } catch(IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       throw new InvalidRepeatStringException("");
     }
   }
 
-   private LocalDateTime stringToLocalDateTime(String dateString) {
-    if(dateString == null || dateString.trim().isEmpty()) {
+  private LocalDateTime stringToLocalDateTime(String dateString) {
+    if (dateString == null || dateString.trim().isEmpty()) {
       return null;
     }
 
@@ -83,7 +83,7 @@ public class MeetingMapperUtils {
 
     try {
       dueDate = LocalDateTime.parse(dateString, format);
-    } catch(DateTimeParseException e) {
+    } catch (DateTimeParseException e) {
       throw new DateFormatException("");
     }
     return dueDate;

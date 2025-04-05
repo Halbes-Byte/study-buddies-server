@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class UserResponse implements Responses {
+
   String uuid;
   String username;
 }

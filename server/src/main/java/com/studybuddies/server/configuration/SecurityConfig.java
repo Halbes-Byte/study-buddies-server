@@ -24,7 +24,8 @@ public class SecurityConfig {
     http.cors(c -> c.configurationSource(corsConfigurationSource));
     http.
         authorizeHttpRequests(auth ->
-            auth.requestMatchers("/swagger-ui/**", "/h2-console/**", "/api-docs/**", "/v3/**").permitAll()
+            auth.requestMatchers("/swagger-ui/**", "/h2-console/**", "/api-docs/**", "/v3/**")
+                .permitAll()
         )
         .oauth2ResourceServer(oauth2 ->
             oauth2.jwt(jwt ->

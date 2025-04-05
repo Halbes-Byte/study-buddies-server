@@ -29,11 +29,12 @@ public class MeetingChangeService {
       MeetingChangeRequest meetingChangeRequest,
       String clientUUID
   ) {
-    List<MeetingEntity> meetingsToChange = getMeetingsThatShouldChange(meetingChangeRequest.getChangeType(), meetingId);
+    List<MeetingEntity> meetingsToChange = getMeetingsThatShouldChange(
+        meetingChangeRequest.getChangeType(), meetingId);
 
     MeetingEntity baseMeeting = meetingsToChange.get(0);
 
-    if(!userService.existsByUUID(UUIDService.parseUUID(clientUUID))) {
+    if (!userService.existsByUUID(UUIDService.parseUUID(clientUUID))) {
       throw new InvalidUUIDException("");
     }
 
@@ -44,8 +45,10 @@ public class MeetingChangeService {
     changeMeetings(meetingsToChange, meetingChangeRequest);
   }
 
-  private void changeMeetings(List<MeetingEntity> meetingEntities, MeetingChangeRequest meetingChangeRequest) {
-    MeetingEntity meetingDiff = meetingMapper.meetingChangeRequestToMeetingEntity(meetingChangeRequest);
+  private void changeMeetings(List<MeetingEntity> meetingEntities,
+      MeetingChangeRequest meetingChangeRequest) {
+    MeetingEntity meetingDiff = meetingMapper.meetingChangeRequestToMeetingEntity(
+        meetingChangeRequest);
     MeetingEntity meetingWithChangesApplied = meetingEntities.get(0);
     MergingService.mergeObjects(meetingDiff, meetingWithChangesApplied);
 
@@ -65,17 +68,17 @@ public class MeetingChangeService {
     List<MeetingEntity> requestResult;
     var entity = meetingRepository.findById(meetingId);
 
-    if(entity.isEmpty()) {
+    if (entity.isEmpty()) {
       throw new MeetingNotFoundException("");
     }
 
-    if(changeType == ChangeType.OCCURRENCE) {
+    if (changeType == ChangeType.OCCURRENCE) {
       requestResult = List.of(entity.get());
     } else {
       requestResult = meetingRepository.findBySuperId(entity.get().getSuperId());
     }
 
-    if(requestResult.isEmpty()) {
+    if (requestResult.isEmpty()) {
       throw new MeetingNotFoundException("");
     }
 

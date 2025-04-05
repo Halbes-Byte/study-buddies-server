@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/meeting")
 public class MeetingController {
+
   private final MeetingService meetingService;
 
   @GetMapping

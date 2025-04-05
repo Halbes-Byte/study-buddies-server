@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UUIDService {
+
   public static UUID parseUUID(String uuidString) {
     try {
       return UUID.fromString(uuidString);

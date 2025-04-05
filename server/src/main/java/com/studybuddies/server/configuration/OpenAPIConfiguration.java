@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenAPIConfiguration {
+
   @Bean
   public OpenAPI openAPI() {
     return new OpenAPI().addSecurityItem(new SecurityRequirement().
@@ -17,6 +18,7 @@ public class OpenAPIConfiguration {
         .components(new Components().addSecuritySchemes
             ("Bearer Authentication", createAPIKeyScheme()));
   }
+
   private SecurityScheme createAPIKeyScheme() {
     return new SecurityScheme().type(SecurityScheme.Type.HTTP)
         .bearerFormat("JWT")

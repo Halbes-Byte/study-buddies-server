@@ -14,13 +14,13 @@ import java.util.UUID;
 @Repository
 public interface StudyGroupRepository extends CrudRepository<StudyGroupEntity, StudyGroupId> {
 
-    @Query("SELECT s FROM StudyGroupEntity s WHERE s.id.userId = :uuid OR s.id.meetingId = :uuid")
-    Optional<List<StudyGroupEntity>> findByUserIdOrMeetingId(@Param("uuid") UUID uuid);
+  @Query("SELECT s FROM StudyGroupEntity s WHERE s.id.userId = :uuid OR s.id.meetingId = :uuid")
+  Optional<List<StudyGroupEntity>> findByUserIdOrMeetingId(@Param("uuid") UUID uuid);
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM StudyGroupEntity s WHERE s.id.userId = :userId AND s.id.meetingId = :meetingId")
-    void deleteByUserIdAndMeetingId(@Param("userId") UUID userId, @Param("meetingId") UUID meetingId);
+  @Modifying
+  @Transactional
+  @Query("DELETE FROM StudyGroupEntity s WHERE s.id.userId = :userId AND s.id.meetingId = :meetingId")
+  void deleteByUserIdAndMeetingId(@Param("userId") UUID userId, @Param("meetingId") UUID meetingId);
 }
 
 

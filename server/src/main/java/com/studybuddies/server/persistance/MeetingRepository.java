@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MeetingRepository extends CrudRepository<MeetingEntity, UUID> {
-    void deleteById(UUID id);
-    List<MeetingEntity> findBySuperId(UUID superId);
-    Optional<MeetingEntity> findById(UUID id);
+
+  void deleteById(UUID id);
+
+  List<MeetingEntity> findBySuperId(UUID superId);
+
+  Optional<MeetingEntity> findById(UUID id);
 }

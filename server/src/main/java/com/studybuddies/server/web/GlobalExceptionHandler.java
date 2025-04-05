@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
   @ExceptionHandler(DateFormatException.class)
   protected ResponseEntity<?> handleDateFormatException() {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong date format. Please use dd-MM-yyyy:HH:mm");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body("Wrong date format. Please use dd-MM-yyyy:HH:mm");
   }
 
   @ExceptionHandler(InvalidRepeatStringException.class)
   protected ResponseEntity<?> handleInvalidRepeatStringException() {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not allowed. (daily, weekly, monthly, never)");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body("Not allowed. (daily, weekly, monthly, never)");
   }
 
   @ExceptionHandler(EndDateAfterStartDateException.class)
@@ -53,7 +56,8 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(MergeFailedException.class)
   protected ResponseEntity<?> handleMergeFailedException() {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Updating failed. Please create an issue on GitHub");
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("Updating failed. Please create an issue on GitHub");
   }
 
   @ExceptionHandler(UsernameAlreadyTakenException.class)

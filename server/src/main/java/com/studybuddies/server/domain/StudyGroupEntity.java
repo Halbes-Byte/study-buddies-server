@@ -13,16 +13,16 @@ import lombok.*;
 @Builder
 public class StudyGroupEntity {
 
-    @EmbeddedId
-    private StudyGroupId id;
+  @EmbeddedId
+  private StudyGroupId id;
 
-    @MapsId("userId")
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+  @MapsId("userId")
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
+  private UserEntity user;
 
-    @MapsId("meetingId")
-    @ManyToOne
-    @JoinColumn(name = "meeting_id", nullable = false)
-    private MeetingEntity meeting;
+  @MapsId("meetingId")
+  @ManyToOne
+  @JoinColumn(name = "meeting_id", nullable = false)
+  private MeetingEntity meeting;
 }

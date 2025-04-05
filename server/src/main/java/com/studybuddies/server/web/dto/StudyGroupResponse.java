@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class StudyGroupResponse implements Responses {
+
   String meetingId;
   String userId;
 }

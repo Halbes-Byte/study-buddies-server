@@ -13,25 +13,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/studygroup")
 public class StudyGroupController {
 
-    private final StudyGroupService studyGroupService;
+  private final StudyGroupService studyGroupService;
 
-    @GetMapping
-    public ResponseEntity<?> get(String uuid) {
-        return new ResponseEntity<>(studyGroupService.get(uuid), HttpStatus.OK);
-    }
+  @GetMapping
+  public ResponseEntity<?> get(String uuid) {
+    return new ResponseEntity<>(studyGroupService.get(uuid), HttpStatus.OK);
+  }
 
-    @PostMapping
-    public ResponseEntity<?> add(
-        @RequestBody StudyGroupJoinRequest studyGroupJoinRequest,
-        HttpServletRequest request
-    ) {
-        studyGroupService.create(studyGroupJoinRequest, request.getUserPrincipal().getName());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+  @PostMapping
+  public ResponseEntity<?> add(
+      @RequestBody StudyGroupJoinRequest studyGroupJoinRequest,
+      HttpServletRequest request
+  ) {
+    studyGroupService.create(studyGroupJoinRequest, request.getUserPrincipal().getName());
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 
-    @DeleteMapping
-    public ResponseEntity<?> delete(String targetUUID, HttpServletRequest request){
-        studyGroupService.delete(targetUUID, request.getUserPrincipal().getName());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+  @DeleteMapping
+  public ResponseEntity<?> delete(String targetUUID, HttpServletRequest request) {
+    studyGroupService.delete(targetUUID, request.getUserPrincipal().getName());
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class MeetingService implements CRUDService<MeetingCreationRequest, MeetingChangeRequest, MeetingResponse> {
+public class MeetingService implements
+    CRUDService<MeetingCreationRequest, MeetingChangeRequest, MeetingResponse> {
 
   private final MeetingMapper meetingMapper;
   private final MeetingRepository meetingRepository;
@@ -35,9 +36,10 @@ public class MeetingService implements CRUDService<MeetingCreationRequest, Meeti
     if (meetingId == null) {
       return findAllMeetingEntities();
     }
-    List<MeetingEntity> meetings = meetingRepository.findBySuperId(UUIDService.parseUUID(meetingId));
+    List<MeetingEntity> meetings = meetingRepository.findBySuperId(
+        UUIDService.parseUUID(meetingId));
 
-    for(var meetingEntity : meetings) {
+    for (var meetingEntity : meetings) {
       responses.add(meetingMapper.meetingEntityToMeetingResponse(meetingEntity));
     }
     return responses;
@@ -59,9 +61,11 @@ public class MeetingService implements CRUDService<MeetingCreationRequest, Meeti
 
   @Override
   public void delete(String targetUUID, String clientUUID) {
-    if(true) throw new NotImplementedException("Not implemented correctly");
+    if (true) {
+      throw new NotImplementedException("Not implemented correctly");
+    }
     MeetingEntity meeting = meetingRepository.findById(UUIDService.parseUUID(targetUUID))
-            .orElseThrow(() -> new MeetingNotFoundException(""));
+        .orElseThrow(() -> new MeetingNotFoundException(""));
 
     if (meeting.getCreator().getUuid().equals(UUIDService.parseUUID(clientUUID))) {
       meetingRepository.deleteById(UUIDService.parseUUID(targetUUID));

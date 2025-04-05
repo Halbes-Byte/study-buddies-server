@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @RequiredArgsConstructor
 public class UserEntity {
+
   @Id
   UUID uuid;
 

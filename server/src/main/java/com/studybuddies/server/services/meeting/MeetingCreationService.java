@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MeetingCreationService {
+
   private final MeetingMapper meetingMapper;
   private final UserService userService;
   private final MeetingRepository meetingRepository;
@@ -35,17 +36,18 @@ public class MeetingCreationService {
     List<MeetingEntity> meetingEntities = new ArrayList<>();
     setEndTime();
 
-    if(superUUID == null) {
+    if (superUUID == null) {
       superUUID = UUID.randomUUID();
     }
 
-    MeetingEntity baseMeeting = meetingMapper.meetingCreationRequestToMeetingEntity(meetingCreationRequest);
+    MeetingEntity baseMeeting = meetingMapper.meetingCreationRequestToMeetingEntity(
+        meetingCreationRequest);
     UserEntity creator = userService.findByUUID(UUIDService.parseUUID(creatorUuid));
     baseMeeting.setCreator(creator);
     baseMeeting.setSuperId(superUUID);
     meetingEntities.add(baseMeeting);
 
-    while(shouldCreateMeeting(baseMeeting) && !isUpdate) {
+    while (shouldCreateMeeting(baseMeeting) && !isUpdate) {
       MeetingEntity newMeeting = cloneMeetingEntity(baseMeeting);
       updateMeeting(newMeeting);
       meetingEntities.add(newMeeting);
@@ -59,7 +61,7 @@ public class MeetingCreationService {
     LocalDateTime startDate = meetingEntity.getDateFrom();
     LocalDateTime endDate = meetingEntity.getDateUntil();
 
-    switch(meetingEntity.getRepeatable()) {
+    switch (meetingEntity.getRepeatable()) {
       case DAILY:
         meetingEntity.setDateFrom(startDate.plusDays(1));
         meetingEntity.setDateUntil(endDate.plusDays(1));
@@ -78,7 +80,7 @@ public class MeetingCreationService {
   }
 
   private boolean shouldCreateMeeting(MeetingEntity meetingEntity) {
-    if(meetingEntity.getRepeatable() == Repeat.NEVER) {
+    if (meetingEntity.getRepeatable() == Repeat.NEVER) {
       return false;
     }
     return meetingEntity.getDateFrom().isBefore(endTime);
@@ -92,7 +94,7 @@ public class MeetingCreationService {
     boolean semester =
         now.getMonth().compareTo(Month.FEBRUARY) < 0 || now.getMonth().compareTo(Month.OCTOBER) > 0;
 
-    if(semester) {
+    if (semester) {
       endMonth = Month.FEBRUARY;
     } else {
       endMonth = Month.OCTOBER;

@@ -13,13 +13,15 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {MeetingMapperUtils.class})
 public interface MeetingMapper {
+
   @Mapping(source = "title", target = "title")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "dateFrom", target = "dateFrom", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "dateUntil", target = "dateUntil", qualifiedByName = "stringToLocalDate")
   @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "stringToRepeatEnum")
-  MeetingEntity meetingCreationRequestToMeetingEntity(MeetingCreationRequest meetingCreationRequest);
+  MeetingEntity meetingCreationRequestToMeetingEntity(
+      MeetingCreationRequest meetingCreationRequest);
 
   @Mapping(source = "id", target = "id")
   @Mapping(source = "superId", target = "superId")
@@ -50,13 +52,13 @@ public interface MeetingMapper {
 
   @AfterMapping
   default void validate(@MappingTarget MeetingEntity meetingEntity) {
-    if(meetingEntity.getDateFrom() == null || meetingEntity.getDateUntil() == null) {
+    if (meetingEntity.getDateFrom() == null || meetingEntity.getDateUntil() == null) {
       return;
     }
     LocalDateTime start = meetingEntity.getDateFrom();
     LocalDateTime end = meetingEntity.getDateUntil();
 
-    if(start.isAfter(end)) {
+    if (start.isAfter(end)) {
       throw new EndDateAfterStartDateException("");
     }
   }

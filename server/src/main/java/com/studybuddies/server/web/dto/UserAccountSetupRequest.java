@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Setter
 public class UserAccountSetupRequest implements CreationRequest {
+
   @NotBlank
   public String username;
 
