@@ -4,6 +4,7 @@ import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.persistance.UserRepository;
 import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
+import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException;
 import com.studybuddies.server.services.interfaces.CRUDService;
 import com.studybuddies.server.web.dto.AccountChangeRequest;
 import com.studybuddies.server.web.dto.UserAccountSetupRequest;
@@ -39,6 +40,10 @@ public class UserService implements CRUDService<UserAccountSetupRequest, Account
 
     if(userRepository.existsById(uuid)) {
       throw new AccountSetupAlreadyFinished("");
+    }
+
+    if(userRepository.existsByUsername(userAccountSetupRequest.username)) {
+      throw new UsernameAlreadyTakenException("");
     }
 
     UserEntity user = userMapper.toUserEntity(userAccountSetupRequest);

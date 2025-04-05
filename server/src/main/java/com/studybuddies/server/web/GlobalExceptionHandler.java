@@ -4,6 +4,7 @@ import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.services.exceptions.MergeFailedException;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
+import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import com.studybuddies.server.web.mapper.exceptions.DateFormatException;
 import com.studybuddies.server.web.mapper.exceptions.EndDateAfterStartDateException;
@@ -53,5 +54,10 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MergeFailedException.class)
   protected ResponseEntity<?> handleMergeFailedException() {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Updating failed. Please create an issue on GitHub");
+  }
+
+  @ExceptionHandler(UsernameAlreadyTakenException.class)
+  protected ResponseEntity<?> handleUsernameAlreadyTakenException() {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already taken");
   }
 }
