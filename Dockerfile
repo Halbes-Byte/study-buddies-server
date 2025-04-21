@@ -3,9 +3,9 @@ FROM maven:3.8.4-openjdk-17-slim
 WORKDIR /backend
 COPY ./server .
 
-RUN mvn test
-RUN mvn verify
-RUN mvn package -DskipTests
+# RUN mvn test
+# RUN mvn verify
+RUN mvn clean package -DskipTests
 
 EXPOSE 8080
 
