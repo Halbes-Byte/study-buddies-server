@@ -11,7 +11,6 @@ import com.studybuddies.server.web.mapper.ModuleMapper;
 import java.util.List;
 import java.util.stream.StreamSupport;
 import lombok.AllArgsConstructor;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.stereotype.Service;
 
 @Service
