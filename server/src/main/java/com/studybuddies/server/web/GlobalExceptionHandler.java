@@ -1,8 +1,11 @@
 package com.studybuddies.server.web;
 
+import com.studybuddies.server.services.exceptions.InvalidModuleNameException;
 import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.services.exceptions.MergeFailedException;
+import com.studybuddies.server.services.exceptions.ModuleMayAlreadyExistException;
+import com.studybuddies.server.services.exceptions.ModuleNotFoundException;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
 import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
@@ -63,5 +66,20 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(UsernameAlreadyTakenException.class)
   protected ResponseEntity<?> handleUsernameAlreadyTakenException() {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already taken");
+  }
+
+  @ExceptionHandler(ModuleNotFoundException.class)
+  protected ResponseEntity<?> handleModuleNotFoundException() {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module could not be found");
+  }
+
+  @ExceptionHandler(ModuleMayAlreadyExistException.class)
+  protected ResponseEntity<?> handleModuleMayAlreadyExistException() {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Module may already exists. If you feel like this is an error, please contact our administrator");
+  }
+
+  @ExceptionHandler(InvalidModuleNameException.class)
+  protected ResponseEntity<?> handleInvalidModuleNameException() {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid module name. Please use the exact name of the module. I. e. GDI -> Grundlagen der Informatik");
   }
 }

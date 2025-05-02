@@ -1,8 +1,9 @@
 package com.studybuddies.server.web;
 
 import com.studybuddies.server.services.user.UserService;
-import com.studybuddies.server.web.dto.UserAccountSetupRequest;
-import com.studybuddies.server.web.dto.UserResponse;
+import com.studybuddies.server.web.dto.user.ModuleUpdateRequest;
+import com.studybuddies.server.web.dto.user.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.user.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -37,5 +38,12 @@ public class UserController {
       @RequestParam String targetUuid) {
     userService.delete(targetUuid, request.getUserPrincipal().getName());
     return new ResponseEntity<>(targetUuid, HttpStatus.OK);
+  }
+
+  @PutMapping
+  public ResponseEntity<?> put(HttpServletRequest request, @RequestBody ModuleUpdateRequest updateRequest) {
+    String userUUID = request.getUserPrincipal().getName();
+    userService.updateModules(updateRequest, userUUID);
+    return new ResponseEntity<>(userUUID, HttpStatus.OK);
   }
 }

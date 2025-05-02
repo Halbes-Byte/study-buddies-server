@@ -1,4 +1,4 @@
-package com.studybuddies.server.web.dto;
+package com.studybuddies.server.web.dto.meeting;
 
 import com.studybuddies.server.web.dto.interfaces.CreationRequest;
 import jakarta.validation.constraints.NotBlank;

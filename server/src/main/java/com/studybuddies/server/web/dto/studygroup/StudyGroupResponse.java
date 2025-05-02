@@ -1,4 +1,4 @@
-package com.studybuddies.server.web.dto;
+package com.studybuddies.server.web.dto.studygroup;
 
 import com.studybuddies.server.web.dto.interfaces.Responses;
 import lombok.Getter;

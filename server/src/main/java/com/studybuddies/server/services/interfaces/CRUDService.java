@@ -10,6 +10,11 @@ import java.util.List;
 public interface CRUDService<T extends CreationRequest, R extends ChangeRequest, S extends Responses> {
 
   @Transactional
+  default List<S> get() {
+    throw new UnsupportedOperationException("This operation is not supported");
+  }
+
+  @Transactional
   default List<S> get(String id) {
     throw new UnsupportedOperationException("This operation is not supported");
   }

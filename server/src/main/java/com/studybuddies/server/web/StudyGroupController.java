@@ -1,7 +1,7 @@
 package com.studybuddies.server.web;
 
 import com.studybuddies.server.services.StudyGroupService;
-import com.studybuddies.server.web.dto.StudyGroupJoinRequest;
+import com.studybuddies.server.web.dto.studygroup.StudyGroupJoinRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

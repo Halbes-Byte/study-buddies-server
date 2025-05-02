@@ -9,9 +9,9 @@ import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.interfaces.CRUDService;
 import com.studybuddies.server.services.meeting.MeetingService;
 import com.studybuddies.server.services.user.UserService;
-import com.studybuddies.server.web.dto.StudyGroupJoinRequest;
-import com.studybuddies.server.web.dto.StudyGroupLeaveRequest;
-import com.studybuddies.server.web.dto.StudyGroupResponse;
+import com.studybuddies.server.web.dto.studygroup.StudyGroupJoinRequest;
+import com.studybuddies.server.web.dto.studygroup.StudyGroupLeaveRequest;
+import com.studybuddies.server.web.dto.studygroup.StudyGroupResponse;
 import com.studybuddies.server.web.mapper.StudyGroupMapper;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class StudyGroupService implements
     var studyGroupEntities = findStudyGroupsByUUID(id);
     List<StudyGroupResponse> responses = new ArrayList<>();
     for (StudyGroupEntity studyGroupEntity : studyGroupEntities) {
-      responses.add(studyGroupMapper.studyGroupEntityToStudyGroupResponse(studyGroupEntity));
+      responses.add(studyGroupMapper.of(studyGroupEntity));
     }
     return responses;
   }
