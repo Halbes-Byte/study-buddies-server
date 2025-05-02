@@ -1,9 +1,9 @@
 package com.studybuddies.server.web;
 
-import com.studybuddies.server.web.dto.MeetingChangeRequest;
-import com.studybuddies.server.web.dto.MeetingCreationRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingChangeRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingCreationRequest;
 import com.studybuddies.server.services.meeting.MeetingService;
-import com.studybuddies.server.web.dto.MeetingResponse;
+import com.studybuddies.server.web.dto.meeting.MeetingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URI;

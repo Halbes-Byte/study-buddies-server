@@ -1,8 +1,8 @@
 package com.studybuddies.server.web.mapper;
 
 import com.studybuddies.server.domain.UserEntity;
-import com.studybuddies.server.web.dto.UserAccountSetupRequest;
-import com.studybuddies.server.web.dto.UserResponse;
+import com.studybuddies.server.web.dto.user.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.user.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -10,9 +10,10 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
   @Mapping(source = "username", target = "username")
-  UserEntity toUserEntity(UserAccountSetupRequest userAccountSetupRequest);
+  UserEntity of(UserAccountSetupRequest userAccountSetupRequest);
 
   @Mapping(source = "uuid", target = "uuid")
   @Mapping(source = "username", target = "username")
-  UserResponse toUserResponse(UserEntity userEntity);
+  @Mapping(source = "modules", target = "modules")
+  UserResponse of(UserEntity userEntity);
 }

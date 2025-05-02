@@ -6,9 +6,9 @@ import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.services.user.UserService;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.services.interfaces.CRUDService;
-import com.studybuddies.server.web.dto.MeetingChangeRequest;
-import com.studybuddies.server.web.dto.MeetingCreationRequest;
-import com.studybuddies.server.web.dto.MeetingResponse;
+import com.studybuddies.server.web.dto.meeting.MeetingChangeRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingCreationRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class MeetingService implements
         UUIDService.parseUUID(meetingId));
 
     for (var meetingEntity : meetings) {
-      responses.add(meetingMapper.meetingEntityToMeetingResponse(meetingEntity));
+      responses.add(meetingMapper.of(meetingEntity));
     }
     return responses;
   }
@@ -79,7 +79,7 @@ public class MeetingService implements
     Iterable<MeetingEntity> meetingIterator = meetingRepository.findAll();
 
     for (MeetingEntity e : meetingIterator) {
-      meetings.add(meetingMapper.meetingEntityToMeetingResponse(e));
+      meetings.add(meetingMapper.of(e));
     }
     return meetings;
   }

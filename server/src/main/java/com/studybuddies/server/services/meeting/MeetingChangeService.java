@@ -8,7 +8,7 @@ import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.services.user.UserService;
 import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
-import com.studybuddies.server.web.dto.MeetingChangeRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingChangeRequest;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +47,7 @@ public class MeetingChangeService {
 
   private void changeMeetings(List<MeetingEntity> meetingEntities,
       MeetingChangeRequest meetingChangeRequest) {
-    MeetingEntity meetingDiff = meetingMapper.meetingChangeRequestToMeetingEntity(
+    MeetingEntity meetingDiff = meetingMapper.of(
         meetingChangeRequest);
     MeetingEntity meetingWithChangesApplied = meetingEntities.get(0);
     MergingService.mergeObjects(meetingDiff, meetingWithChangesApplied);

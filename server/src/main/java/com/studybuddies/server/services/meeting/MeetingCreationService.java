@@ -6,7 +6,7 @@ import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.services.user.UserService;
-import com.studybuddies.server.web.dto.MeetingCreationRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingCreationRequest;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,7 +40,7 @@ public class MeetingCreationService {
       superUUID = UUID.randomUUID();
     }
 
-    MeetingEntity baseMeeting = meetingMapper.meetingCreationRequestToMeetingEntity(
+    MeetingEntity baseMeeting = meetingMapper.of(
         meetingCreationRequest);
     UserEntity creator = userService.findByUUID(UUIDService.parseUUID(creatorUuid));
     baseMeeting.setCreator(creator);

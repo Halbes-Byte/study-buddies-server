@@ -6,15 +6,20 @@ import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
 import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException;
 import com.studybuddies.server.services.interfaces.CRUDService;
-import com.studybuddies.server.web.dto.AccountChangeRequest;
-import com.studybuddies.server.web.dto.UserAccountSetupRequest;
-import com.studybuddies.server.web.dto.UserResponse;
+import com.studybuddies.server.services.module.ModuleValidationService;
+import com.studybuddies.server.web.dto.user.AccountChangeRequest;
+import com.studybuddies.server.web.dto.user.ModuleUpdateRequest;
+import com.studybuddies.server.web.dto.user.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.user.UserResponse;
 import com.studybuddies.server.web.mapper.UserMapper;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,7 @@ public class UserService implements
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private final ModuleValidationService moduleValidationService;
 
   @Override
   public List<UserResponse> get(String userUUID) {
@@ -34,7 +40,7 @@ public class UserService implements
     if (target.isEmpty()) {
       throw new UserAccountSetupNotFinished("User not found");
     }
-    return List.of(userMapper.toUserResponse(target.get()));
+    return List.of(userMapper.of(target.get()));
   }
 
   @Override
@@ -49,7 +55,7 @@ public class UserService implements
       throw new UsernameAlreadyTakenException("");
     }
 
-    UserEntity user = userMapper.toUserEntity(userAccountSetupRequest);
+    UserEntity user = userMapper.of(userAccountSetupRequest);
     user.setUuid(uuid);
     userRepository.save(user);
   }
@@ -78,5 +84,22 @@ public class UserService implements
   @Transactional
   public boolean existsByUUID(UUID uuid) {
     return userRepository.existsById(uuid);
+  }
+
+  @Transactional
+  public void updateModules(ModuleUpdateRequest moduleUpdateRequest, String uuid) {
+    List<String> modules = moduleUpdateRequest.getModuleNames();
+
+    var foundModules = modules.stream()
+        .filter(moduleValidationService::exists)
+        .map(String::toUpperCase)
+        .collect(Collectors.toCollection(ArrayList::new));
+
+    Optional<UserEntity> target = userRepository.findById(UUIDService.parseUUID(uuid));
+    if (target.isEmpty()) {
+      throw new UserAccountSetupNotFinished("User not found");
+    }
+    target.get().setModules(foundModules);
+    userRepository.save(target.get());
   }
 }

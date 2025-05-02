@@ -14,8 +14,8 @@ import static org.mockito.Mockito.*;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
-import com.studybuddies.server.web.dto.MeetingChangeRequest;
-import com.studybuddies.server.web.dto.MeetingCreationRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingChangeRequest;
+import com.studybuddies.server.web.dto.meeting.MeetingCreationRequest;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import com.studybuddies.server.web.mapper.exceptions.InvalidRepeatStringException;
 import java.util.Optional;
@@ -56,7 +56,7 @@ class MeetingServiceTest {
     UUID uuid = UUID.randomUUID();
 
     // when
-    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting))
+    when(meetingMapper.of(mockMeeting))
         .thenThrow(new InvalidRepeatStringException("Invalid repeatable value"));
 
     // then
@@ -83,7 +83,7 @@ class MeetingServiceTest {
     // mockMeetingEntity.setId(1L);
     UUID uuid = UUID.randomUUID();
 
-    when(meetingMapper.meetingCreationRequestToMeetingEntity(mockMeeting)).thenReturn(
+    when(meetingMapper.of(mockMeeting)).thenReturn(
         mockMeetingEntity);
 
     when(meetingRepository.save(any(MeetingEntity.class))).thenReturn(mockMeetingEntity);
@@ -94,7 +94,7 @@ class MeetingServiceTest {
 
     // then
 
-    verify(meetingMapper).meetingCreationRequestToMeetingEntity(mockMeeting);
+    verify(meetingMapper).of(mockMeeting);
     verify(meetingRepository).save(mockMeetingEntity);
   }
 
@@ -172,7 +172,7 @@ class MeetingServiceTest {
     changedMeeting.setPlace(null);
 
     when(meetingRepository.findById(meetingId)).thenReturn(Optional.of(existingMeeting));
-    when(meetingMapper.meetingChangeRequestToMeetingEntity(mockChangeRequest)).thenReturn(
+    when(meetingMapper.of(mockChangeRequest)).thenReturn(
         changedMeeting);
 
     // when
