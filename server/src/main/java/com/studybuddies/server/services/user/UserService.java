@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
@@ -88,7 +87,7 @@ public class UserService implements
 
   @Transactional
   public void updateModules(ModuleUpdateRequest moduleUpdateRequest, String uuid) {
-    List<String> modules = moduleUpdateRequest.getModuleNames();
+    List<String> modules = moduleUpdateRequest.getName();
 
     var foundModules = modules.stream()
         .filter(moduleValidationService::exists)

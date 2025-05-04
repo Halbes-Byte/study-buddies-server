@@ -5,5 +5,5 @@ import lombok.Getter;
 
 @Getter
 public class ModuleUpdateRequest {
-  public List<String> moduleNames;
+  public List<String> name;
 }
