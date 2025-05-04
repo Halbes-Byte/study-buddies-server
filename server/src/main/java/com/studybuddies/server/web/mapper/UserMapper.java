@@ -14,6 +14,6 @@ public interface UserMapper {
 
   @Mapping(source = "uuid", target = "uuid")
   @Mapping(source = "username", target = "username")
-  @Mapping(source = "name", target = "name")
+  @Mapping(source = "modules", target = "modules")
   UserResponse of(UserEntity userEntity);
 }
