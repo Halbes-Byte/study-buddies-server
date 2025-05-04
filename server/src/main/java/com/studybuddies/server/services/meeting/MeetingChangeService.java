@@ -10,6 +10,7 @@ import com.studybuddies.server.services.exceptions.InvalidUUIDException;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
 import com.studybuddies.server.web.dto.meeting.MeetingChangeRequest;
 import com.studybuddies.server.web.mapper.MeetingMapper;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class MeetingChangeService {
   private final MeetingCreationService meetingCreationService;
   private final UserService userService;
 
+  @Transactional
   public void update(
       UUID meetingId,
       MeetingChangeRequest meetingChangeRequest,
