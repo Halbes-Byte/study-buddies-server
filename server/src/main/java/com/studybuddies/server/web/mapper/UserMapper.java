@@ -6,7 +6,7 @@ import com.studybuddies.server.web.dto.user.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserMapperUtils.class})
 public interface UserMapper {
 
   @Mapping(source = "username", target = "username")
@@ -14,6 +14,6 @@ public interface UserMapper {
 
   @Mapping(source = "uuid", target = "uuid")
   @Mapping(source = "username", target = "username")
-  @Mapping(source = "modules", target = "modules")
+  @Mapping(source = "modules", target = "modules", qualifiedByName = "stringListToRespList")
   UserResponse of(UserEntity userEntity);
 }
