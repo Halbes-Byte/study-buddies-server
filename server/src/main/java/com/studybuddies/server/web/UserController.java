@@ -41,7 +41,7 @@ public class UserController {
   }
 
   @PutMapping
-  public ResponseEntity<?> put(HttpServletRequest request, @RequestBody ModuleUpdateRequest updateRequest) {
+  public ResponseEntity<?> put(HttpServletRequest request, @RequestBody List<ModuleUpdateRequest> updateRequest) {
     String userUUID = request.getUserPrincipal().getName();
     userService.updateModules(updateRequest, userUUID);
     return new ResponseEntity<>(userUUID, HttpStatus.OK);

@@ -86,10 +86,9 @@ public class UserService implements
   }
 
   @Transactional
-  public void updateModules(ModuleUpdateRequest moduleUpdateRequest, String uuid) {
-    List<String> modules = moduleUpdateRequest.getName();
-
-    var foundModules = modules.stream()
+  public void updateModules(List<ModuleUpdateRequest> moduleUpdateRequest, String uuid) {
+    var foundModules = moduleUpdateRequest.stream()
+        .map(ModuleUpdateRequest::getName)
         .filter(moduleValidationService::exists)
         .map(String::toUpperCase)
         .collect(Collectors.toCollection(ArrayList::new));
