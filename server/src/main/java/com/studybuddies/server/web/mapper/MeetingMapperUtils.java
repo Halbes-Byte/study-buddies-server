@@ -72,12 +72,16 @@ public class MeetingMapperUtils {
 
   @Named("assignExistingModule")
   public String assignExistingModule(String module) {
-    var foundModule = moduleCrudService.get();
+    var foundModules = moduleCrudService.get();
 
-    if(!moduleValidationService.exists(module) || foundModule.isEmpty()) {
+    if(!moduleValidationService.exists(module) || foundModules.isEmpty()) {
       throw new ModuleNotFoundException("");
     }
-    return foundModule.get(0).getName().toUpperCase();
+    var foundModule = foundModules.stream()
+        .filter(m -> m.getName().equalsIgnoreCase(module))
+        .findFirst()
+        .orElseThrow(() -> new ModuleNotFoundException(""));
+    return foundModule.getName().toUpperCase();
   }
 
   private Repeat stringToRepeat(String repeatString) {
