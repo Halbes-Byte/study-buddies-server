@@ -31,7 +31,7 @@ public class MeetingEntity {
   UUID superId;
 
   @Column(nullable = false)
-  String title;
+  String module;
 
   String description;
 

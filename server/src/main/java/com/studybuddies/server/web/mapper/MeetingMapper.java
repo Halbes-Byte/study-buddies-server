@@ -14,7 +14,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring", uses = {MeetingMapperUtils.class})
 public interface MeetingMapper {
 
-  @Mapping(source = "title", target = "title", qualifiedByName = "assignExistingModule")
+  @Mapping(source = "module", target = "module", qualifiedByName = "assignExistingModule")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "dateFrom", target = "dateFrom", qualifiedByName = "stringToLocalDate")
@@ -25,7 +25,7 @@ public interface MeetingMapper {
 
   @Mapping(source = "id", target = "id")
   @Mapping(source = "superId", target = "superId")
-  @Mapping(source = "title", target = "title")
+  @Mapping(source = "module", target = "module")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "dateFrom", target = "dateFrom")
@@ -34,7 +34,7 @@ public interface MeetingMapper {
   @Mapping(source = "creator", target = "creator", qualifiedByName = "userEntityToUUIDString")
   MeetingResponse of(MeetingEntity meetingEntity);
 
-  @Mapping(source = "title", target = "title")
+  @Mapping(source = "module", target = "module")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "dateFrom", target = "dateFrom", qualifiedByName = "changeStringToLocalDate")
@@ -42,7 +42,7 @@ public interface MeetingMapper {
   @Mapping(source = "repeatable", target = "repeatable", qualifiedByName = "changeStringToRepeatEnum")
   MeetingEntity of(MeetingChangeRequest meetingChangeRequest);
 
-  @Mapping(source = "title", target = "title", qualifiedByName = "assignExistingModule")
+  @Mapping(source = "module", target = "module", qualifiedByName = "assignExistingModule")
   @Mapping(source = "description", target = "description")
   @Mapping(source = "place", target = "place")
   @Mapping(source = "dateFrom", target = "dateFrom", qualifiedByName = "localDateTimeToString")

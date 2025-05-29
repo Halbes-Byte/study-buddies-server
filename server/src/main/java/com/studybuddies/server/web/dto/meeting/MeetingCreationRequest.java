@@ -8,7 +8,7 @@ import lombok.Setter;
 public class MeetingCreationRequest implements CreationRequest {
 
   @NotBlank
-  public String title;
+  public String module;
   public String description;
   @NotBlank
   public String dateFrom;
