@@ -29,6 +29,8 @@ public class StudyGroupController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+
+
   @DeleteMapping
   public ResponseEntity<?> delete(String targetUUID, HttpServletRequest request) {
     studyGroupService.delete(targetUUID, request.getUserPrincipal().getName());

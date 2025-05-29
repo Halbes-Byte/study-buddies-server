@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -41,11 +42,19 @@ public class StudyGroupService implements
 
   @Override
   public void create(StudyGroupJoinRequest request, String clientUuid) {
-
-    MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
     UserEntity userEntity = userService.findByUUID(UUIDService.parseUUID(clientUuid));
 
-    joinMeeting(userEntity, meetingEntity);
+    if (!Objects.equals(request.meetingId, "")) {
+      MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
+      joinMeeting(userEntity, meetingEntity);
+    }
+    else if (!Objects.equals(request.superMeetingID, "")) {
+      List<MeetingEntity> meetingList = meetingService.findMeetingsBySuperID(request.superMeetingID);
+
+      for (MeetingEntity m : meetingList) {
+        joinMeeting(userEntity, m);
+      }
+    }
   }
 
   @Override
