@@ -59,7 +59,9 @@ public class StudyGroupService implements
 
   @Override
   public void delete(String targetUUID, String clientUUID) {
+    // Restricted through the CRUD Interface :/
     leaveMeeting(clientUUID, targetUUID);
+    leaveSuperMeeting(clientUUID, targetUUID);
   }
 
   private void joinMeeting(UserEntity userEntity, MeetingEntity meetingEntity) {
@@ -76,6 +78,11 @@ public class StudyGroupService implements
   private void leaveMeeting(String userUUID, String meetingUUID) {
     studyGroupRepository.deleteByUserIdAndMeetingId(UUIDService.parseUUID(userUUID),
         UUIDService.parseUUID(meetingUUID));
+  }
+
+  private void leaveSuperMeeting(String userUUID, String meetingSuperUUID) {
+    studyGroupRepository.deleteByUserIdAndSuperMeetingId(UUIDService.parseUUID(userUUID),
+            UUIDService.parseUUID(meetingSuperUUID));
   }
 
   private List<StudyGroupEntity> findStudyGroupsByUUID(String someUUID) {

@@ -21,6 +21,12 @@ public interface StudyGroupRepository extends CrudRepository<StudyGroupEntity, S
   @Transactional
   @Query("DELETE FROM StudyGroupEntity s WHERE s.id.userId = :userId AND s.id.meetingId = :meetingId")
   void deleteByUserIdAndMeetingId(@Param("userId") UUID userId, @Param("meetingId") UUID meetingId);
+
+  @Modifying
+  @Transactional
+  @Query("DELETE FROM StudyGroupEntity s WHERE s.user.id = :userId AND s.meeting.superId = :meetingSuperId")
+  void deleteByUserIdAndSuperMeetingId(@Param("userId") UUID userId, @Param("meetingSuperId") UUID meetingSuperId);
+
 }
 
 
