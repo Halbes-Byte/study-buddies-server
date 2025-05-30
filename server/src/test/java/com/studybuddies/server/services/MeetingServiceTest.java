@@ -125,7 +125,7 @@ class MeetingServiceTest {
 
     // then
     assertThrows(MeetingNotFoundException.class, () -> {
-      meetingService.get(meetingId.toString());
+      meetingService.get(meetingId.toString(), null);
     });
   }
 

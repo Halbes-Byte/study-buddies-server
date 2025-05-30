@@ -1,5 +1,6 @@
 package com.studybuddies.server.web;
 
+import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.web.dto.meeting.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.meeting.MeetingCreationRequest;
 import com.studybuddies.server.services.meeting.MeetingService;
@@ -23,9 +24,15 @@ public class MeetingController {
 
   @GetMapping
   public ResponseEntity<?> get(
-      @RequestParam(required = false) String id
+      @RequestParam(required = false) String module,
+      HttpServletRequest request
   ) {
-    List<MeetingResponse> response = meetingService.get(id);
+
+    List<MeetingResponse> response;
+    if(module != null)
+      response = meetingService.get(request.getUserPrincipal().getName(), Filter.of(null, "module", module));
+    else
+      response = meetingService.get(request.getUserPrincipal().getName(), null);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 

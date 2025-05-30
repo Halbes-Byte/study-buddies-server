@@ -1,5 +1,6 @@
 package com.studybuddies.server.services.user;
 
+import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.persistance.UserRepository;
 import com.studybuddies.server.services.UUIDService;
@@ -33,7 +34,7 @@ public class UserService implements
   private final ModuleValidationService moduleValidationService;
 
   @Override
-  public List<UserResponse> get(String userUUID) {
+  public List<UserResponse> get(String userUUID, Filter filter) {
     Optional<UserEntity> target = userRepository.findById(UUIDService.parseUUID(userUUID));
 
     if (target.isEmpty()) {

@@ -21,7 +21,7 @@ public class UserController {
   @GetMapping
   public List<UserResponse> get(HttpServletRequest request) {
     var uuid = request.getUserPrincipal().getName();
-    return userService.get(uuid);
+    return userService.get(uuid, null);
   }
 
   @PostMapping

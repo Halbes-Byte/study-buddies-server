@@ -17,7 +17,7 @@ public class StudyGroupController {
 
   @GetMapping
   public ResponseEntity<?> get(String uuid) {
-    return new ResponseEntity<>(studyGroupService.get(uuid), HttpStatus.OK);
+    return new ResponseEntity<>(studyGroupService.get(uuid, null), HttpStatus.OK);
   }
 
   @PostMapping
@@ -28,8 +28,6 @@ public class StudyGroupController {
     studyGroupService.create(studyGroupJoinRequest, request.getUserPrincipal().getName());
     return new ResponseEntity<>(HttpStatus.OK);
   }
-
-
 
   @DeleteMapping
   public ResponseEntity<?> delete(String targetUUID, HttpServletRequest request) {

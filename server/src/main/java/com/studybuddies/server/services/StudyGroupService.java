@@ -1,5 +1,6 @@
 package com.studybuddies.server.services;
 
+import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.domain.StudyGroupEntity;
 import com.studybuddies.server.domain.UserEntity;
@@ -31,7 +32,7 @@ public class StudyGroupService implements
   private final StudyGroupMapper studyGroupMapper;
 
   @Override
-  public List<StudyGroupResponse> get(String id) {
+  public List<StudyGroupResponse> get(String id, Filter filter) {
     var studyGroupEntities = findStudyGroupsByUUID(id);
     List<StudyGroupResponse> responses = new ArrayList<>();
     for (StudyGroupEntity studyGroupEntity : studyGroupEntities) {
@@ -44,12 +45,11 @@ public class StudyGroupService implements
   public void create(StudyGroupJoinRequest request, String clientUuid) {
     UserEntity userEntity = userService.findByUUID(UUIDService.parseUUID(clientUuid));
 
-    if (!Objects.equals(request.meetingId, "")) {
+    if (request.meetingId != null && !request.meetingId.isEmpty()) {
       MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
       joinMeeting(userEntity, meetingEntity);
-    }
-    else if (!Objects.equals(request.superMeetingID, "")) {
-      List<MeetingEntity> meetingList = meetingService.findMeetingsBySuperID(request.superMeetingID);
+    } else if (request.superMeetingId != null && !request.superMeetingId.isEmpty()) {
+      List<MeetingEntity> meetingList = meetingService.findMeetingsBySuperID(request.superMeetingId);
 
       for (MeetingEntity m : meetingList) {
         joinMeeting(userEntity, m);
