@@ -45,11 +45,10 @@ public class StudyGroupService implements
   public void create(StudyGroupJoinRequest request, String clientUuid) {
     UserEntity userEntity = userService.findByUUID(UUIDService.parseUUID(clientUuid));
 
-    if (!Objects.equals(request.meetingId, "")) {
+    if (request.meetingId != null && !request.meetingId.isEmpty()) {
       MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
       joinMeeting(userEntity, meetingEntity);
-    }
-    else if (!Objects.equals(request.superMeetingId, "")) {
+    } else if (request.superMeetingId != null && !request.superMeetingId.isEmpty()) {
       List<MeetingEntity> meetingList = meetingService.findMeetingsBySuperID(request.superMeetingId);
 
       for (MeetingEntity m : meetingList) {
