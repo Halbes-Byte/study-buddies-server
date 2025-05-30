@@ -107,7 +107,7 @@ public class MeetingCreationService {
   private MeetingEntity cloneMeetingEntity(MeetingEntity meetingEntity) {
     return MeetingEntity.builder()
         .superId(meetingEntity.getSuperId())
-        .title(meetingEntity.getTitle())
+        .module(meetingEntity.getModule())
         .description(meetingEntity.getDescription())
         .dateFrom(meetingEntity.getDateFrom())
         .dateUntil(meetingEntity.getDateUntil())

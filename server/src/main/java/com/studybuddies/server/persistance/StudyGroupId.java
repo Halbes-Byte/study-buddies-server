@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudyGroupId implements Serializable {
-
   private UUID userId;
   private UUID meetingId;
 }

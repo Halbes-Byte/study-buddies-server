@@ -9,7 +9,7 @@ public class MeetingResponse implements Responses {
   public String id;
   public String superId;
   @NotBlank
-  public String title;
+  public String module;
   public String description;
   @NotBlank
   public String dateFrom;

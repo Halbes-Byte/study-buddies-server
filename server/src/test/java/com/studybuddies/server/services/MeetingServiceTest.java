@@ -46,7 +46,7 @@ class MeetingServiceTest {
   void createMeetingsTest_invalidRepeatable_throwsException() {
     // given
     MeetingCreationRequest mockMeeting = new MeetingCreationRequest();
-    mockMeeting.setTitle("Invalid Repeatable Meeting");
+    mockMeeting.setModule("Invalid Repeatable Meeting");
     mockMeeting.setDescription("Meeting with invalid repeatable value.");
     mockMeeting.setPlace("");
     mockMeeting.setRepeatable("invalid_value");
@@ -72,7 +72,7 @@ class MeetingServiceTest {
   void createMeetings_success() {
     // given
     MeetingCreationRequest mockMeeting = new MeetingCreationRequest();
-    mockMeeting.setTitle("Valid Meeting");
+    mockMeeting.setModule("Valid Meeting");
     mockMeeting.setDescription("");
     mockMeeting.setPlace("");
     mockMeeting.setRepeatable("NEVER");
@@ -155,19 +155,19 @@ class MeetingServiceTest {
     mockUser.setUuid(UUID.randomUUID());
     UUID meetingId = UUID.randomUUID();
     MeetingEntity existingMeeting = new MeetingEntity();
-    existingMeeting.setTitle("Old Title");
+    existingMeeting.setModule("Old Module");
     existingMeeting.setDescription("Old Description");
     existingMeeting.setPlace("Old Place");
     existingMeeting.setCreator(mockUser);
 
     MeetingChangeRequest mockChangeRequest = new MeetingChangeRequest();
-    mockChangeRequest.setTitle("New Title"); // Should be updated
+    mockChangeRequest.setModule("New Module"); // Should be updated
     mockChangeRequest.setDescription(null);  // Should NOT be updated
     mockChangeRequest.setPlace(null);  // Should NOT be updated
     mockChangeRequest.setChangeType(ChangeType.OCCURRENCE);
 
     MeetingEntity changedMeeting = new MeetingEntity();
-    changedMeeting.setTitle("New Title");
+    changedMeeting.setModule("New Module");
     changedMeeting.setDescription(null);
     changedMeeting.setPlace(null);
 
@@ -179,7 +179,7 @@ class MeetingServiceTest {
     meetingService.update(meetingId.toString(), mockChangeRequest, mockUser.getUuid().toString());
 
     // then
-    assertEquals("New Title", existingMeeting.getTitle()); // Updated
+    assertEquals("New Module", existingMeeting.getModule()); // Updated
     assertEquals("Old Description", existingMeeting.getDescription()); // Not updated
     assertEquals("Old Place", existingMeeting.getPlace()); // Not updated
 

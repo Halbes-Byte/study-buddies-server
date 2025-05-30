@@ -10,7 +10,7 @@ import lombok.Setter;
 public class MeetingChangeRequest implements ChangeRequest {
 
   public ChangeType changeType;
-  public String title;
+  public String module;
   public String description;
   public String dateFrom;
   public String dateUntil;

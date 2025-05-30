@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -41,16 +42,26 @@ public class StudyGroupService implements
 
   @Override
   public void create(StudyGroupJoinRequest request, String clientUuid) {
-
-    MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
     UserEntity userEntity = userService.findByUUID(UUIDService.parseUUID(clientUuid));
 
-    joinMeeting(userEntity, meetingEntity);
+    if (!Objects.equals(request.meetingId, "")) {
+      MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
+      joinMeeting(userEntity, meetingEntity);
+    }
+    else if (!Objects.equals(request.superMeetingID, "")) {
+      List<MeetingEntity> meetingList = meetingService.findMeetingsBySuperID(request.superMeetingID);
+
+      for (MeetingEntity m : meetingList) {
+        joinMeeting(userEntity, m);
+      }
+    }
   }
 
   @Override
   public void delete(String targetUUID, String clientUUID) {
+    // Restricted through the CRUD Interface :/
     leaveMeeting(clientUUID, targetUUID);
+    leaveSuperMeeting(clientUUID, targetUUID);
   }
 
   private void joinMeeting(UserEntity userEntity, MeetingEntity meetingEntity) {
@@ -67,6 +78,11 @@ public class StudyGroupService implements
   private void leaveMeeting(String userUUID, String meetingUUID) {
     studyGroupRepository.deleteByUserIdAndMeetingId(UUIDService.parseUUID(userUUID),
         UUIDService.parseUUID(meetingUUID));
+  }
+
+  private void leaveSuperMeeting(String userUUID, String meetingSuperUUID) {
+    studyGroupRepository.deleteByUserIdAndSuperMeetingId(UUIDService.parseUUID(userUUID),
+            UUIDService.parseUUID(meetingSuperUUID));
   }
 
   private List<StudyGroupEntity> findStudyGroupsByUUID(String someUUID) {

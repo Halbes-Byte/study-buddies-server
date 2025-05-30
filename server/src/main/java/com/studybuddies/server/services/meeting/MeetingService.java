@@ -87,5 +87,9 @@ public class MeetingService implements
   public MeetingEntity findMeetingByUUID(String uuid) {
     return meetingRepository.findById(UUIDService.parseUUID(uuid)).orElse(null);
   }
+
+  public List<MeetingEntity> findMeetingsBySuperID(String superID) {
+    return meetingRepository.findBySuperId(UUIDService.parseUUID(superID));
+  }
 }
 
