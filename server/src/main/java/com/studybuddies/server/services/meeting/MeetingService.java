@@ -1,10 +1,11 @@
 package com.studybuddies.server.services.meeting;
 
+import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.persistance.MeetingRepository;
 import com.studybuddies.server.services.UUIDService;
-import com.studybuddies.server.services.user.UserService;
 import com.studybuddies.server.services.exceptions.MeetingNotFoundException;
+import com.studybuddies.server.services.exceptions.ModuleNotFoundException;
 import com.studybuddies.server.services.interfaces.CRUDService;
 import com.studybuddies.server.web.dto.meeting.MeetingChangeRequest;
 import com.studybuddies.server.web.dto.meeting.MeetingCreationRequest;
@@ -12,6 +13,7 @@ import com.studybuddies.server.web.dto.meeting.MeetingResponse;
 import com.studybuddies.server.web.mapper.MeetingMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
@@ -25,19 +27,25 @@ public class MeetingService implements
 
   private final MeetingMapper meetingMapper;
   private final MeetingRepository meetingRepository;
-  private final UserService userService;
   private final MeetingCreationService meetingCreationService;
   private final MeetingChangeService meetingChangeService;
 
   @Override
-  public List<MeetingResponse> get(String meetingId) {
+  public List<MeetingResponse> get(String clientUUID, Filter filter) {
     List<MeetingResponse> responses = new ArrayList<>();
+    List<MeetingEntity> meetings;
+    UUID client = UUIDService.parseUUID(clientUUID);
 
-    if (meetingId == null) {
-      return findAllMeetingEntities();
+    if(filter == null) {
+      meetings = meetingRepository.findAll(MeetingSpecificationService.getSpecParticipant(client));
+    } else {
+      var module = filter.getFilters().get("module");
+
+      if(module != null)
+        meetings = meetingRepository.findAll(MeetingSpecificationService.getSpecRelevantMeetings(UUIDService.parseUUID(clientUUID), module.toUpperCase()));
+      else
+        throw new ModuleNotFoundException("Module not found");
     }
-    List<MeetingEntity> meetings = meetingRepository.findBySuperId(
-        UUIDService.parseUUID(meetingId));
 
     for (var meetingEntity : meetings) {
       responses.add(meetingMapper.of(meetingEntity));
@@ -72,16 +80,6 @@ public class MeetingService implements
     } else {
       throw new MeetingNotFoundException("");
     }
-  }
-
-  private List<MeetingResponse> findAllMeetingEntities() {
-    ArrayList<MeetingResponse> meetings = new ArrayList<>();
-    Iterable<MeetingEntity> meetingIterator = meetingRepository.findAll();
-
-    for (MeetingEntity e : meetingIterator) {
-      meetings.add(meetingMapper.of(e));
-    }
-    return meetings;
   }
 
   public MeetingEntity findMeetingByUUID(String uuid) {

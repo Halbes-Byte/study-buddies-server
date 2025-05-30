@@ -17,7 +17,7 @@ public class StudyGroupController {
 
   @GetMapping
   public ResponseEntity<?> get(String uuid) {
-    return new ResponseEntity<>(studyGroupService.get(uuid), HttpStatus.OK);
+    return new ResponseEntity<>(studyGroupService.get(uuid, null), HttpStatus.OK);
   }
 
   @PostMapping

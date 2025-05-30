@@ -1,5 +1,6 @@
 package com.studybuddies.server.services;
 
+import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.MeetingEntity;
 import com.studybuddies.server.domain.StudyGroupEntity;
 import com.studybuddies.server.domain.UserEntity;
@@ -31,7 +32,7 @@ public class StudyGroupService implements
   private final StudyGroupMapper studyGroupMapper;
 
   @Override
-  public List<StudyGroupResponse> get(String id) {
+  public List<StudyGroupResponse> get(String id, Filter filter) {
     var studyGroupEntities = findStudyGroupsByUUID(id);
     List<StudyGroupResponse> responses = new ArrayList<>();
     for (StudyGroupEntity studyGroupEntity : studyGroupEntities) {

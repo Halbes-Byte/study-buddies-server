@@ -1,5 +1,6 @@
 package com.studybuddies.server.services.module;
 
+import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.ModuleEntity;
 import com.studybuddies.server.persistance.ModuleRepository;
 import com.studybuddies.server.services.exceptions.ModuleMayAlreadyExistException;
@@ -30,7 +31,7 @@ public class ModuleCrudService implements CRUDService<ModuleCreationRequest, Mod
   }
 
   @Override
-  public List<ModuleResponse> get(String name) {
+  public List<ModuleResponse> get(String name, Filter filter) {
     String creationModule = moduleUtilService.normalizeModuleName(name);
     Iterable<ModuleEntity> iterable = moduleRepository.findAll();
 

@@ -24,24 +24,24 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MeetingEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  UUID id;
+@Id
+@GeneratedValue(strategy = GenerationType.UUID)
+UUID id;
 
-  UUID superId;
+UUID superId;
 
-  @Column(nullable = false)
-  String module;
+@Column(nullable = false)
+String module;
 
-  String description;
+String description;
 
-  @Column(nullable = false)
-  LocalDateTime dateFrom;
-  @Column(nullable = false)
-  LocalDateTime dateUntil;
-  Repeat repeatable;
-  String place;
+@Column(nullable = false)
+LocalDateTime dateFrom;
+@Column(nullable = false)
+LocalDateTime dateUntil;
+Repeat repeatable;
+String place;
 
-  @ManyToOne
-  private UserEntity creator;
+@ManyToOne
+private UserEntity creator;
 }
