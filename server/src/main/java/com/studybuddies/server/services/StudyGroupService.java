@@ -49,8 +49,8 @@ public class StudyGroupService implements
       MeetingEntity meetingEntity = meetingService.findMeetingByUUID(request.meetingId);
       joinMeeting(userEntity, meetingEntity);
     }
-    else if (!Objects.equals(request.superMeetingID, "")) {
-      List<MeetingEntity> meetingList = meetingService.findMeetingsBySuperID(request.superMeetingID);
+    else if (!Objects.equals(request.superMeetingId, "")) {
+      List<MeetingEntity> meetingList = meetingService.findMeetingsBySuperID(request.superMeetingId);
 
       for (MeetingEntity m : meetingList) {
         joinMeeting(userEntity, m);

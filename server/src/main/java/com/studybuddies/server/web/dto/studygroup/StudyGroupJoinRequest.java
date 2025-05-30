@@ -1,10 +1,9 @@
 package com.studybuddies.server.web.dto.studygroup;
 
 import com.studybuddies.server.web.dto.interfaces.CreationRequest;
-import jakarta.validation.constraints.NotBlank;
 
 public class StudyGroupJoinRequest implements CreationRequest {
-  public String superMeetingID;
+  public String superMeetingId;
   public String meetingId;
 
   // User ID given through Request
