@@ -59,7 +59,6 @@ public class StudyGroupService implements
 
   @Override
   public void delete(String targetUUID, String clientUUID) {
-    // Restricted through the CRUD Interface :/
     leaveMeeting(clientUUID, targetUUID);
     leaveSuperMeeting(clientUUID, targetUUID);
   }

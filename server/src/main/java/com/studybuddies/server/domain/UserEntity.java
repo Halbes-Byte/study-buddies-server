@@ -1,11 +1,10 @@
 package com.studybuddies.server.domain;
 
-import jakarta.persistence.CollectionTable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
@@ -24,8 +23,6 @@ public class UserEntity {
   @Column(unique = true, nullable = false)
   String username;
 
-  @ElementCollection
-  @CollectionTable(name = "userModules", joinColumns = @JoinColumn(name = "userUuid"))
-  @Column(name = "moduleName")
-  private List<String> modules;
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<UserModule> modules;
 }

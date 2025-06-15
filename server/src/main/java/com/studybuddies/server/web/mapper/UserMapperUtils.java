@@ -1,20 +1,27 @@
 package com.studybuddies.server.web.mapper;
 
+import com.studybuddies.server.domain.UserModule;
 import com.studybuddies.server.web.dto.module.ModuleResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapperUtils {
+  @Named("userModulesToString")
+  public List<ModuleResponse> userModulesToJson(List<UserModule> modules) {
+    if (modules == null) return new ArrayList<>();
 
-  @Named("stringListToRespList")
-  public List<ModuleResponse> stringListToRespList(List<String> stringList) {
-    List<ModuleResponse> respList = new ArrayList<>();
-    for (String s : stringList) {
-      respList.add(new ModuleResponse(s));
-    }
-    return respList;
+    return modules.stream()
+        .map(module -> new ModuleResponse(
+            module.getName(),
+            module.getExamDate(),
+            module.getExamLoc(),
+            module.getChapter()
+        ))
+        .collect(Collectors.toList());
   }
+
 }

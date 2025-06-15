@@ -1,7 +1,10 @@
 package com.studybuddies.server.services.user;
 
+import com.studybuddies.server.domain.ChapterEntity;
+import com.studybuddies.server.domain.CheckboxEntity;
 import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.UserEntity;
+import com.studybuddies.server.domain.UserModule;
 import com.studybuddies.server.persistance.UserRepository;
 import com.studybuddies.server.services.UUIDService;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
@@ -9,10 +12,11 @@ import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException
 import com.studybuddies.server.services.interfaces.CRUDService;
 import com.studybuddies.server.services.module.ModuleValidationService;
 import com.studybuddies.server.web.dto.user.AccountChangeRequest;
-import com.studybuddies.server.web.dto.user.ModuleUpdateRequest;
 import com.studybuddies.server.web.dto.user.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.user.UserModuleReq;
 import com.studybuddies.server.web.dto.user.UserResponse;
 import com.studybuddies.server.web.mapper.UserMapper;
+import com.studybuddies.server.web.mapper.UserModuleMapper;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ public class UserService implements
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private final UserModuleMapper userModuleMapper;
   private final ModuleValidationService moduleValidationService;
 
   @Override
@@ -87,9 +92,9 @@ public class UserService implements
   }
 
   @Transactional
-  public void updateModules(List<ModuleUpdateRequest> moduleUpdateRequest, String uuid) {
+  public void Old_updateModules(List<UserModuleReq> moduleUpdateRequest, String uuid) {
     var foundModules = moduleUpdateRequest.stream()
-        .map(ModuleUpdateRequest::getName)
+        .map(UserModuleReq::getName)
         .filter(moduleValidationService::exists)
         .map(String::toUpperCase)
         .collect(Collectors.toCollection(ArrayList::new));
@@ -98,7 +103,34 @@ public class UserService implements
     if (target.isEmpty()) {
       throw new UserAccountSetupNotFinished("User not found");
     }
-    target.get().setModules(foundModules);
+    //target.get().setModules(foundModules);
     userRepository.save(target.get());
+  }
+
+  @Transactional
+  public void updateModules(List<UserModuleReq> moduleUpdateRequest, String uuidStr) {
+    UUID uuid = UUID.fromString(uuidStr);
+    UserEntity user = userRepository.findById(uuid)
+        .orElseThrow(() -> new UserAccountSetupNotFinished("User not found"));
+
+    user.getModules().clear();
+
+    for (UserModuleReq req : moduleUpdateRequest) {
+      if (!moduleValidationService.exists(req.getName())) continue;
+
+      UserModule module = userModuleMapper.of(req);
+      module.setUser(user);
+
+      for (ChapterEntity chapter : module.getChapter()) {
+        chapter.setModule(module);
+        for (CheckboxEntity cb : chapter.getCheckbox()) {
+          cb.setChapter(chapter);
+        }
+      }
+
+      user.getModules().add(module);
+    }
+
+    userRepository.save(user);
   }
 }
