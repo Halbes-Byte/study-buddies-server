@@ -7,17 +7,13 @@ services:
       KC_DB_URL: jdbc:postgresql://keycloakdb1:5432/keycloak
       KC_DB_USERNAME: ${KC_DB_USERNAME}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
-
       KEYCLOAK_ADMIN: ${KC_DB_USERNAME}
       KEYCLOAK_ADMIN_PASSWORD: pass
-
-
       KC_HOSTNAME: localhost
       KC_HOSTNAME_PORT: 8080
       KC_HOSTNAME_STRICT: 'false'
       KC_HOSTNAME_STRICT_HTTPS: 'false'
       KC_LOG_LEVEL: debug
-
       KC_METRICS_ENABLED: 'true'
       KC_HEALTH_ENABLED: 'true'
       KC_PROXY: edge
@@ -39,5 +35,20 @@ services:
     ports:
       - '5432:5432'
 ######################################################
+  # Spring Boot App PostgreSQL Database
+  app_postgres:
+    image: postgres:15-alpine
+    container_name: app-postgres-db
+    restart: unless-stopped
+    ports:
+      - "6543:5432"
+    environment:
+      POSTGRES_DB: myapp_db
+      POSTGRES_USER: myapp_user
+      POSTGRES_PASSWORD: myapp_password
+    volumes:
+      - app_postgres_data:/var/lib/postgresql/data
+######################################################
 volumes:
   postgres_data:
+  app_postgres_data:

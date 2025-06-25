@@ -5,8 +5,10 @@ import com.studybuddies.server.domain.CheckboxEntity;
 import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.UserEntity;
 import com.studybuddies.server.domain.UserModule;
+import com.studybuddies.server.persistance.UserModuleRepository;
 import com.studybuddies.server.persistance.UserRepository;
 import com.studybuddies.server.services.UUIDService;
+import com.studybuddies.server.services.exceptions.ModuleNotFoundException;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
 import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException;
 import com.studybuddies.server.services.interfaces.CRUDService;
@@ -19,11 +21,10 @@ import com.studybuddies.server.web.mapper.UserMapper;
 import com.studybuddies.server.web.mapper.UserModuleMapper;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class UserService implements
   private final UserMapper userMapper;
   private final UserModuleMapper userModuleMapper;
   private final ModuleValidationService moduleValidationService;
+  private final UserModuleRepository userModuleRepository;
 
   @Override
   public List<UserResponse> get(String userUUID, Filter filter) {
@@ -92,22 +94,6 @@ public class UserService implements
   }
 
   @Transactional
-  public void Old_updateModules(List<UserModuleReq> moduleUpdateRequest, String uuid) {
-    var foundModules = moduleUpdateRequest.stream()
-        .map(UserModuleReq::getName)
-        .filter(moduleValidationService::exists)
-        .map(String::toUpperCase)
-        .collect(Collectors.toCollection(ArrayList::new));
-
-    Optional<UserEntity> target = userRepository.findById(UUIDService.parseUUID(uuid));
-    if (target.isEmpty()) {
-      throw new UserAccountSetupNotFinished("User not found");
-    }
-    //target.get().setModules(foundModules);
-    userRepository.save(target.get());
-  }
-
-  @Transactional
   public void updateModules(List<UserModuleReq> moduleUpdateRequest, String uuidStr) {
     UUID uuid = UUID.fromString(uuidStr);
     UserEntity user = userRepository.findById(uuid)
@@ -116,21 +102,27 @@ public class UserService implements
     user.getModules().clear();
 
     for (UserModuleReq req : moduleUpdateRequest) {
-      if (!moduleValidationService.exists(req.getName())) continue;
+      if (!moduleValidationService.exists(req.getName())) throw new ModuleNotFoundException("");
 
       UserModule module = userModuleMapper.of(req);
       module.setUser(user);
 
-      for (ChapterEntity chapter : module.getChapter()) {
-        chapter.setModule(module);
-        for (CheckboxEntity cb : chapter.getCheckbox()) {
-          cb.setChapter(chapter);
+      if (module.getChapter() != null) {
+        for (ChapterEntity chapter : module.getChapter()) {
+          module.setName(module.getName().toUpperCase());
+          chapter.setModule(module);
+
+          if (chapter.getCheckbox() != null) {
+            for (CheckboxEntity cb : chapter.getCheckbox()) {
+              cb.setChapter(chapter);
+            }
+          }
         }
       }
 
       user.getModules().add(module);
+      userModuleRepository.save(module);
     }
-
     userRepository.save(user);
   }
 }
