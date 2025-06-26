@@ -1,5 +1,7 @@
 package com.studybuddies.server.web.dto.chapter;
 
-public class CheckboxCreationRequest {
-  private String title;
+import com.studybuddies.server.web.dto.interfaces.CreationRequest;
+
+public class CheckboxCreationRequest implements CreationRequest {
+  public String title;
 }

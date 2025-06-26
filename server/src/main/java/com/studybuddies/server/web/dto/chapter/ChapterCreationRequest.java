@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class ChapterCreationRequest implements CreationRequest {
-  private String title;
-  private CheckboxCreationRequest[] checkbox;
+  public String title;
+  public CheckboxCreationRequest[] checkbox;
 }
