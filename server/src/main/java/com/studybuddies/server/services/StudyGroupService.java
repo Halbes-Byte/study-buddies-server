@@ -19,7 +19,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -59,7 +58,6 @@ public class StudyGroupService implements
 
   @Override
   public void delete(String targetUUID, String clientUUID) {
-    // Restricted through the CRUD Interface :/
     leaveMeeting(clientUUID, targetUUID);
     leaveSuperMeeting(clientUUID, targetUUID);
   }

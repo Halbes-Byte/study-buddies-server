@@ -14,6 +14,6 @@ public interface UserMapper {
 
   @Mapping(source = "uuid", target = "uuid")
   @Mapping(source = "username", target = "username")
-  @Mapping(source = "modules", target = "modules", qualifiedByName = "stringListToRespList")
+  @Mapping(source = "modules", target = "modules", qualifiedByName = "userModulesToString")
   UserResponse of(UserEntity userEntity);
 }

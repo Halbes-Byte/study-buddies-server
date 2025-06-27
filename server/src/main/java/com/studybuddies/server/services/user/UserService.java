@@ -1,27 +1,27 @@
 package com.studybuddies.server.services.user;
 
+import com.studybuddies.server.domain.ChapterEntity;
+import com.studybuddies.server.domain.CheckboxEntity;
 import com.studybuddies.server.domain.Filter;
 import com.studybuddies.server.domain.UserEntity;
+import com.studybuddies.server.domain.UserModule;
 import com.studybuddies.server.persistance.UserRepository;
 import com.studybuddies.server.services.UUIDService;
+import com.studybuddies.server.services.exceptions.ModuleNotFoundException;
 import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
 import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException;
 import com.studybuddies.server.services.interfaces.CRUDService;
 import com.studybuddies.server.services.module.ModuleValidationService;
 import com.studybuddies.server.web.dto.user.AccountChangeRequest;
-import com.studybuddies.server.web.dto.user.ModuleUpdateRequest;
 import com.studybuddies.server.web.dto.user.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.user.UserModuleReq;
 import com.studybuddies.server.web.dto.user.UserResponse;
 import com.studybuddies.server.web.mapper.UserMapper;
+import com.studybuddies.server.web.mapper.UserModuleMapper;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.*;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +31,7 @@ public class UserService implements
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private final UserModuleMapper userModuleMapper;
   private final ModuleValidationService moduleValidationService;
 
   @Override
@@ -63,7 +64,13 @@ public class UserService implements
   @Override
   public void update(String targetUUID, AccountChangeRequest accountChangeRequest,
       String clientUUID) {
-    throw new NotImplementedException("Not implemented yet");
+    UUID uuid = UUIDService.parseUUID(targetUUID);
+    if (existsByUUID(uuid)) {
+      UserEntity user = userRepository.findById(uuid).get();
+      user.setModules(accountChangeRequest.modules);
+      user.setUsername(accountChangeRequest.username);
+      userRepository.save(user);
+    }
   }
 
   @Override
@@ -87,18 +94,33 @@ public class UserService implements
   }
 
   @Transactional
-  public void updateModules(List<ModuleUpdateRequest> moduleUpdateRequest, String uuid) {
-    var foundModules = moduleUpdateRequest.stream()
-        .map(ModuleUpdateRequest::getName)
-        .filter(moduleValidationService::exists)
-        .map(String::toUpperCase)
-        .collect(Collectors.toCollection(ArrayList::new));
+  public void updateModules(List<UserModuleReq> moduleUpdateRequest, String uuidStr) {
+    UUID uuid = UUID.fromString(uuidStr);
+    UserEntity user = userRepository.findById(uuid)
+        .orElseThrow(() -> new UserAccountSetupNotFinished("User not found"));
 
-    Optional<UserEntity> target = userRepository.findById(UUIDService.parseUUID(uuid));
-    if (target.isEmpty()) {
-      throw new UserAccountSetupNotFinished("User not found");
+    user.getModules().clear();
+
+    for (UserModuleReq req : moduleUpdateRequest) {
+      if (!moduleValidationService.exists(req.getName())) {
+        throw new ModuleNotFoundException("");
+      }
+
+      UserModule module = userModuleMapper.of(req);
+      module.setName(module.getName().toUpperCase());
+
+      if (module.getChapter() != null) {
+        for (ChapterEntity chapter : module.getChapter()) {
+          if (chapter.getCheckbox() != null) {
+            for (CheckboxEntity cb : chapter.getCheckbox()) {
+              cb.setUserUuid(uuid);
+            }
+          }
+        }
+      }
+
+      user.getModules().add(module);
     }
-    target.get().setModules(foundModules);
-    userRepository.save(target.get());
+    userRepository.save(user);
   }
 }

@@ -1,8 +1,8 @@
 package com.studybuddies.server.web;
 
 import com.studybuddies.server.services.user.UserService;
-import com.studybuddies.server.web.dto.user.ModuleUpdateRequest;
 import com.studybuddies.server.web.dto.user.UserAccountSetupRequest;
+import com.studybuddies.server.web.dto.user.UserModuleReq;
 import com.studybuddies.server.web.dto.user.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-  UserService userService;
+  private UserService userService;
 
   @GetMapping
   public List<UserResponse> get(HttpServletRequest request) {
@@ -41,7 +41,7 @@ public class UserController {
   }
 
   @PutMapping
-  public ResponseEntity<?> put(HttpServletRequest request, @RequestBody List<ModuleUpdateRequest> updateRequest) {
+  public ResponseEntity<?> put(HttpServletRequest request, @RequestBody List<UserModuleReq> updateRequest) {
     String userUUID = request.getUserPrincipal().getName();
     userService.updateModules(updateRequest, userUUID);
     return new ResponseEntity<>(userUUID, HttpStatus.OK);
