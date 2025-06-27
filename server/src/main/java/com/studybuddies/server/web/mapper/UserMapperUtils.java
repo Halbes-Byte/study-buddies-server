@@ -4,7 +4,6 @@ import com.studybuddies.server.domain.UserModule;
 import com.studybuddies.server.web.dto.module.ModuleResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ public class UserMapperUtils {
             module.getExamLoc(),
             module.getChapter()
         ))
-        .collect(Collectors.toList());
+        .toList();
   }
 
 }

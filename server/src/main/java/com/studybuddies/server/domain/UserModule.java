@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +29,7 @@ public class UserModule {
   private String examDate;
   private String examLoc;
 
-  @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "module_id")
   private List<ChapterEntity> chapter = new ArrayList<>();
-
-  @ManyToOne
-  @JoinColumn(name = "user_uuid")
-  private UserEntity user;
 }

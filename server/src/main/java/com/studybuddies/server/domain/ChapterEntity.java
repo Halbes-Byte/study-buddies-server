@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +24,7 @@ public class ChapterEntity {
   private Long id;
   private String title;
 
-  @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "chapter_id")
   private List<CheckboxEntity> checkbox = new ArrayList<>();
-
-  @ManyToOne
-  @JoinColumn(name = "module_id")
-  private UserModule module;
 }
