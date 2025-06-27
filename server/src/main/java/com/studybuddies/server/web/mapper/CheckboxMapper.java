@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 public interface CheckboxMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "checked", constant = "false")
-  @Mapping(target = "chapter", ignore = true)
   @Mapping(target = "userUuid", ignore = true)
   CheckboxEntity of(CheckboxCreationRequest dto);
 }
