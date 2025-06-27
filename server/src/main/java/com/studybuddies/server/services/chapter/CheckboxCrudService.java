@@ -18,29 +18,12 @@ public class CheckboxCrudService implements CRUDService<CheckboxCreationRequest,
     private CheckboxMapper checkboxMapper;
 
     @Override
-    public void create(CheckboxCreationRequest request, String clientUUID) {
-        checkboxRepository.save(checkboxMapper.of(request));
+    public void update(String targetUUID, CheckboxChangeRequest r, String clientUUID) {
+
+
+
+
     }
 
-    @Override
-    public void update(String targetUUID, CheckboxChangeRequest request, String clientUUID) {
-        Optional<CheckboxEntity> optionalCheckboxEntity = checkboxRepository.findById(UUIDService.parseUUID(targetUUID));
 
-        if (optionalCheckboxEntity.isPresent())
-        {
-            CheckboxEntity checkboxEntity = optionalCheckboxEntity.get();
-            CheckboxEntity newCheckBoxEntity = checkboxMapper.of(request);
-
-            checkboxEntity.setTitle(newCheckBoxEntity.getTitle());
-            checkboxEntity.setChecked(newCheckBoxEntity.isChecked());
-
-            checkboxRepository.deleteById(UUID.fromString(targetUUID));
-            checkboxRepository.save(checkboxEntity);
-        }
-    }
-
-    @Override
-    public void delete(String targetUUID, String clientUUID) {
-        checkboxRepository.deleteById(UUIDService.parseUUID(targetUUID));
-    }
 }

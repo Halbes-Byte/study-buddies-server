@@ -14,7 +14,6 @@ import com.studybuddies.server.services.exceptions.UserAccountSetupNotFinished;
 import com.studybuddies.server.services.exceptions.UsernameAlreadyTakenException;
 import com.studybuddies.server.services.interfaces.CRUDService;
 import com.studybuddies.server.services.module.ModuleValidationService;
-import com.studybuddies.server.web.dto.chapter.ChapterCreationRequest;
 import com.studybuddies.server.web.dto.user.AccountChangeRequest;
 import com.studybuddies.server.web.dto.user.UserAccountSetupRequest;
 import com.studybuddies.server.web.dto.user.UserModuleReq;
@@ -24,16 +23,9 @@ import com.studybuddies.server.web.mapper.UserMapper;
 import com.studybuddies.server.web.mapper.UserModuleMapper;
 import com.studybuddies.server.web.mapper.exceptions.AccountSetupAlreadyFinished;
 import jakarta.transaction.Transactional;
-
 import java.util.*;
-import java.util.stream.Collectors;
-
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PatchMapping;
 
 @Service
 @AllArgsConstructor
@@ -76,39 +68,40 @@ public class UserService implements
   }
 
   public void patch(List<UserModuleReq> requestList, String userUUID) {
-      Optional<UserEntity> maybeUser = userRepository.findById(UUIDService.parseUUID(userUUID));
+    Optional<UserEntity> maybeUser = userRepository.findById(UUIDService.parseUUID(userUUID));
 
-      if (maybeUser.isPresent()) {
-          UserEntity user = maybeUser.get();
-          List<UserModule> userModules = user.getModules();
+    if (maybeUser.isPresent()) {
+      UserEntity user = maybeUser.get();
+      List<UserModule> userModules = user.getModules();
 
-          List<CheckboxEntity> userCheckboxes = userModules.stream()
-                  .flatMap(module -> module.getChapter().stream())
-                  .flatMap(chapter -> chapter.getCheckbox().stream())
-                  .toList();
+      List<CheckboxEntity> userCheckboxes = userModules.stream()
+          .flatMap(module -> module.getChapter().stream())
+          .flatMap(chapter -> chapter.getCheckbox().stream())
+          .toList();
 
-          List<CheckboxEntity> reqCheckboxes = requestList.stream()
-                  .flatMap(module -> Arrays.stream(module.getChapter()))
-                  .flatMap(chapterEntityRequest -> chapterMapper.of(chapterEntityRequest).getCheckbox().stream())
-                  .toList();
+      List<CheckboxEntity> reqCheckboxes = requestList.stream()
+          .flatMap(module -> Arrays.stream(module.getChapter()))
+          .flatMap(
+              chapterEntityRequest -> chapterMapper.of(chapterEntityRequest).getCheckbox().stream())
+          .toList();
 
-        for (CheckboxEntity userCheckbox : userCheckboxes) {
-          for (CheckboxEntity reqCheckBox : reqCheckboxes) {
-            if (userCheckbox.getId() == reqCheckBox.getId()) {
-              CheckboxEntity candidate = checkboxRepository.findById(userCheckbox.getId()).get();
-              candidate.setChecked(!candidate.isChecked());
-              checkboxRepository.save(candidate);
-            }
+      for (CheckboxEntity userCheckbox : userCheckboxes) {
+        for (CheckboxEntity reqCheckBox : reqCheckboxes) {
+          if (userCheckbox.getId() == reqCheckBox.getId()) {
+            CheckboxEntity candidate = checkboxRepository.findById(userCheckbox.getId()).get();
+            candidate.setChecked(!candidate.isChecked());
+            checkboxRepository.save(candidate);
           }
         }
       }
+    }
   }
 
   @Override
   public void update(String targetUUID, AccountChangeRequest accountChangeRequest,
       String clientUUID) {
     UUID uuid = UUIDService.parseUUID(targetUUID);
-    if(existsByUUID(uuid)) {
+    if (existsByUUID(uuid)) {
       UserEntity user = userRepository.findById(uuid).get();
       user.setModules(accountChangeRequest.modules);
       user.setUsername(accountChangeRequest.username);
@@ -145,7 +138,9 @@ public class UserService implements
     user.getModules().clear();
 
     for (UserModuleReq req : moduleUpdateRequest) {
-      if (!moduleValidationService.exists(req.getName())) throw new ModuleNotFoundException("");
+      if (!moduleValidationService.exists(req.getName())) {
+        throw new ModuleNotFoundException("");
+      }
 
       UserModule module = userModuleMapper.of(req);
       module.setUser(user);
@@ -158,6 +153,7 @@ public class UserService implements
           if (chapter.getCheckbox() != null) {
             for (CheckboxEntity cb : chapter.getCheckbox()) {
               cb.setChapter(chapter);
+              cb.setUserUuid(uuid);
             }
           }
         }
