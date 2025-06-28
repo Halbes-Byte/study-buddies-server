@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface CheckboxMapper {
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "checked", constant = "false")
+  @Mapping(target = "checked", source = "checked")
   @Mapping(target = "userUuid", ignore = true)
   CheckboxEntity of(CheckboxCreationRequest dto);
 }

@@ -4,4 +4,5 @@ import com.studybuddies.server.web.dto.interfaces.CreationRequest;
 
 public class CheckboxCreationRequest implements CreationRequest {
   public String title;
+  public boolean checked;
 }

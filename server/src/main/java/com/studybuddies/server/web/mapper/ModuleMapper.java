@@ -10,6 +10,10 @@ import org.mapstruct.Mapping;
 public interface ModuleMapper {
 
   @Mapping(source = "name", target = "name")
+  @Mapping(target = "examDate", ignore = true)
+  @Mapping(target = "examTime", ignore = true)
+  @Mapping(target = "examLoc", ignore = true)
+  @Mapping(target = "chapter", ignore = true)
   ModuleResponse of(ModuleEntity moduleEntity);
 
   @Mapping(source = "name", target = "name")
