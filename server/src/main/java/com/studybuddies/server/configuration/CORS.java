@@ -12,7 +12,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class CORS {
 
   @Bean
-  public CorsConfigurationSource cors() {
+    public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration conf = new CorsConfiguration();
     conf.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:7070"));
     conf.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
