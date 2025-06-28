@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {ChapterMapper.class})
 public interface UserModuleMapper {
   @Mapping(target = "id", ignore = true)
+  @Mapping(source = "examTime", target = "examTime")
   @Mapping(target = "chapter", source = "chapter")
   UserModule of(UserModuleReq dto);
 }
