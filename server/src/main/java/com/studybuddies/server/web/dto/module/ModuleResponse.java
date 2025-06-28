@@ -11,6 +11,7 @@ import lombok.Getter;
 public class ModuleResponse implements Responses {
   private String name;
   private String examDate;
+  private String examTime;
   private String examLoc;
   private List<ChapterEntity> chapter;
 }
