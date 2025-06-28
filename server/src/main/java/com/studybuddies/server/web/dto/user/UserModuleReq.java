@@ -8,5 +8,6 @@ public class UserModuleReq {
   private String name;
   private String examDate;
   private String examLoc;
+  private String examTime;
   private ChapterCreationRequest[] chapter;
 }

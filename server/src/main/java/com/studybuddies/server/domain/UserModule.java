@@ -28,6 +28,7 @@ public class UserModule {
   private String name;
   private String examDate;
   private String examLoc;
+  private String examTime;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "module_id")

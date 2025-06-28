@@ -17,6 +17,7 @@ public class UserMapperUtils {
         .map(module -> new ModuleResponse(
             module.getName(),
             module.getExamDate(),
+            module.getExamTime(),
             module.getExamLoc(),
             module.getChapter()
         ))
