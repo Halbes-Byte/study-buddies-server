@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MeetingSpecificationService {
 
-
   public static Specification<MeetingEntity> isThisWeek() {
     return (root, query, builder) -> {
       LocalDate today = LocalDate.now();

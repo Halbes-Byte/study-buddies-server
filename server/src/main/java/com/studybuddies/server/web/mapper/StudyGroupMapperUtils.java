@@ -10,7 +10,7 @@ public class StudyGroupMapperUtils {
 
   @Named("userEntityToId")
   public String userEntityToId(UserEntity user) {
-    return user.getUuid().toString();
+    return user.getUsername();
   }
 
   @Named("meetingEntityToId")

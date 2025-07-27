@@ -67,7 +67,7 @@ public class MeetingMapperUtils {
     if (userEntity == null) {
       return null;
     }
-    return userEntity.getUuid().toString();
+    return userEntity.getUsername();
   }
 
   @Named("assignExistingModule")
@@ -97,7 +97,6 @@ public class MeetingMapperUtils {
       return null;
     }
 
-    // only accept values in following format: dd-MM-yyyy:hh:mm
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy:HH:mm");
     LocalDateTime dueDate;
 
