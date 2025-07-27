@@ -65,6 +65,7 @@ public class UserService implements
   public void update(String targetUUID, AccountChangeRequest accountChangeRequest,
       String clientUUID) {
     UUID uuid = UUIDService.parseUUID(targetUUID);
+
     if (existsByUUID(uuid)) {
       UserEntity user = userRepository.findById(uuid).get();
       user.setModules(accountChangeRequest.modules);
@@ -118,7 +119,6 @@ public class UserService implements
           }
         }
       }
-
       user.getModules().add(module);
     }
     userRepository.save(user);

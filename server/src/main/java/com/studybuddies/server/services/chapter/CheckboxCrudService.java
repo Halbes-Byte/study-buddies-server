@@ -10,7 +10,6 @@ import com.studybuddies.server.web.dto.interfaces.Responses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor
 public class CheckboxCrudService implements CRUDService<CheckboxCreationRequest, CheckboxChangeRequest, Responses> {

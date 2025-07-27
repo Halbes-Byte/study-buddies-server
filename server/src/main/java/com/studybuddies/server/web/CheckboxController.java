@@ -15,7 +15,7 @@ public class CheckboxController {
 
   private final CheckboxCrudService checkboxCrudService;
 
-  @PostMapping
+  //@PostMapping
   public ResponseEntity<?> check(HttpServletRequest r, @RequestBody
       CheckboxChangeRequest checkboxChangeRequest) {
     checkboxCrudService.update(null, checkboxChangeRequest, r.getUserPrincipal().getName());
