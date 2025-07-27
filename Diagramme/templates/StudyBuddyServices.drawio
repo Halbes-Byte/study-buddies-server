@@ -1,0 +1,259 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:141.0) Gecko/20100101 Firefox/141.0" version="28.0.7">
+  <diagram name="Page-1" id="GhZkuhY52Pt5p3L_JzYU">
+    <mxGraphModel dx="2726" dy="2584" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-25" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="930" y="-140" width="430" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-23" value="" style="group" vertex="1" connectable="0" parent="5tVu-TXDrhhzPdQKvaCE-25">
+          <mxGeometry y="30" width="380" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-1" value="&lt;div&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;CRUDService&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-23">
+          <mxGeometry width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-18" value="&lt;div&gt;+ get() : List&amp;lt;S&amp;gt;&lt;/div&gt;&lt;div&gt;+ get(Filter filter)&amp;nbsp;: List&amp;lt;S&amp;gt;&lt;/div&gt;&lt;div&gt;+ get(String id, Filter filter)&amp;nbsp;: List&amp;lt;S&amp;gt;&lt;/div&gt;&lt;div&gt;+ get(String id, String clientUUID, Filter filter)&amp;nbsp;: List&amp;lt;S&amp;gt;&lt;/div&gt;&lt;div&gt;+ create(T request, String clientUUID)&amp;nbsp;: void&lt;/div&gt;&lt;div&gt;+ update(String targetUUID, R request, String clientUUID)&amp;nbsp;: void&lt;/div&gt;&lt;div&gt;+ delete(String targetUUID, String clientUUID)&amp;nbsp;: void&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-23">
+          <mxGeometry y="30" width="380" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-19" value="&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;T: CreationRequest,&lt;/font&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;R: ChangeRequest,&lt;/font&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;S: Response&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;dashed=1;dashPattern=8 8;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-25">
+          <mxGeometry x="350" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-26" value="" style="endArrow=block;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-6" target="5tVu-TXDrhhzPdQKvaCE-18">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="300" y="250" as="sourcePoint" />
+            <mxPoint x="460" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-28" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="70" y="140" width="400" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-6" value="CheckboxCrudService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-28">
+          <mxGeometry width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-27" value="update(String targetUUID, CheckboxChangeRequest r, String clientUUID)" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-28">
+          <mxGeometry y="30" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-30" value="" style="endArrow=block;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-3" target="5tVu-TXDrhhzPdQKvaCE-18">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1040" y="230" as="sourcePoint" />
+            <mxPoint x="330" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-31" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-11" target="5tVu-TXDrhhzPdQKvaCE-29">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="810" y="540" as="sourcePoint" />
+            <mxPoint x="970" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-32" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-10" target="5tVu-TXDrhhzPdQKvaCE-29">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="880" y="570" as="sourcePoint" />
+            <mxPoint x="1020" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-37" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="840" y="930" width="555" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-5" value="UserService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-37">
+          <mxGeometry width="555" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-36" value="&lt;div&gt;+ get(String userUUID, Filter filter) : List&amp;lt;UserResponse&amp;gt;&lt;/div&gt;&lt;div&gt;+ create(UserAccountSetupRequest userAccountSetupRequest, String userUUID) : void&lt;/div&gt;&lt;div&gt;+ update(String targetUUID, AccountChangeRequest accountChangeRequest, String clientUUID) : void&lt;/div&gt;&lt;div&gt;+ delete(String targetUuid, String senderUuid) : void&lt;/div&gt;&lt;div&gt;+ findByUUID(UUID uuid) : UserEntity&lt;/div&gt;&lt;div&gt;+ existsByUUID(UUID uuid) : bool&lt;/div&gt;&lt;div&gt;+ updateModules(List&amp;lt;UserModuleReq&amp;gt; moduleUpdateRequest, String uuidStr) : void&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-37">
+          <mxGeometry y="30" width="555" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-38" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-5" target="5tVu-TXDrhhzPdQKvaCE-35">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1680" y="660" as="sourcePoint" />
+            <mxPoint x="1100" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-39" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-5" target="5tVu-TXDrhhzPdQKvaCE-33">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1610" y="880" as="sourcePoint" />
+            <mxPoint x="1030" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-43" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1920" y="1160" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-15" value="ModuleValidationService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-43">
+          <mxGeometry width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-42" value="+ exists(String module) : bool" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-43">
+          <mxGeometry y="30" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-44" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-15" target="5tVu-TXDrhhzPdQKvaCE-36">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1280" y="995" as="sourcePoint" />
+            <mxPoint x="1607" y="910" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-45" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-11" target="5tVu-TXDrhhzPdQKvaCE-35">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1410" y="840" as="sourcePoint" />
+            <mxPoint x="1877" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-47" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1350" y="310" width="500" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-13" value="&lt;div&gt;MeetingSpecificationService&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-47">
+          <mxGeometry width="500" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-46" value="&lt;div&gt;+ &lt;u&gt;isThisWeek()&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;- &lt;u&gt;isParticipant(UUID userId)&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;- &lt;u&gt;isNotParticipant(UUID uiserId)&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;-&amp;nbsp;&lt;u&gt;isRelevant(String userModules)&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;+ &lt;u&gt;startsAfter(LocalDateTime start)&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;+ &lt;u&gt;endsBefore(LocalDateTime end)&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;+ &lt;u&gt;getSpecRelevantMeetings(UUID clientId, String modules)&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;+ &lt;u&gt;getSpecParticipant(UUID userId)&lt;/u&gt; : Specification&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-47">
+          <mxGeometry y="30" width="500" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-48" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-29" target="5tVu-TXDrhhzPdQKvaCE-13">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="370" y="710" as="sourcePoint" />
+            <mxPoint x="530" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-50" value="" style="endArrow=block;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-5" target="5tVu-TXDrhhzPdQKvaCE-18">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="955" y="1060" as="sourcePoint" />
+            <mxPoint x="390" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-51" value="" style="endArrow=block;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-8" target="5tVu-TXDrhhzPdQKvaCE-18">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="975" y="1190" as="sourcePoint" />
+            <mxPoint x="320" y="197.27272727272728" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-52" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-15" target="5tVu-TXDrhhzPdQKvaCE-49">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="640" y="1080" as="sourcePoint" />
+            <mxPoint x="640" y="1030" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-55" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-16" target="5tVu-TXDrhhzPdQKvaCE-35">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1540" y="820" as="sourcePoint" />
+            <mxPoint x="1947" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-58" value="" style="endArrow=block;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-2" target="5tVu-TXDrhhzPdQKvaCE-18">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="2228" y="930" as="sourcePoint" />
+            <mxPoint x="1430" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-59" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1660" y="140" width="360" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-2" value="ModuleCrudService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-59">
+          <mxGeometry width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-57" value="&lt;div&gt;+ get() : List&amp;lt;ModuleResponse&amp;gt;&lt;/div&gt;&lt;div&gt;+ get(String name, Filter filter) : List&amp;lt;ModuleResponse&amp;gt;&lt;/div&gt;&lt;div&gt;+ create(ModuleCreationRequest request, String clientUUID) : void&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-59">
+          <mxGeometry y="30" width="360" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-60" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-15" target="5tVu-TXDrhhzPdQKvaCE-57">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="2160" y="1000" as="sourcePoint" />
+            <mxPoint x="2160" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-61" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-14" target="5tVu-TXDrhhzPdQKvaCE-57">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="2050" y="980" as="sourcePoint" />
+            <mxPoint x="2050" y="930" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-62" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="2062.5" y="910" width="315" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-14" value="ModuleUtilService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-62">
+          <mxGeometry width="315" height="22.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-56" value="+ nomalizeModuleName(String moduleName) : void" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-62">
+          <mxGeometry y="22.5" width="315" height="37.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-64" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="450" y="1170" width="210" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-17" value="UUIDService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-64">
+          <mxGeometry width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-63" value="+ parseUUID(String uuidString) : UUID" style="html=1;whiteSpace=wrap;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-64">
+          <mxGeometry y="30" width="210" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-65" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="480" y="140" width="570" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-8" value="StudyGroupService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-65">
+          <mxGeometry width="570" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-49" value="&lt;div align=&quot;left&quot;&gt;+ create(String userUUID, Filter filter) : List&amp;lt;UserResponse&amp;gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;+ create(UserAccountSetupRequest userAccountSetupRequest, String userUUID) : void&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;+ update(String targetUUID, AccountChangeRequest accountChangeRequest, String clientUUID) : void&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;+ delete(String targetUuid, String senderUuid) : void&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;+ findByUUID(UUID uuid) : UserEntity&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;+ updateModules(List&amp;lt;UserModuleReq&amp;gt; moduleUpdateRequest, String uuidStr) : Void&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-65">
+          <mxGeometry y="30" width="570" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-41" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1070" y="140" width="550" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-3" value="MeetingService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-41">
+          <mxGeometry width="550" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-29" value="&lt;div&gt;+ get(String clientUUID, Filter filter) : List&amp;lt;MeetingResponse&amp;gt;&lt;/div&gt;&lt;div&gt;+ create(MeetingCreationRequest mcr, String creatorUuid) : void&lt;/div&gt;&lt;div&gt;+ update(String meetingId, MeetingChangeRequest meetingChangeRequest, String clientUUID)&amp;nbsp;: void&lt;/div&gt;&lt;div&gt;+ delete(String targetUUID, String clientUUID) : void&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-41">
+          <mxGeometry y="40" width="550" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-71" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-17" target="5tVu-TXDrhhzPdQKvaCE-49">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="410" y="910" as="sourcePoint" />
+            <mxPoint x="545" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-72" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-17" target="5tVu-TXDrhhzPdQKvaCE-27">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="600" y="1070" as="sourcePoint" />
+            <mxPoint x="735" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-73" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-17" target="5tVu-TXDrhhzPdQKvaCE-35">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="600" y="990" as="sourcePoint" />
+            <mxPoint x="735" y="890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-74" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-17" target="5tVu-TXDrhhzPdQKvaCE-29">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="680" y="1010" as="sourcePoint" />
+            <mxPoint x="815" y="910" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-75" value="" style="endArrow=diamondThin;endFill=1;endSize=30;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=none;startFill=0;startSize=30;" edge="1" parent="1" source="5tVu-TXDrhhzPdQKvaCE-17" target="5tVu-TXDrhhzPdQKvaCE-36">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="590" y="1040" as="sourcePoint" />
+            <mxPoint x="725" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-54" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="120" y="670" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-16" value="MergingService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-54">
+          <mxGeometry width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-53" value="+ &lt;u&gt;mergeObjects(Object source, Object target)&lt;/u&gt; : void" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-54">
+          <mxGeometry y="30" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-40" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="150" y="360" width="550" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-10" value="MeetingChangeService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-40">
+          <mxGeometry width="550" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-35" value="&lt;div&gt;+ update(UUID meetingId, MeetingChangeRequest meetingChangeRequest, String clientUUID) : void&lt;/div&gt;&lt;div&gt;+ changeMeetings(List&amp;lt;MeetingEntity&amp;gt; meetingEntities) : void&lt;/div&gt;&lt;div&gt;+ getMeetingsTHatShouldChange(ChangeType changeType, UUID meetingId) : List&amp;lt;MeetingEntity&amp;gt;&lt;/div&gt;&lt;div&gt;+ isNotMeetingOwner(MeetingEntity meetingEntity, String creatorUuid) : bool&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-40">
+          <mxGeometry y="30" width="550" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-34" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="965" y="670" width="760" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-11" value="MeetingCreationService" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-34">
+          <mxGeometry width="760" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5tVu-TXDrhhzPdQKvaCE-33" value="&lt;div&gt;+ createMeetingInstances(MeetingCreationRequest meetingCreationRequest, String creatorUuid, UUID superUUID, boolean isUpdate) : void&lt;/div&gt;&lt;div&gt;+ updateMeeting(MeetingEntity) : void&lt;/div&gt;&lt;div&gt;+ shouldCreateMeeting(MeetingEntity meetingEntity) : bool&lt;/div&gt;&lt;div&gt;+ setEndTime() : void&lt;/div&gt;&lt;div&gt;+ cloneMeetingEntity(MeetingEntity meetingEntity) : MeetingEntity&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;" vertex="1" parent="5tVu-TXDrhhzPdQKvaCE-34">
+          <mxGeometry y="30" width="760" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
